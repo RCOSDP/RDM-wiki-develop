@@ -808,7 +808,6 @@ function ViewModel(options){
                 });
             
             const markdownText = mokuji.join('\n');
-            console.log(markdownText);
             const listNode = parser(markdownText);
             var pos = state.selection.from;
             var tr = state.tr;
