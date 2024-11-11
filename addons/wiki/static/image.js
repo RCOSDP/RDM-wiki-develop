@@ -1,6 +1,5 @@
 'use strict';
-
-import { $inputRule, $command} from '@milkdown/utils';
+import { $inputRule, $command } from '@milkdown/utils';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { findSelectedNodeOfType } from '@milkdown/prose';
 import * as mCommonmark from '@milkdown/preset-commonmark';
@@ -127,13 +126,12 @@ export const updatedInsertImageInputRule = $inputRule(function (ctx) {
         const { alt, src, title, width, height } = match.groups;
 
         const attrs = { src, alt, title };
-        
+
         if (width) {
-            var attrWidth = width;
             if (width.endsWith('x')) {
-                attrWidth = width.slice(0, -1);
+                attrs.width = width.slice(0, -1);
             } else {
-                attrs.width = attrWidth;
+                attrs.width = width;
             }
         }
         if (height) attrs.height = height;
