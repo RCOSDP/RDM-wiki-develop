@@ -74,8 +74,9 @@ const colortextFromMarkdownPlugin = function colortextFromMarkdownPlugin() {
           while ((match = regex.exec(str))) {
               const { index } = match;
               const style = match[1];
-              const colortext = match[2];
+              const styleContext = match[2];
               const color = style.match(/color:\s*([^;]+);?/i)?.[1] || '';
+              const colortext = color && styleContext;
 
               if (index > lastIndex) {
                   output.push({
