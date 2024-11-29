@@ -17,14 +17,11 @@ export function flatMap(ast, fn) {
             for (var i = 0, n = node.children.length; i < n; i++) {
                 const nthChild = node.children[i];
                 if (nthChild) {
-                    if (nthChild.type === 'text' && /^!\[.*\]\($/.test(nthChild.value)) {
-                        const imageNode = createImageNode(nthChild, node.children[i + 1], node.children[i + 2]);
-                        if (imageNode) {
-                            out.push(imageNode);
-                            i += 2;
-                        } else {
-                            addTransformedChildren(nthChild, i, node, out);
-                        }
+                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value)) {
+                        const remainingChildren = getRemainingNode(i, node.children);
+                        const transformedChildren = transformImageSection(remainingChildren);
+                        out.push(...transformedChildren)
+                        break;
                     } else {
                         addTransformedChildren(nthChild, i, node, out);
                     }
@@ -44,6 +41,64 @@ export function flatMap(ast, fn) {
             }
         }
     }
+
+  function transformImageSection(remainingChildren) {
+      const result = [];
+      for (var i = 0; i < remainingChildren.length; i++) {
+          if (remainingChildren[i].type === 'text' && /!\[.*\]\($/.test(remainingChildren[i].value)) {
+              const imageNode = createImageNode(remainingChildren[i], remainingChildren[i + 1], remainingChildren[i + 2]);
+              if (imageNode) {
+                  result.push(imageNode);
+                  i += 2;
+              } else {
+                result.push(remainingChildren[i]);
+            }
+          } else {
+              result.push(remainingChildren[i]);
+          }
+      }
+      return result;
+  }
+
+  function getRemainingNode(startIdx, nodeChildren) {
+      var remainingChildren = [];
+      for (var i = startIdx; i < nodeChildren.length; i++) {
+          if (nodeChildren[i].type === 'text') {
+              if (nodeChildren[i].value.match(/.*!\[.*\]\($/)) {
+                  const matchBeforeImage = nodeChildren[i].value.match(/^(.*?)(!\[.*\]\()$/);
+                  if (matchBeforeImage[1] !== '') {
+                      const beforeImage = matchBeforeImage[1];
+                      const matchSize = beforeImage.match(/^(\s*=\d+\))(.*)$/);
+                      if (matchSize) {
+                          if (matchSize[1] !== '') {
+                              remainingChildren.push({ type: 'text', value: matchSize[1] });
+                          }
+                          if (matchSize[2] !== '') {
+                              remainingChildren.push({ type: 'text', value: matchSize[2] });
+                          }
+                      } else {
+                          remainingChildren.push({ type: 'text', value: beforeImage });
+                      }
+                  }
+                  remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
+                  continue;
+              } else if (nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/)) {
+                  const match = nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/);
+                  if (match) {
+                      if (match[1] !== '') {
+                          remainingChildren.push({ type: 'text', value: match[1] });
+                      }
+                      if (match[2] !== '') {
+                          remainingChildren.push({ type: 'text', value: match[2] });
+                      }
+                  }
+                  continue;
+              }
+          }
+          remainingChildren.push(nodeChildren[i])
+      }
+      return remainingChildren;
+  }
 }
 
 function createImageNode(altNode, linkNode, sizeNode) {
