@@ -81,7 +81,15 @@ const underlineFromMarkdownPlugin = function underlineFromMarkdownPlugin() {
           if (underlineText) {
             const underlineNode = {
               type: 'underline',
-              position: {
+              children: [
+                {
+                  type: 'text',
+                  value: underlineText,
+                }
+              ]
+            };
+            if (node.postion){
+              underlineNode['position'] = {
                 start: {
                   line: node.position.start.line,
                   column: node.position.start.column + index,
@@ -92,26 +100,20 @@ const underlineFromMarkdownPlugin = function underlineFromMarkdownPlugin() {
                   column: node.position.start.column + index + match[0].length,
                   offset: node.position.start.offset + index + match[0].length
                 }
-              },
-              children: [
-                {
-                  type: 'text',
-                  value: underlineText,
-                  position: {
-                    start: {
-                      line: node.position.start.line,
-                      column: node.position.start.column + index + 3,
-                      offset: node.position.start.offset + index + 3
-                    },
-                    end: {
-                      line: node.position.start.line,
-                      column: node.position.start.column + index + 3 + underlineText.length,
-                      offset: node.position.start.offset + index + 3 + underlineText.length
-                    }
-                  }
+              };
+              underlineNode.children['postion'] = {
+                start: {
+                  line: node.position.start.line,
+                  column: node.position.start.column + index + 3,
+                  offset: node.position.start.offset + index + 3
+                },
+                end: {
+                  line: node.position.start.line,
+                  column: node.position.start.column + index + 3 + underlineText.length,
+                  offset: node.position.start.offset + index + 3 + underlineText.length
                 }
-              ]
-            };
+              };
+            }
             output.push(underlineNode);
           }
   

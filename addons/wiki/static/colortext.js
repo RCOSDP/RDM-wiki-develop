@@ -101,7 +101,15 @@ const colortextFromMarkdownPlugin = function colortextFromMarkdownPlugin() {
                   const colortextNode = {
                       type: 'colortext',
                       color: color,
-                      position: {
+                      children: [
+                          {
+                              type: 'text',
+                              value: colortext,
+                          }
+                      ]
+                  };
+                  if (node.postion){
+                      colortextNode['position'] = {
                           start: {
                               line: node.position.start.line,
                               column: node.position.start.column + index,
@@ -112,26 +120,20 @@ const colortextFromMarkdownPlugin = function colortextFromMarkdownPlugin() {
                               column: node.position.start.column + index + match[0].length,
                               offset: node.position.start.offset + index + match[0].length
                           }
-                      },
-                      children: [
-                          {
-                              type: 'text',
-                              value: colortext,
-                              position: {
-                                  start: {
-                                      line: node.position.start.line,
-                                      column: node.position.start.column + index + match[0].indexOf(colortext),
-                                      offset: node.position.start.offset + index + match[0].indexOf(colortext)
-                                  },
-                                  end: {
-                                      line: node.position.start.line,
-                                      column: node.position.start.column + index + match[0].indexOf(colortext) + colortext.length,
-                                      offset: node.position.start.offset + index + match[0].indexOf(colortext) + colortext.length
-                                  }
-                              }
+                      };
+                      colortextNode.children['postion'] = {
+                          start: {
+                              line: node.position.start.line,
+                              column: node.position.start.column + index + match[0].indexOf(colortext),
+                              offset: node.position.start.offset + index + match[0].indexOf(colortext)
+                          },
+                          end: {
+                              line: node.position.start.line,
+                              column: node.position.start.column + index + match[0].indexOf(colortext) + colortext.length,
+                              offset: node.position.start.offset + index + match[0].indexOf(colortext) + colortext.length
                           }
-                      ]
-                  };
+                      };
+                  }
                   output.push(colortextNode);
               }
 
