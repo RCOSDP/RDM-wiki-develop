@@ -82,7 +82,10 @@ const colortextFromMarkdownPlugin = function colortextFromMarkdownPlugin() {
                   output.push({
                       ...node,
                       value: str.slice(lastIndex, index),
-                      position: {
+                  });
+                  const lastElement = output[output.length - 1];
+                  if (node.position) {
+                      lastElement.position = {
                           start: {
                               line: node.position.start.line,
                               column: node.position.start.column + lastIndex,
@@ -93,8 +96,8 @@ const colortextFromMarkdownPlugin = function colortextFromMarkdownPlugin() {
                               column: node.position.start.column + index,
                               offset: node.position.start.offset + index
                           }
-                      }
-                  });
+                      };
+                  }
               }
 
               if (colortext) {
