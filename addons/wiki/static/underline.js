@@ -45,6 +45,7 @@ const underlineFromMarkdownPlugin = function underlineFromMarkdownPlugin() {
       return flatMap(tree, function(node) {
 
         if (node.type === 'code' || node.type === 'code_block') return [node];
+        if (node.type === 'inlineCode') return [node];
 
         if (!isLiteral(node)) return [node];
   
