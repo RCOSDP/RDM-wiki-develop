@@ -1195,6 +1195,8 @@ var WikiPageMilkdown = function(selector, options) {
     var self = this;
     self.options = $.extend({}, defaultOptions, options);
 
+    console.log('test!!')
+
     this.viewModel = new ViewModel(self.options);
     $osf.applyBindings(self.viewModel, selector);
     // Set up the event listener for the dropdown
