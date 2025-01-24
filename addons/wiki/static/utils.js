@@ -12,13 +12,12 @@ export function flatMap(ast, fn) {
     return transform(ast, 0, null)[0];
 
     function transform(node, index, parent) {
-        console.log('aa');
         if (isParent(node)) {
             const out = [];
             for (var i = 0, n = node.children.length; i < n; i++) {
                 const nthChild = node.children[i];
                 if (nthChild) {
-                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value)) {
+                    if (nthChild.type === 'text' && (/.*!\[.*\]\($/.test(nthChild.value) || /.*!\<.*\>\($/.test(nthChild.value))) {
                         const remainingChildren = getRemainingNode(i, node.children);
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
