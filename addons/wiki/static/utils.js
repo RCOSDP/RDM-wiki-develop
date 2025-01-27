@@ -88,6 +88,22 @@ export function flatMap(ast, fn) {
                   remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                   continue;
                 }else if (nodeChildren[i].value.match(/.*\<.*\>.*$/)) {
+                    const matchBeforeImage = nodeChildren[i].value.match(/.*\<.*\>.*$/);
+                    if (matchBeforeImage[1] !== '') {
+                        const beforeImage = matchBeforeImage[1];
+                        const matchSize = beforeImage.match(/.*\<.*\>.*$/);
+                        if (matchSize) {
+                            if (matchSize[1] !== '') {
+                                remainingChildren.push({ type: 'text', value: matchSize[1] });
+                            }
+                            if (matchSize[2] !== '') {
+                                remainingChildren.push({ type: 'text', value: matchSize[2] });
+                            }
+                        } else {
+                            remainingChildren.push({ type: 'text', value: beforeImage });
+                        }
+                    }
+                    remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                     continue;
                 } else if (nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/)) {
                   const match = nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/);
