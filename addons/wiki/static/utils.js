@@ -91,7 +91,7 @@ export function flatMap(ast, fn) {
                     const matchBeforeImage = nodeChildren[i].value.match(/.*\<.*\>.*$/);
                     if (matchBeforeImage[1] !== '') {
                         const beforeImage = matchBeforeImage[1];
-                        const matchSize = 1;
+                        const matchSize = beforeImage.match(/^(\s*=\d+\))(.*)$/);
                         if (matchSize) {
                             if (matchSize[1] !== '') {
                                 remainingChildren.push({ type: 'text', value: matchSize[1] });
