@@ -22,7 +22,7 @@ export function flatMap(ast, fn) {
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
                         break;
-                    } else if (nthChild.type === 'text' && /.*!\<.*\>\$/.test(nthChild.value) ) {
+                    } else if (nthChild.type === 'text' && /.*\<.*\>.*$/.test(nthChild.value) ) {
                         const remainingChildren = getRemainingNode(i, node.children);
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
@@ -87,7 +87,7 @@ export function flatMap(ast, fn) {
                   }
                   remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                   continue;
-                }else if (nodeChildren[i].value.match(/.*!\<.*\>\$/)) {
+                }else if (nodeChildren[i].value.match(/.*\<.*\>.*$/)) {
                     continue;
                 } else if (nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/)) {
                   const match = nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/);
