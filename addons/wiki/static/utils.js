@@ -17,7 +17,12 @@ export function flatMap(ast, fn) {
             for (var i = 0, n = node.children.length; i < n; i++) {
                 const nthChild = node.children[i];
                 if (nthChild) {
-                    if (nthChild.type === 'text' && (/.*!\[.*\]\($/.test(nthChild.value) || /.*!\<.*\>\($/.test(nthChild.value))) {
+                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
+                        const remainingChildren = getRemainingNode(i, node.children);
+                        const transformedChildren = transformImageSection(remainingChildren);
+                        out.push(...transformedChildren)
+                        break;
+                    } else if (nthChild.type === 'text' && /.*!\<.*\>\$/.test(nthChild.value) ) {
                         const remainingChildren = getRemainingNode(i, node.children);
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
@@ -82,7 +87,9 @@ export function flatMap(ast, fn) {
                   }
                   remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                   continue;
-              } else if (nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/)) {
+                }else if (nodeChildren[i].value.match(/.*!\<.*\>\$/)) {
+                    continue;
+                } else if (nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/)) {
                   const match = nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/);
                   if (match) {
                       if (match[1] !== '') {
@@ -93,7 +100,7 @@ export function flatMap(ast, fn) {
                       }
                   }
                   continue;
-              }
+                }
           }
           remainingChildren.push(nodeChildren[i])
       }
