@@ -88,7 +88,7 @@ export function flatMap(ast, fn) {
                   remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                   continue;
                 }else if (nodeChildren[i].value.match(/.*\<.*\>.*$/)) {
-                    const matchBeforeImage = nodeChildren[i].value.sprit(/\</);
+                    const matchBeforeImage = nodeChildren[i].value.sprit(/</);
                     if (matchBeforeImage[1] !== void 0) {
                         const beforeImage = matchBeforeImage[1];
                         if (matchBeforeImage) {
