@@ -88,21 +88,22 @@ export function flatMap(ast, fn) {
                   remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                   continue;
                 }else if (nodeChildren[i].value.match(/.*\<.*\>.*$/)) {
-                    const matchBeforeImage = nodeChildren[i].value.sprit(/</);
+                    const changeNodeChildren = nodeChildren[i].value.replace("><", ">,<");
+                    const matchBeforeImage = changeNodeChildren.split(/,/);
                     if (matchBeforeImage[1] !== void 0) {
                         const beforeImage = matchBeforeImage[1];
                         if (matchBeforeImage) {
                             if (matchBeforeImage[1] !== '') {
-                                remainingChildren.push({ type: 'text', value: '<' + matchBeforeImage[0] });
-                                remainingChildren.push({ type: 'text', value: '<' + matchBeforeImage[1] });
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[1] });
                             }
                             if (matchBeforeImage[2] !== '') {
-                                remainingChildren.push({ type: 'text', value: '<' + matchBeforeImage[0] });
-                                remainingChildren.push({ type: 'text', value: '<' + matchBeforeImage[1] });
-                                remainingChildren.push({ type: 'text', value: '<' + matchBeforeImage[2] });
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[1] });
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                             }
                         } else {
-                            remainingChildren.push({ type: 'text', value: '<' + matchBeforeImage[0] });
+                            remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
                         }
                     }else{
                         remainingChildren.push({ type: 'text', value: nodeChildren[i].value });
