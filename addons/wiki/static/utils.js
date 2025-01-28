@@ -93,16 +93,20 @@ export function flatMap(ast, fn) {
                         const beforeImage = matchBeforeImage[1];
                         if (matchBeforeImage) {
                             if (matchBeforeImage[1] !== '') {
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
                                 remainingChildren.push({ type: 'text', value: matchBeforeImage[1] });
                             }
                             if (matchBeforeImage[2] !== '') {
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
+                                remainingChildren.push({ type: 'text', value: matchBeforeImage[1] });
                                 remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                             }
                         } else {
-                            remainingChildren.push({ type: 'text', value: beforeImage });
+                            remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
                         }
+                    }else{
+                        remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
                     }
-                    remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                     continue;
                 } else if (nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/)) {
                   const match = nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/);
