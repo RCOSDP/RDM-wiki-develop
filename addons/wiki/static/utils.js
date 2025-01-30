@@ -14,25 +14,43 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
-            for (var i = 0, n = node.children.length; i < n; i++) {
-                const nthChild = node.children[i];
-                if (nthChild) {
-                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
-                        const remainingChildren = getRemainingNode(i, node.children);
-                        const transformedChildren = transformImageSection(remainingChildren);
-                        out.push(...transformedChildren)
-                        break;
-                    } else if (nthChild.type === 'text' && /.*\<.*\>.*$/.test(nthChild.value) ) {
-                        const remainingChildren = getRemainingNode(i, node.children);
-                        const transformedChildren = transformImageSection(remainingChildren);
-                        out.push(...transformedChildren)
-                        break;
-                    } else {
-                        addTransformedChildren(nthChild, i, node, out);
+            if (node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
+                if(node.children[-1].type === 'text' && /<\/u>/.test(node.children[-1])) {
+                  const underline = { type: 'underline' }
+                  const openTags = node.children[0].value.replace(/<u>/, '')
+                  const closeTags = node.children[-1].value.replace(/<\/u>/, '')
+                  const remainingChildren = []
+                  if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
+                  remainingChildren.concat(node.children.slice(1,-2))
+                  if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: endTags})}
+                  const xs = transform(remainingChildren, 0, underline)
+                  if (xs) {
+                    for (let j = 0, m = xs.length; j < m; j++) {
+                      const item = xs[j]
+                      if (item)
+                        underline.children.push(item)
+                    }
+                  }
+                  node.children = [underline]
+                }
+              } else {
+
+            
+                for (var i = 0, n = node.children.length; i < n; i++) {
+                    const nthChild = node.children[i];
+                    if (nthChild) {
+                        if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
+                            const remainingChildren = getRemainingNode(i, node.children);
+                            const transformedChildren = transformImageSection(remainingChildren);
+                            out.push(...transformedChildren)
+                            break;
+                        } else {
+                            addTransformedChildren(nthChild, i, node, out);
+                        }
                     }
                 }
+                node.children = out;
             }
-            node.children = out;
         }
         return fn(node, index, parent);
     }
@@ -87,28 +105,6 @@ export function flatMap(ast, fn) {
                   }
                   remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
                   continue;
-                }else if (nodeChildren[i].value.match(/.*\<.*\>.*$/)) {
-                    const changeNodeChildren = nodeChildren[i].value.replace("><", ">@<");
-                    const matchBeforeImage = changeNodeChildren.split(/@/);
-                    if (matchBeforeImage[1] !== void 0) {
-                        const beforeImage = matchBeforeImage[1];
-                        if (matchBeforeImage) {
-                            if (matchBeforeImage[1] !== '') {
-                                remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
-                                remainingChildren.push({ type: 'text', value: matchBeforeImage[1] });
-                            }
-                            if (matchBeforeImage[2] !== '') {
-                                remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
-                                remainingChildren.push({ type: 'text', value: matchBeforeImage[1] });
-                                remainingChildren.push({ type: 'text', value: matchBeforeImage[2] });
-                            }
-                        } else {
-                            remainingChildren.push({ type: 'text', value: matchBeforeImage[0] });
-                        }
-                    }else{
-                        remainingChildren.push({ type: 'text', value: nodeChildren[i].value });
-                    }
-                    continue;
                 } else if (nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/)) {
                   const match = nodeChildren[i].value.match(/^(\s*=\d+\))(.*)/);
                   if (match) {
