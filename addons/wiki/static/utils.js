@@ -34,8 +34,8 @@ export function flatMap(ast, fn) {
                     const underline = { type: 'underline' }
                     const openTags = node.children[0].value.replace(/<u>/, '')
                     const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
-                    const remainingChildrentmp = []
-                    const remainingChildren = []
+                    var remainingChildrentmp = []
+                    var remainingChildren = []
                     if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
                     remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
                     if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
