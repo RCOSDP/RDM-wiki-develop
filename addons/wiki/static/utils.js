@@ -14,6 +14,14 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
+            /*if (node.children[0] && node.children[0].type === 'text' ) {
+                if(/<u>/.test(node.children[0].value)) {
+                    subTransForm(node, index, parent,"<u>")
+                }else if (/<span style=\"color\:/.test(node.children[0].value)) {
+                    subTransForm(node, index, parent,"<span style=\"color\:.*>")
+                }
+            }*/
+            
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
@@ -29,7 +37,7 @@ export function flatMap(ast, fn) {
                     const remainingChildren = []
                     if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
                     remainingChildren.concat(node.children.slice(1,cnt -1))
-                    if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: endTags})}
+                    if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     const xs = transform(remainingChildren, 0, underline)
                     if (xs) {
                         for (let j = 0, m = xs.length; j < m; j++) {
@@ -156,4 +164,50 @@ function createImageNode(altNode, linkNode, sizeNode) {
     }
 
     return imageNode;
+}
+
+function subTransForm(node, index, parent, tagText){
+    const characterType = ""
+    const endTagText = ""
+    if(/<u>/.test(tagText)){
+        characterType = { type: 'underline' }
+        endTagText = "<\/u>"
+    }else if(/<span style=\"color/.test(tagText)){
+        characterType = { type: 'underline' }
+        endTagText = "<\/u>"
+    }
+
+    if (node.children[0] && node.children[0].type === 'text' && tagText.test(node.children[0].value)) {
+        var cnt = 0
+        for(var i = 0 ; i < node.children.length ; i++) {
+            if(node.children[i].type === 'text' && endTagText.test(node.children[i])) {
+                cnt = i
+                break
+            }    
+        }
+        if(cnt !== node.children.length) {
+            const openTags = node.children[0].value.replace(tagText, '')
+            const closeTags = node.children[cnt].value.replace(endTagText, '')
+            const remainingChildren = []
+            if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
+            remainingChildren.concat(node.children.slice(1,cnt -1))
+            if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: endTags})}
+            const xs = transform(remainingChildren, 0, underline)
+            if (xs) {
+                for (let j = 0, m = xs.length; j < m; j++) {
+                const item = xs[j]
+                if (item)
+                    characterType.children.push(item)
+                }
+            }
+            node.children = [characterType]
+            if(cnt<node.children.length){
+                const tailChildren = []
+                tailChildren.concat(node.children.slice(cnt,-1))
+                const xs2 = transform(tailChildren, 0, characterType)
+                node.children = xs2
+            }
+          
+        }
+    }
 }
