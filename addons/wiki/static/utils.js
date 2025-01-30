@@ -36,8 +36,8 @@ export function flatMap(ast, fn) {
                     const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
                     const remainingChildren = []
                     if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                    remainingChildren.concat(node.children.slice(1,cnt -1))
-                    if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
+                    remainingChildren.concat(node.children.slice(1,cnt -2))
+                    if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     const xs = transform(remainingChildren, 0, underline)
                     if (xs) {
                         for (let j = 0, m = xs.length; j < m; j++) {
@@ -190,8 +190,8 @@ function subTransForm(node, index, parent, tagText){
             const closeTags = node.children[cnt].value.replace(endTagText, '')
             const remainingChildren = []
             if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-            remainingChildren.concat(node.children.slice(1,cnt -1))
-            if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: endTags})}
+            remainingChildren.concat(node.children.slice(1,cnt -2))
+            if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             const xs = transform(remainingChildren, 0, underline)
             if (xs) {
                 for (let j = 0, m = xs.length; j < m; j++) {
