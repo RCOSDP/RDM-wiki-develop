@@ -36,15 +36,18 @@ export function flatMap(ast, fn) {
                     const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
                     const remainingChildren = []
                     if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                    remainingChildren.push(node.children.slice(1,cnt))
+                    remainingChildren = remainingChildren.concat(node.children.slice(1,cnt))
                     if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     const xs = transform(remainingChildren, 0, underline)
+                    const outChildren =[]
                     if (xs) {
                         for (let j = 0, m = xs.length; j < m; j++) {
-                        const item = xs[j]
-                        if (item)
-                            underline.children.push(item)
+                            const item = xs[j]
+                            if (item){
+                                outChildren.push(item)
+                            }
                         }
+                        underline.children = outChildren
                     }
                     node.children = [underline]
                     if(cnt<node.children.length){
