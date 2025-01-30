@@ -14,24 +14,40 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
-            if (node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
-                if(node.children[-1].type === 'text' && /<\/u>/.test(node.children[-1])) {
-                  const underline = { type: 'underline' }
-                  const openTags = node.children[0].value.replace(/<u>/, '')
-                  const closeTags = node.children[-1].value.replace(/<\/u>/, '')
-                  const remainingChildren = []
-                  if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                  remainingChildren.concat(node.children.slice(1,-2))
-                  if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: endTags})}
-                  const xs = transform(remainingChildren, 0, underline)
-                  if (xs) {
-                    for (let j = 0, m = xs.length; j < m; j++) {
-                      const item = xs[j]
-                      if (item)
-                        underline.children.push(item)
+            if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
+                var cnt = 0
+                for(var i = 0 ; i < node.children.length ; i++) {
+                    if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i])) {
+                        cnt = i
+                        break
+                    }    
+                }
+                if(cnt !== node.children.length) {
+                    const underline = { type: 'underline' }
+                    const openTags = node.children[0].value.replace(/<u>/, '')
+                    const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
+                    const remainingChildren = []
+                    if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
+                    remainingChildren.concat(node.children.slice(1,cnt -1))
+                    if (openEags.length > 0) {remainingChildren.push({ type: 'text', value: endTags})}
+                    const xs = transform(remainingChildren, 0, underline)
+                    if (xs) {
+                        for (let j = 0, m = xs.length; j < m; j++) {
+                        const item = xs[j]
+                        if (item)
+                            underline.children.push(item)
+                        }
                     }
-                  }
-                  node.children = [underline]
+                    node.children = [underline]
+                    if(cnt<node.children.length){
+                        const tailChildren = []
+                        tailChildren.concat(node.children.slice(cnt,-1))
+                        const xs2 = transform(tailChildren, 0, underline)
+                        node.children = xs2
+                    }
+                  
+                }else{
+                    // 構文エラー
                 }
               } else {
 
