@@ -25,7 +25,7 @@ export function flatMap(ast, fn) {
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
-                    if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i])) {
+                    if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
                         cnt = i
                         break
                     }    
@@ -36,7 +36,7 @@ export function flatMap(ast, fn) {
                     const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
                     const remainingChildren = []
                     if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                    remainingChildren.concat(node.children.slice(1,cnt -2))
+                    remainingChildren.concat(node.children.slice(1,cnt -1))
                     if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     const xs = transform(remainingChildren, 0, underline)
                     if (xs) {
@@ -180,7 +180,7 @@ function subTransForm(node, index, parent, tagText){
     if (node.children[0] && node.children[0].type === 'text' && tagText.test(node.children[0].value)) {
         var cnt = 0
         for(var i = 0 ; i < node.children.length ; i++) {
-            if(node.children[i].type === 'text' && endTagText.test(node.children[i])) {
+            if(node.children[i].type === 'text' && endTagText.test(node.children[i].value)) {
                 cnt = i
                 break
             }    
@@ -190,7 +190,7 @@ function subTransForm(node, index, parent, tagText){
             const closeTags = node.children[cnt].value.replace(endTagText, '')
             const remainingChildren = []
             if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-            remainingChildren.concat(node.children.slice(1,cnt -2))
+            remainingChildren.concat(node.children.slice(1,cnt -1))
             if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             const xs = transform(remainingChildren, 0, underline)
             if (xs) {
