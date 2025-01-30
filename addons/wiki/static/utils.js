@@ -50,7 +50,7 @@ export function flatMap(ast, fn) {
                         }
                         underline.children = outChildren
                     }
-                    node.children = [underline]
+                    node.children = underline
                     if(cnt<node.children.length){
                         const tailChildren = []
                         tailChildren.concat(node.children.slice(cnt,-1))
