@@ -39,7 +39,7 @@ export function flatMap(ast, fn) {
                     if (cnt === 0){
                         // 同一タグ内にOpenとCloseがある場合
                         openTags = openTags.replace(/<\/u>/, '')
-                        if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
+                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
                     }else{
                         if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
                         remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
