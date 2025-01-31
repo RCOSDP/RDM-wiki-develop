@@ -32,14 +32,14 @@ export function flatMap(ast, fn) {
                 }
                 if(cnt !== node.children.length) {
                     const underline = { type: 'underline' }
-                    var openTags = node.children[0].value.replace(/<u>/, '')
-                    var closeTags = node.children[cnt].value.replace(/<\/u>/, '')
-                    var remainingChildrentmp = []
+                    const openTags = node.children[0].value.replace(/<u>/, '')
+                    const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
+                    const remainingChildrentmp = []
                     var remainingChildren = []
                     if (cnt === 0){
                         // 同一タグ内にOpenとCloseがある場合
-                        openTags = openTags.replace(/<\/u>/, '')
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
+                        const openCloseTag = openTags.replace(/<\/u>/, '')
+                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
                     }else{
                         if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
                         remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
@@ -54,7 +54,7 @@ export function flatMap(ast, fn) {
                                 outChildren.push(item)
                             }
                         }
-                        underline.children = outChildren
+                        underline.children = [outChildren]
                     }
                     node.children = underline
                     if(cnt<node.children.length){
