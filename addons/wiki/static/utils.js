@@ -63,7 +63,6 @@ export function flatMap(ast, fn) {
                         const xs2 = transform(tailChildren, 0, underline)
                         node.children = xs2
                     }
-                  
                 }else{
                     // 構文エラー
                 }
