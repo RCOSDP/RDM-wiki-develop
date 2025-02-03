@@ -39,9 +39,9 @@ export function flatMap(ast, fn) {
                     if (cnt === 0){
                         // 同一タグ内にOpenとCloseがある場合
                         const openCloseTag = openTags.replace(/<\/u>/, '')
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
+                        if (openTags.length > 0) {remainingChildren[0].push({ type: 'text', value: openCloseTag})}
                     }else{
-                        if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
+                        if (openTags.length > 0) {remainingChildrentmp[0].push({ type: 'text', value: openTags})}
                         remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
                         if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     }
