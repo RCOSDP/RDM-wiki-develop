@@ -57,12 +57,12 @@ export function flatMap(ast, fn) {
                         underline.children = outChildren
                     }
                     node.children = [underline]
-                    if(cnt<node.children.length){
+                    /*if(cnt<node.children.length){
                         const tailChildren = []
                         tailChildren.concat(node.children.slice(cnt,-1))
                         const xs2 = transform(tailChildren, 0, underline)
                         node.children = xs2
-                    }
+                    }*/
                 }else{
                     // 構文エラー
                 }
