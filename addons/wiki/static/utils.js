@@ -21,7 +21,7 @@ export function flatMap(ast, fn) {
                     subTransForm(node, index, parent,"<span style=\"color\:.*>")
                 }
             }*/
-            
+            console.log(node.type + ":" + node.value)
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
