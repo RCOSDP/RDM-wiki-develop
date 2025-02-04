@@ -108,7 +108,7 @@ export function flatMap(ast, fn) {
                     if(cnt<node.children.length){
                         const tailChildren = []
                         tailChildren.concat(node.children.slice(cnt,-1))
-                        const xs2 = transform(tailChildren, 0, underline)
+                        const xs2 = transform(tailChildren, 0, colorText)
                         node.children = node.children.concat(xs2)
                     }
                 }else{
