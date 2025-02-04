@@ -61,6 +61,7 @@ export function flatMap(ast, fn) {
                         const xs2 = transform(tailChildren, 0, underline)
                         node.children = xs2
                     }*/
+                }
                 }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
                     // 文字色が存在する場合
                     var cnt = 0
@@ -94,7 +95,7 @@ export function flatMap(ast, fn) {
                                 addTransformedChildren(nthChild, i, node, out);
                             }
                         }
-                        underline.children = out
+                        colorText.children = out
                         node.children = [colorText]
                 }else{
                     // 構文エラー
