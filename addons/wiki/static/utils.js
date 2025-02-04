@@ -54,14 +54,17 @@ export function flatMap(ast, fn) {
                         }
                     }
                     underline.children = out
-                    node.children = [underline]
+                    //Mod Start
+                    //node.children = [underline]
                     // 以降のデータも詰め込む
                     if(cnt<node.children.length){
                         const tailChildren = []
                         tailChildren.concat(node.children.slice(cnt,-1))
                         const xs2 = transform(tailChildren, 0, underline)
-                        node.children = node.children.concat(xs2)
+                        underline.children = underline.children.concat(xs2)
                     }
+                    node.children = [underline]
+                    //Mod End
                 }
             }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
                 // 文字色が存在する場合
@@ -102,15 +105,22 @@ export function flatMap(ast, fn) {
                         }
                     }
                     colorText.children = out
-                    node.children = [colorText]
-
+                    //Mod Start
+                    //node.children = [colorText]
                     // 以降のデータも詰め込む
+                    //if(cnt<node.children.length){
+                    //    const tailChildren = []
+                    //    tailChildren.concat(node.children.slice(cnt,-1))
+                    //    const xs2 = transform(tailChildren, 0, colorText)
+                    //    node.children = node.children.concat(xs2)
+                    //}
                     if(cnt<node.children.length){
                         const tailChildren = []
                         tailChildren.concat(node.children.slice(cnt,-1))
                         const xs2 = transform(tailChildren, 0, colorText)
-                        node.children = node.children.concat(xs2)
+                        colorText.children = colorText.children.concat(xs2)
                     }
+                    node.children = [colorText]
                 }else{
                     // 構文エラー
                 }
