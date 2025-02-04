@@ -45,6 +45,7 @@ export function flatMap(ast, fn) {
                         remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
                         if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     }
+                    /*Mod Start
                     const xs = transform(remainingChildren, 0, underline)
                     const outChildren =[]
                     if (xs) {
@@ -55,7 +56,16 @@ export function flatMap(ast, fn) {
                             }
                         }
                         underline.children = outChildren
+                    }*/
+                    const out = []
+                    for (var i = 0, n = remainingChildren.length; i < n; i++) {
+                        const nthChild = remainingChildren[i];
+                        if (nthChild) {
+                            addTransformedChildren(nthChild, i, node, out);
+                        }
                     }
+                    underline.children = out
+                    //Mod End
                     node.children = [underline]
                     /*if(cnt<node.children.length){
                         const tailChildren = []
