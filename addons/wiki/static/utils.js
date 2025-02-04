@@ -62,41 +62,42 @@ export function flatMap(ast, fn) {
                         node.children = xs2
                     }*/
                 }
-                }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
-                    // 文字色が存在する場合
-                    var cnt = 0
-                    for(var i = 0 ; i < node.children.length ; i++) {
-                        if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
-                            cnt = i
-                            break
-                        }    
+            }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
+                // 文字色が存在する場合
+                var cnt = 0
+                for(var i = 0 ; i < node.children.length ; i++) {
+                    if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
+                        cnt = i
+                        break
+                    }    
+                }
+                if(cnt !== node.children.length) {
+                    const colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/, '')
+                    //const colorTag = { color : colorName}
+                    const colorText = { type: 'colortext' ,color : colorName}
+                    const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
+                    const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
+                    const remainingChildrentmp = []
+                    var remainingChildren = []
+                    if (cnt === 0){
+                        // 同一タグ内にOpenとCloseがある場合
+                        const openCloseTag = openTags.replace(/<\/span>/, '')
+                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
+                    }else{
+                        if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
+                        remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
+                        if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     }
-                    if(cnt !== node.children.length) {
-                        const colorText = { type: 'colortext' }
-                        const color = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/)
-                        const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
-                        const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
-                        const remainingChildrentmp = []
-                        var remainingChildren = []
-                        if (cnt === 0){
-                            // 同一タグ内にOpenとCloseがある場合
-                            const openCloseTag = openTags.replace(/<\/span>/, '')
-                            if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
-                        }else{
-                            if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
-                            remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
-                            if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
+                    //ノードを詰め込む
+                    const out = []
+                    for (var i = 0, n = remainingChildren.length; i < n; i++) {
+                        const nthChild = remainingChildren[i];
+                        if (nthChild) {
+                            addTransformedChildren(nthChild, i, node, out);
                         }
-                        //ノードを詰め込む
-                        const out = []
-                        for (var i = 0, n = remainingChildren.length; i < n; i++) {
-                            const nthChild = remainingChildren[i];
-                            if (nthChild) {
-                                addTransformedChildren(nthChild, i, node, out);
-                            }
-                        }
-                        colorText.children = out
-                        node.children = [colorText]
+                    }
+                    colorText.children = out
+                    node.children = [colorText]
                 }else{
                     // 構文エラー
                 }
