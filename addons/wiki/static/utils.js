@@ -72,7 +72,11 @@ export function flatMap(ast, fn) {
                     }    
                 }
                 if(cnt !== node.children.length) {
-                    const colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/, '')
+                    //var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/, '')
+                    var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
+                    if(/.*<\/span>/.test(colorName)){
+                        colorName = colorName.replace(/\".*<\/span>/, '')
+                    }
                     //const colorTag = { color : colorName}
                     const colorText = { type: 'colortext' ,color : colorName}
                     const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
