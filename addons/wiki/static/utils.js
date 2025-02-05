@@ -63,9 +63,9 @@ export function flatMap(ast, fn) {
                         const tailChildren = node.children.slice(cnt,-1)
                         const xs2 = transform(tailChildren, 0, underline)
                         //Mod Start
-                        for(var i = 0 ; i < xs2.length ; i++){
+                        for(var i = 0 ; i < xs2[0].length ; i++){
                             // ノード数分、ループして詰める
-                            underline.children.push(xs2[i])
+                            underline.children.push(xs2[0][i])
                         }
                         //underline.children = underline.children.concat(xs2)
                         //Mod End
@@ -127,9 +127,9 @@ export function flatMap(ast, fn) {
                         //tailChildren.concat(node.children.slice(cnt,-1))
                         const xs2 = transform(tailChildren, 0, colorText)
                         //Mod Start
-                        for(var i = 0 ; i < xs2.length ; i++){
+                        for(var i = 0 ; i < xs2[0].length ; i++){
                             // ノード数分、ループして詰める
-                            colorText.children.push(xs2[i])
+                            colorText.children.push(xs2[0][i])
                         }
                         //colorText.children = colorText.children.concat(xs2)
                         //Mod End
