@@ -58,8 +58,9 @@ export function flatMap(ast, fn) {
                     //node.children = [underline]
                     // 以降のデータも詰め込む
                     if(cnt < node.children.length-1){
-                        const tailChildren = []
-                        tailChildren.concat(node.children.slice(cnt,-1))
+                        //const tailChildren = []
+                        //tailChildren.concat(node.children.slice(cnt,-1))
+                        const tailChildren = node.children.slice(cnt,-1)
                         const xs2 = transform(tailChildren, 0, underline)
                         underline.children = underline.children.concat(xs2)
                     }
@@ -115,8 +116,9 @@ export function flatMap(ast, fn) {
                     //    node.children = node.children.concat(xs2)
                     //}
                     if(cnt<node.children.length-1){
-                        const tailChildren = []
-                        tailChildren.concat(node.children.slice(cnt,-1))
+                        //const tailChildren = []
+                        const tailChildren = node.children.slice(cnt,-1)
+                        //tailChildren.concat(node.children.slice(cnt,-1))
                         const xs2 = transform(tailChildren, 0, colorText)
                         colorText.children = colorText.children.concat(xs2)
                     }
