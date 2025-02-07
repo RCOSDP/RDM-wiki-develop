@@ -21,9 +21,7 @@ export function flatMap(ast, fn) {
                     subTransForm(node, index, parent,"<span style=\"color\:.*>")
                 }
             }*/
-            if(node.children[0] && node.children[0].type === 'break'){
-
-            }else if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
+            if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
                 // 下線が存在する場合
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
