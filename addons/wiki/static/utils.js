@@ -84,7 +84,8 @@ export function flatMap(ast, fn) {
                 }
                 if(cnt !== node.children.length) {
                     //var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/, '')
-                    var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
+                    var tmp = "<span style=\"color: " + colorName + "\">"
+                    var colorName = node.children[0].value.replace(tmp, '')
                     if(/.*<\/span>/.test(colorName)){
                         colorName = colorName.replace(/\".*<\/span>/, '')
                     }
@@ -248,47 +249,62 @@ function createImageNode(altNode, linkNode, sizeNode) {
 }
 
 function subTransForm(node, index, parent, tagText){
-    const characterType = ""
-    const endTagText = ""
+    var characterType = ""
+    var startTagText = ""
+    var closeTagText = ""
+
     if(/<u>/.test(tagText)){
+        // 下線の場合
         characterType = { type: 'underline' }
-        endTagText = "<\/u>"
+        startTagText = "<u>"
+        closeTagText = "<\/u>"
     }else if(/<span style=\"color/.test(tagText)){
-        characterType = { type: 'underline' }
-        endTagText = "<\/u>"
+        // 文字色の場合
+        var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')// 文字色を取得する
+        if(/.*<\/span>/.test(colorName)){
+            colorName = colorName.replace(/\".*<\/span>/, '')
+        }
+        characterType = { type: 'colortext' ,color : colorName}
+        startTagText = "<span style=\"color: " + colorName + "\">"
+        closeTagText = "<\/span>"
     }
 
-    if (node.children[0] && node.children[0].type === 'text' && tagText.test(node.children[0].value)) {
-        var cnt = 0
-        for(var i = 0 ; i < node.children.length ; i++) {
-            if(node.children[i].type === 'text' && endTagText.test(node.children[i].value)) {
-                cnt = i
-                break
-            }    
-        }
-        if(cnt !== node.children.length) {
-            const openTags = node.children[0].value.replace(tagText, '')
-            const closeTags = node.children[cnt].value.replace(endTagText, '')
-            const remainingChildren = []
-            if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-            remainingChildren.push(node.children.slice(1,cnt))
+    var cnt = 0
+    for(var i = 0 ; i < node.children.length ; i++) {
+        if(node.children[i].type === 'text' && endTagText.test(node.children[i].value)) {
+            cnt = i
+            break
+        }    
+    }
+    if(cnt !== node.children.length) {
+        const openTags = node.children[0].value.replace(startTagText, '')
+        const closeTags = node.children[cnt].value.replace(closeTagText, '')
+        const remainingChildrentmp = []
+        var remainingChildren = []
+        if (cnt === 0){
+            // 同一タグ内にOpenとCloseがある場合
+            const openCloseTag = openTags.replace(closeTagText, '')
+            if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
+        }else{
+            if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
+            remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
             if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
-            const xs = transform(remainingChildren, 0, underline)
-            if (xs) {
-                for (let j = 0, m = xs.length; j < m; j++) {
-                const item = xs[j]
-                if (item)
-                    characterType.children.push(item)
-                }
-            }
-            node.children = [characterType]
-            if(cnt<node.children.length){
-                const tailChildren = []
-                tailChildren.concat(node.children.slice(cnt,-1))
-                const xs2 = transform(tailChildren, 0, characterType)
-                node.children = xs2
-            }
-          
         }
+        //ノードを詰め込む
+        const out = []
+        for (var i = 0, n = remainingChildren.length; i < n; i++) {
+            const nthChild = remainingChildren[i];
+            if (nthChild) {
+                addTransformedChildren(nthChild, i, node, out);
+            }
+        }
+        characterType.children = out
+        // 以降のデータも詰め込む
+        if(cnt < node.children.length-1){
+            const tailChildren = node.children.slice(cnt+1)
+            const xs2 = transform(tailChildren, 0, characterType)
+            characterType.children = characterType.children.concat(xs2[0])
+        }
+        node.children = [characterType]
     }
 }
