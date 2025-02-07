@@ -67,7 +67,7 @@ export function flatMap(ast, fn) {
                         //    // ノード数分、ループして詰める
                         //    underline.children.push(xs2[0][i])
                         //}
-                        underline.children = underline.children.concat(xs2)
+                        underline.children = underline.children.concat(xs2[0])
                         //Mod End
                     }
                     node.children = [underline]
