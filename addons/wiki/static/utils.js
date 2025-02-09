@@ -91,7 +91,8 @@ export function flatMap(ast, fn) {
                     var tmp = "<span style=\"color: " + colorName + "\">"
                     //const colorTag = { color : colorName}
                     const colorText = { type: 'colortext' ,color : colorName}
-                    const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
+                    //const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
+                    const openTags = node.children[0].value.replace(tmp, '')
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     const remainingChildrentmp = []
                     var remainingChildren = []
