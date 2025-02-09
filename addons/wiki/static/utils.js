@@ -93,9 +93,11 @@ export function flatMap(ast, fn) {
                     const colorText = { type: 'colortext' ,color : colorName}
                     //const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
                     var openTags = node.children[0].value.replace(tmp, '')
+                    var spanTagsFlg = "0"
                     if(/<span style=\"color:.*/.test(openTags)){
                         // もう一つタグが存在した場合
                         openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
+                        spanTagsFlg = "1"
                     }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     const remainingChildrentmp = []
@@ -129,7 +131,7 @@ export function flatMap(ast, fn) {
                     //    const xs2 = transform(tailChildren, 0, colorText)
                     //    node.children = node.children.concat(xs2)
                     //}
-                    if(node.children[0].match(/<span style=\"color:/g).length === 2){
+                    if(spanTagsFlg === 1){
                         // 同一タグ内に複数存在した場合、変換しなかった分を後続に配列で結合する
                         colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
                     }
