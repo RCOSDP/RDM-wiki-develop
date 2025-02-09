@@ -139,7 +139,8 @@ export function flatMap(ast, fn) {
                         }
                         var nishikawa = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         console.log(nishikawa)
-                        const tailChildren = node.children[0].value.replace(tmp + ".*<\/span>", '')
+                        const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
+                        const tailChildren = { type: 'text' ,value : tailValue}
                         const xs2 = transform(tailChildren, 0, null)
                         colorText.children = colorText.children.concat(xs2[0])
                         //colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
