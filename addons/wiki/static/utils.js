@@ -84,11 +84,11 @@ export function flatMap(ast, fn) {
                 }
                 if(cnt !== node.children.length) {
                     //var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/, '')
-                    var tmp = "<span style=\"color: " + colorName + "\">"
-                    var colorName = node.children[0].value.replace(tmp, '')
+                    var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/, '')
                     if(/.*<\/span>/.test(colorName)){
                         colorName = colorName.replace(/\".*<\/span>/, '')
                     }
+                    var tmp = "<span style=\"color: " + colorName + "\">"
                     //const colorTag = { color : colorName}
                     const colorText = { type: 'colortext' ,color : colorName}
                     const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
@@ -122,6 +122,11 @@ export function flatMap(ast, fn) {
                     //    const xs2 = transform(tailChildren, 0, colorText)
                     //    node.children = node.children.concat(xs2)
                     //}
+                    var colorCnt = node.children[0].match(/<span style=\"color: /g).length
+                    if(colorCnt > 1){
+                        // 同一タグ内に複数存在した場合、返還しなかった分を後続に配列で結合する
+                        colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
+                    }
                     if(cnt<node.children.length-1){
                         //const tailChildren = []
                         const tailChildren = node.children.slice(cnt+1)
@@ -135,6 +140,7 @@ export function flatMap(ast, fn) {
                         colorText.children = colorText.children.concat(xs2[0])
                         //Mod End
                     }
+
                     node.children = [colorText]
                 }else{
                     // 構文エラー
