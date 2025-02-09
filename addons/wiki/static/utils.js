@@ -92,10 +92,16 @@ export function flatMap(ast, fn) {
                     //const colorTag = { color : colorName}
                     const colorText = { type: 'colortext' ,color : colorName}
                     //const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
-                    const openTags = node.children[0].value.replace(tmp, '')
+                    var openTags =""
+                    if(node.children[0].match(/<span style=\"color:/g).length === 2){
+                        openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
+                    }else {
+                        openTags = node.children[0].value.replace(tmp, '')
+                    }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     const remainingChildrentmp = []
                     var remainingChildren = []
+
                     if (cnt === 0){
                         // 同一タグ内にOpenとCloseがある場合
                         const openCloseTag = openTags.replace(/<\/span>/, '')
@@ -105,6 +111,7 @@ export function flatMap(ast, fn) {
                         remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
                         if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     }
+                    
                     //ノードを詰め込む
                     const out = []
                     for (var i = 0, n = remainingChildren.length; i < n; i++) {
@@ -123,9 +130,8 @@ export function flatMap(ast, fn) {
                     //    const xs2 = transform(tailChildren, 0, colorText)
                     //    node.children = node.children.concat(xs2)
                     //}
-                    var colorCnt = node.children[0].match(/<span style=\"color:/g).length
-                    if(colorCnt > 1){
-                        // 同一タグ内に複数存在した場合、返還しなかった分を後続に配列で結合する
+                    if(node.children[0].match(/<span style=\"color:/g).length === 2){
+                        // 同一タグ内に複数存在した場合、変換しなかった分を後続に配列で結合する
                         colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
                     }
                     if(cnt<node.children.length-1){
