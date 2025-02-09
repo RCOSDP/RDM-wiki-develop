@@ -92,11 +92,10 @@ export function flatMap(ast, fn) {
                     //const colorTag = { color : colorName}
                     const colorText = { type: 'colortext' ,color : colorName}
                     //const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
-                    var openTags =""
-                    if(node.children[0].match(/<span style=\"color:/g).length === 2){
+                    var openTags = node.children[0].value.replace(tmp, '')
+                    if(openTags.test(/<span style=\"color:/)){
+                        // もう一つタグが存在した場合
                         openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
-                    }else {
-                        openTags = node.children[0].value.replace(tmp, '')
                     }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     const remainingChildrentmp = []
