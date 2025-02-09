@@ -102,10 +102,10 @@ export function flatMap(ast, fn) {
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     const remainingChildrentmp = []
                     var remainingChildren = []
-
+                    var openCloseTag =""
                     if (cnt === 0){
                         // 同一タグ内にOpenとCloseがある場合
-                        const openCloseTag = openTags.replace(/<\/span>/, '')
+                        openCloseTag = openTags.replace(/<\/span>/, '')
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
                     }else{
                         if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
@@ -133,7 +133,7 @@ export function flatMap(ast, fn) {
                     //}
                     if(spanTagsFlg == "1"){
                         // 同一タグ内に複数存在した場合、変換しなかった分を後続に配列で結合する
-                        var nishikawa = node.children[0].value.replace(tmp + ".*<\/span>", '')
+                        var nishikawa = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         console.log(nishikawa)
                         const tailChildren = node.children[0].value.replace(tmp + ".*<\/span>", '')
                         const xs2 = transform(tailChildren, 0, null)
