@@ -83,15 +83,12 @@ export function flatMap(ast, fn) {
                     }    
                 }
                 if(cnt !== node.children.length) {
-                    //var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*<\/span>/, '')
                     var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
                     if(/.*<\/span>/.test(colorName)){
                         colorName = colorName.replace(/\".*<\/span>/, '')
                     }
                     var tmp = "<span style=\"color: " + colorName + "\">"
-                    //const colorTag = { color : colorName}
                     const colorText = { type: 'colortext' ,color : colorName}
-                    //const openTags = node.children[0].value.replace(/<span style=\"color:.*\">/, '')
                     var openTags = node.children[0].value.replace(tmp, '')
                     var spanTagsFlg = "0"
                     if(/<span style=\"color:.*/.test(openTags)){
@@ -141,6 +138,17 @@ export function flatMap(ast, fn) {
                         const tailChildren = { type: 'text' ,value : tailValue}
                         const xs2 = transform(tailChildren, 0, colorText)
                         colorText.children = colorText.children.concat(xs2[0])
+                        //nishi
+                        //ノードを詰め込む
+                        const out2 = []
+                        for (var i = 0, n = colorText.children.length; i < n; i++) {
+                            const nthChild = colorText.children[i];
+                            if (nthChild) {
+                                addTransformedChildren(nthChild, i, colorText, out2);
+                            }
+                        }
+                        colorText.children = out2
+                        //nishi
                         //colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
                     }
                     if(cnt<node.children.length-1){
