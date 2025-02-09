@@ -133,7 +133,9 @@ export function flatMap(ast, fn) {
                     //}
                     if(spanTagsFlg == "1"){
                         // 同一タグ内に複数存在した場合、変換しなかった分を後続に配列で結合する
-                        const tailChildren = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<\/span>", '')
+                        var nishikawa = node.children[0].value.replace(tmp + ".*<\/span>", '')
+                        console.log(nishikawa)
+                        const tailChildren = node.children[0].value.replace(tmp + ".*<\/span>", '')
                         const xs2 = transform(tailChildren, 0, null)
                         colorText.children = colorText.children.concat(xs2[0])
                         //colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
