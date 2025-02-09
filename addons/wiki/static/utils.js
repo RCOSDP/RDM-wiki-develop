@@ -137,11 +137,9 @@ export function flatMap(ast, fn) {
                             // 同一ノード内にOpenとCloseがなく、複数開始タグがあった場合（本来存在しない）
                             openCloseTag = openTags
                         }
-                        var nishikawa = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
-                        console.log(nishikawa)
                         const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         const tailChildren = { type: 'text' ,value : tailValue}
-                        const xs2 = transform(tailChildren, 0, null)
+                        const xs2 = transform(tailChildren, 0, colorText)
                         colorText.children = colorText.children.concat(xs2[0])
                         //colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
                     }
