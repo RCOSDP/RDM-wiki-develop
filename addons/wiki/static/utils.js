@@ -155,9 +155,10 @@ export function flatMap(ast, fn) {
                         colorText.children = colorText.children.concat(tailChildren)
                         //Mod End
                     }
-                    const xs2 = transform(colorText, i, node);
+                    //const xs2 = transform(colorText, i, node);
+                    addTransformedChildren(colorText, i, node, out);
                     //node.children = [colorText]
-                    node.children = [xs2]
+                    node.children = [out]
 
                 }else{
                     // 構文エラー
