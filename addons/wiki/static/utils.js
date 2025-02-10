@@ -156,7 +156,6 @@ export function flatMap(ast, fn) {
                         //Mod End
                     }
                     const xs2 = transform(colorText, i, node);
-                    }
                     //node.children = [colorText]
                     node.children = [xs2]
 
