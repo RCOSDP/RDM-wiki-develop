@@ -158,8 +158,8 @@ export function flatMap(ast, fn) {
                     //const xs2 = transform(colorText, i, node);
                     //addTransformedChildren(colorText, i, node, out);
                     node.children = [colorText]
-                    addTransformedChildren(node, i, null, out);
-                    node.children = [out]
+                    //addTransformedChildren(node, i, null, out);
+                    //node.children = [out]
 
                 }else{
                     // 構文エラー
