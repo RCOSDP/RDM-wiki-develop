@@ -153,17 +153,6 @@ export function flatMap(ast, fn) {
                         colorText.children = colorText.children.concat(xs2[0])
                         //Mod End
                     }
-                    // 以降のデータを詰め込む
-                    //nishi
-                    const out2 = []
-                    for (var i = 0, n = colorText.children.length; i < n; i++) {
-                        const nthChild = colorText.children[i];
-                        if (nthChild) {
-                            addTransformedChildren(nthChild, i, node, out2);
-                        }
-                    }
-                    colorText.children = out2
-                    //nishi
                     node.children = [colorText]
 
                 }else{
