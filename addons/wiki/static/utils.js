@@ -136,28 +136,34 @@ export function flatMap(ast, fn) {
                         }
                         const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         const tailChildren = { type: 'text' ,value : tailValue}
-                        const xs2 = transform(tailChildren, 0, colorText)
-                        colorText.children = colorText.children.concat(xs2[0])
+                        //const xs2 = transform(tailChildren, 0, colorText)
+                        //colorText.children = colorText.children.concat(xs2[0])
+                        colorText.children = colorText.children.concat(tailChildren)
                         //colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
                     }
                     if(cnt<node.children.length-1){
                         //const tailChildren = []
                         const tailChildren = node.children.slice(cnt+1)
                         //tailChildren.concat(node.children.slice(cnt,-1))
-                        const xs2 = transform(tailChildren, 0, colorText)
+                        //const xs2 = transform(tailChildren, 0, colorText)
                         //Mod Start
                         //for(var i = 0 ; i < xs2[0].length ; i++){
                         //    // ノード数分、ループして詰める
                         //    colorText.children.push(xs2[0][i])
                        // }
-                        colorText.children = colorText.children.concat(xs2[0])
+                        //colorText.children = colorText.children.concat(xs2[0])
+                        colorText.children = colorText.children.concat(tailChildren)
                         //Mod End
                     }
-                    node.children = [colorText]
+                    const xs2 = transform(colorText, i, node);
+                    }
+                    //node.children = [colorText]
+                    node.children = [xs2]
 
                 }else{
                     // 構文エラー
                 }
+
               } else {
 
             
