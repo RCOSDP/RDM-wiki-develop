@@ -28,22 +28,37 @@ export function flatMap(ast, fn) {
             test.children = []
             for(var i = 0 ; i < node.children.length ; i++){
                 if(node.children[i] && node.children[i].type === 'text' && /<span style=\"color/.test(node.children[i].value) && /<\/span>/.test(node.children[i].value)){
-                    var colorName = node.children[i].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
-                    var tmp = "<span style=\"color: " + colorName + "\"><\/span>"
-                    test.children.push({ type: 'text' ,value : tmp})
-                    test.children.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
+                    //var colorName = node.children[i].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
+                    //var tmp = "<span style=\"color: " + colorName + "\"><\/span>"
+                    //test.children.push({ type: 'text' ,value : tmp})
+                    //test.children.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
+                    var itemData = node.children[i].value.split('<');
+                    var textTmp = ""
+                    for(var j=0 ; j < itemData.length ; j++){
+                        if(itemData[j].startsWith("span style")){
+                            textTmp = "<" + itemData[j]
+                            test.children.push({type: 'text' ,value : textTmp})
+                            textTmp = ""
+                        }else if(itemData[j].startsWith("\/span>")){
+                            textTmp = "<" + itemData[j]
+                            test.children.push({type: 'text' ,value : textTmp})
+                            textTmp = ""
+                        }else{
+                            test.children.push({type: 'text' ,value : itemData[j]})
+                        }
+                    }
                 }else if(node.children[i] && node.children[i].type === 'text' && /<u>/.test(node.children[i].value) && /<\/u>/.test(node.children[i].value)){
-                    var itemData = str.split('<');
+                    var itemData = node.children[i].value.split('<');
                     var textTmp = ""
                     for(var j=0 ; j < itemData.length ; j++){
                         if(itemData[j].startsWith("u>")){
                             textTmp = "<" + itemData[j]
+                            test.children.push({type: 'text' ,value : textTmp})
+                            textTmp = ""
                         }else if(itemData[j].startsWith("/u>")){
                             textTmp = "<" + itemData[j]
                             test.children.push({type: 'text' ,value : textTmp})
                             textTmp = ""
-                        }else if(textTmp !== "" ){
-                            textTmp = textTmp + itemData[j]
                         }else{
                             test.children.push({type: 'text' ,value : itemData[j]})
                         }
