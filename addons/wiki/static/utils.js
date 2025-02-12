@@ -49,7 +49,7 @@ export function flatMap(ast, fn) {
                     test.push({ type: node.type ,children : node.children[i],value :node.value})
                 }
             }
-            node = test
+            node.children = test
             //nishi
             //if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
