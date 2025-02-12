@@ -30,16 +30,29 @@ export function flatMap(ast, fn) {
                     test.push({ type: 'text' ,value : tmp})
                     test.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
                 }else if(node.children[i] && node.children[i].type === 'text' && /<u>/.test(node.children[i].value) && /<\/u>/.test(node.children[i].value)){
-                    //if(node.children[i].value))
+                    var itemData = str.split('<');
+                    var textTmp = ""
+                    for(var j=0 ; j < itemData.length ; j++){
+                        if(itemData[j].startsWith("u>")){
+                            textTmp = "<" + itemData[j]
+                        }else if(itemData[j].startsWith("/u>")){
+                            textTmp = "<" + itemData[j]
+                            test.push({type: 'text' ,value : textTmp})
+                            textTmp = ""
+                        }else if(textTmp !== "" ){
+                            textTmp = textTmp + itemData[j]
+                        }else{
+                            test.push({type: 'text' ,value : itemData[j]})
+                        }
+                    }
                 }else{
-                    test.push({ type: node.type ,children : node.children[i]})
+                    test.push({ type: node.type ,children : node.children[i],value :node.value})
                 }
             }
             node = test
             //nishi
             //if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
-            if (node.children[0] && node.children[0].type === 'text'){
-                if(/<u>/.test(node.children[0].value)) {
+            if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
                 // 下線が存在する場合
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
@@ -90,7 +103,6 @@ export function flatMap(ast, fn) {
                     }
                     node.children = [underline]
                     //Mod End
-                }
                 }
             }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
                 // 文字色が存在する場合
