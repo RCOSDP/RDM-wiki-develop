@@ -119,15 +119,7 @@ export function flatMap(ast, fn) {
                         }
                     }
                     colorText.children = out
-                    //Mod Start
-                    //node.children = [colorText]
-                    // 以降のデータも詰め込む
-                    //if(cnt<node.children.length){
-                    //    const tailChildren = []
-                    //    tailChildren.concat(node.children.slice(cnt,-1))
-                    //    const xs2 = transform(tailChildren, 0, colorText)
-                    //    node.children = node.children.concat(xs2)
-                    //}
+
                     if(spanTagsFlg == "1"){
                         // 同一ノード内に複数存在した場合、変換しなかった分を後続に配列で結合する
                         if(openCloseTag == ""){
@@ -136,10 +128,8 @@ export function flatMap(ast, fn) {
                         }
                         const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         const tailChildren = { type: 'text' ,value : tailValue}
-                        //const xs2 = transform(tailChildren, 0, colorText)
-                        //colorText.children = colorText.children.concat(xs2[0])
-                        colorText.children = colorText.children.concat(tailChildren)
-                        //colorText.children = node.children[0].value.replace("<span style=\"color: " + colorName + "\">.*<", '<')
+                        //colorText.children = colorText.children.concat(tailChildren)
+                        colorText = colorText.concat(tailChildren)
                     }
                     if(cnt<node.children.length-1){
                         //const tailChildren = []
