@@ -25,6 +25,7 @@ export function flatMap(ast, fn) {
             var test = []
             test.type = node.type
             test.value = node.value
+            test.children = []
             for(var i = 0 ; i < node.children.length ; i++){
                 if(node.children[i] && node.children[i].type === 'text' && /<span style=\"color/.test(node.children[i].value) && /<\/span>/.test(node.children[i].value)){
                     var colorName = node.children[i].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
