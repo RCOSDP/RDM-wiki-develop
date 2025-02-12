@@ -30,7 +30,7 @@ export function flatMap(ast, fn) {
                     test.push({ type: 'text' ,value : tmp})
                     test.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
                 }else if(node.children[i] && node.children[i].type === 'text' && /<u>/.test(node.children[i].value) && /<\/u>/.test(node.children[i].value)){
-                    //if(/<u>/.test(node.children[i].value))
+                    //if(node.children[i].value))
                 }else{
                     test.push({ type: node.type ,children : node.children[i]})
                 }
@@ -38,7 +38,7 @@ export function flatMap(ast, fn) {
             node = test
             //nishi
             //if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
-            if (node.children[0] && node.children[0].type === 'text')
+            if (node.children[0] && node.children[0].type === 'text'){
                 if(/<u>/.test(node.children[0].value)) {
                 // 下線が存在する場合
                 var cnt = 0
