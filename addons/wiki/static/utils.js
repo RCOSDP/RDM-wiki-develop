@@ -23,12 +23,14 @@ export function flatMap(ast, fn) {
             }*/
             //nishi
             var test = []
+            test.type = node.type
+            test.value = node.value
             for(var i = 0 ; i < node.children.length ; i++){
                 if(node.children[i] && node.children[i].type === 'text' && /<span style=\"color/.test(node.children[i].value) && /<\/span>/.test(node.children[i].value)){
                     var colorName = node.children[i].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
                     var tmp = "<span style=\"color: " + colorName + "\"><\/span>"
-                    test.push({ type: 'text' ,value : tmp})
-                    test.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
+                    test.children.push({ type: 'text' ,value : tmp})
+                    test.children.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
                 }else if(node.children[i] && node.children[i].type === 'text' && /<u>/.test(node.children[i].value) && /<\/u>/.test(node.children[i].value)){
                     var itemData = str.split('<');
                     var textTmp = ""
@@ -37,19 +39,19 @@ export function flatMap(ast, fn) {
                             textTmp = "<" + itemData[j]
                         }else if(itemData[j].startsWith("/u>")){
                             textTmp = "<" + itemData[j]
-                            test.push({type: 'text' ,value : textTmp})
+                            test.children.push({type: 'text' ,value : textTmp})
                             textTmp = ""
                         }else if(textTmp !== "" ){
                             textTmp = textTmp + itemData[j]
                         }else{
-                            test.push({type: 'text' ,value : itemData[j]})
+                            test.children.push({type: 'text' ,value : itemData[j]})
                         }
                     }
                 }else{
-                    test.push({ type: node.type ,children : node.children[i],value :node.value})
+                    test.children.push(node.children[i])
                 }
             }
-            node = [test]
+            node = test
             //nishi
             //if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
