@@ -30,7 +30,7 @@ export function flatMap(ast, fn) {
                     test.push({ type: 'text' ,value : tmp})
                     test.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
                 }else{
-                    test.push({ type: node.type ,value : node.children[i]})
+                    test.push({ type: node.type ,children : node.children[i]})
                 }
             }
             node = test
