@@ -21,6 +21,20 @@ export function flatMap(ast, fn) {
                     subTransForm(node, index, parent,"<span style=\"color\:.*>")
                 }
             }*/
+            //nishi
+            var test = []
+            for(var i = 0 ; i < node.children.length ; i++){
+                if(node.children[i] && node.children[i].type === 'text' && /<span style=\"color/.test(node.children[i].value) && /<\/span>/.test(node.children[i].value)){
+                    var colorName = node.children[i].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
+                    var tmp = "<span style=\"color: " + colorName + "\"><\/span>"
+                    test.push({ type: 'text' ,value : tmp})
+                    test.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
+                }else{
+                    test.push({ type: 'text' ,value : node.children[i]})
+                }
+            }
+            node = test
+            //nishi
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
                 // 下線が存在する場合
                 var cnt = 0
@@ -128,8 +142,8 @@ export function flatMap(ast, fn) {
                         }
                         const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         const tailChildren = { type: 'text' ,value : tailValue}
-                        //colorText.children = colorText.children.concat(tailChildren)
-                        colorText = colorText.concat(tailChildren)
+                        colorText.children = colorText.children.concat(tailChildren)
+                        //colorText = colorText.concat(tailChildren)
                     }
                     if(cnt<node.children.length-1){
                         //const tailChildren = []
