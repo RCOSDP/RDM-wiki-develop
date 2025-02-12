@@ -43,7 +43,7 @@ export function flatMap(ast, fn) {
                             textTmp = "<" + itemData[j]
                             test.children.push({type: 'text' ,value : textTmp})
                             textTmp = ""
-                        }else{
+                        }else if(itemData[j] !== ""){
                             test.children.push({type: 'text' ,value : itemData[j]})
                         }
                     }
@@ -59,7 +59,7 @@ export function flatMap(ast, fn) {
                             textTmp = "<" + itemData[j]
                             test.children.push({type: 'text' ,value : textTmp})
                             textTmp = ""
-                        }else{
+                        }else if(itemData[j] !== ""){
                             test.children.push({type: 'text' ,value : itemData[j]})
                         }
                     }
