@@ -180,6 +180,7 @@ export function flatMap(ast, fn) {
                         colorText.children = colorText.children.concat(tailChildren)
                         //colorText = colorText.concat(tailChildren)
                     }
+                    var tmp = []
                     if(cnt<node.children.length-1){
                         //const tailChildren = []
                         const tailChildren = node.children.slice(cnt+1)
@@ -191,13 +192,16 @@ export function flatMap(ast, fn) {
                         //    colorText.children.push(xs2[0][i])
                        // }
                         //colorText.children = colorText.children.concat(xs2[0])
-                        colorText = colorText.concat(xs2[0])
+                        //colorText = colorText.concat(xs2[0])
+                        tmp.push(colorText)
+                        tmp = tmp.concat(xs2[0])
                         //colorText.children = colorText.children.concat(tailChildren)
                         //Mod End
                     }
                     //const xs2 = transform(colorText, i, node);
                     //addTransformedChildren(colorText, i, node, out);
-                    node.children = [colorText]
+                    //node.children = [colorText]
+                    node.children = [tmp]
                     //addTransformedChildren(node, i, null, out);
                     //node.children = [out]
 
