@@ -197,7 +197,7 @@ export function flatMap(ast, fn) {
                         //colorText = colorText.concat(xs2[0])
                         //tmp.push(colorText)
                         //tmp = tmp.concat(tmp)
-                        addTransformedChildren(xs2[0], i, node, out2);
+                        addTransformedChildren(xs2, i, node, out2);
                         tmp2 = tmp2.concat(out2)
                         //colorText.children = colorText.children.concat(tailChildren)
                         //Mod End
