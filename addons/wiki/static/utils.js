@@ -22,16 +22,12 @@ export function flatMap(ast, fn) {
                 }
             }*/
             //nishi
-            var test = []
+            /*var test = []
             test.type = node.type
             test.value = node.value
             test.children = []
             for(var i = 0 ; i < node.children.length ; i++){
                 if(node.children[i] && node.children[i].type === 'text' && /<span style=\"color/.test(node.children[i].value) && /<\/span>/.test(node.children[i].value)){
-                    //var colorName = node.children[i].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
-                    //var tmp = "<span style=\"color: " + colorName + "\"><\/span>"
-                    //test.children.push({ type: 'text' ,value : tmp})
-                    //test.children.push({ type: 'text' ,value : node.children[i].value.replace(tmp, '')})
                     var itemData = node.children[i].value.split('<');
                     var textTmp = ""
                     for(var j=0 ; j < itemData.length ; j++){
@@ -67,7 +63,7 @@ export function flatMap(ast, fn) {
                     test.children.push(node.children[i])
                 }
             }
-            node = test
+            node = test*/
             //nishi
             //if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
