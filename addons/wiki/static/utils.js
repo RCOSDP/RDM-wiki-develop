@@ -189,16 +189,18 @@ export function flatMap(ast, fn) {
                         //tailChildren.concat(node.children.slice(cnt,-1))
                         //const xs2 = transform(tailChildren, 0, colorText)
                         //Mod Start
-                        var xs2;
+                        var xs2 = [];
                         for(var i = 0 ; i < tailChildren.length ; i++){
                         //    // ノード数分、ループして詰める
-                            xs2.children.push(tailChildren[i])
+                            xs2.push(tailChildren[i])
                         }
+                        var xs3;
+                        xs3.children = xs2
                         //colorText.children = colorText.children.concat(xs2[0])
                         //colorText = colorText.concat(xs2[0])
                         //tmp.push(colorText)
                         //tmp = tmp.concat(tmp)
-                        addTransformedChildren(xs2, i, node, out2);
+                        addTransformedChildren(xs3, i, node, out2);
                         tmp2 = tmp2.concat(out2)
                         //colorText.children = colorText.children.concat(tailChildren)
                         //Mod End
