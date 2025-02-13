@@ -190,7 +190,8 @@ export function flatMap(ast, fn) {
                         //    // ノード数分、ループして詰める
                         //    colorText.children.push(xs2[0][i])
                        // }
-                        colorText.children = colorText.children.concat(xs2[0])
+                        //colorText.children = colorText.children.concat(xs2[0])
+                        colorText = colorText.concat(xs2[0])
                         //colorText.children = colorText.children.concat(tailChildren)
                         //Mod End
                     }
