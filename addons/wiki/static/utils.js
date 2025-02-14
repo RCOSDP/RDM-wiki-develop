@@ -158,7 +158,7 @@ export function flatMap(ast, fn) {
                 }
 
                 var cnt = 0
-                for(var i = nodeCnt ; i < node.children.length ; i++) {
+                for(var i = 0 ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
                         cnt = i
                         break
@@ -180,11 +180,8 @@ export function flatMap(ast, fn) {
                     }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     var remainingChildren = []
-                    var openCloseTag =""
-                    if(remainingChildren !== ""){
-                        // すでに値が設定されていた場合
-                    } 
-                   if (cnt === nodeCnt){
+                    var openCloseTag ="" 
+                    if (cnt === nodeCnt){
                         // 同一ノード内にOpenとCloseがある場合
                         openCloseTag = openTags.replace(/<\/span>/, '')
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
