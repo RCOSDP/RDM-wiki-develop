@@ -111,7 +111,7 @@ export function flatMap(ast, fn) {
                 }
             }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
                 // 文字色が存在する場合
-                //nishi
+                // 文字列を分解する
                 var tmpNode = []
                 var itemData = node.children[0].value.split('<')    // 文字列分割
                 var textTmp = ""
@@ -148,7 +148,7 @@ export function flatMap(ast, fn) {
                     //nishi
                 }else{
                     // ノードを付け替える
-                    node.children = tmpNode
+                    node.children = tmpNode.concat(node.children.slice(1))
                 }
 
                 var cnt = 0
