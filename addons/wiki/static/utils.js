@@ -181,7 +181,7 @@ export function flatMap(ast, fn) {
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     var remainingChildren = []
                     var openCloseTag ="" 
-                    if (cnt === nodeCnt){
+                    if (cnt === 0){
                         // 同一ノード内にOpenとCloseがある場合
                         openCloseTag = openTags.replace(/<\/span>/, '')
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
