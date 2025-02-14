@@ -165,17 +165,17 @@ export function flatMap(ast, fn) {
                     }    
                 }
                 if(cnt !== node.children.length) {
-                    var colorName = node.children[nodeCnt].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
+                    var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
                     if(/.*<\/span>/.test(colorName)){
                         colorName = colorName.replace(/\".*<\/span>/, '')
                     }
                     var tmp = "<span style=\"color: " + colorName + "\">"
                     const colorText = { type: 'colortext' ,color : colorName}
-                    var openTags = node.children[nodeCnt].value.replace(tmp, '')
+                    var openTags = node.children[0].value.replace(tmp, '')
                     var spanTagsFlg = "0"
                     if(/<span style=\"color:.*/.test(openTags)){
                         // もう一つタグが存在した場合
-                        openTags = node.children[nodeCnt].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
+                        openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
                         spanTagsFlg = "1"
                     }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
