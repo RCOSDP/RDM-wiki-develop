@@ -141,36 +141,38 @@ export function flatMap(ast, fn) {
                     tmpNode.push({type: 'text' ,value : textTmp})
                 }
                 
+                var nodeCnt = 0
                 var remainingChildren = []  // 戻りの配列
                 if(!(tmpNode[0].value.startsWith("<span"))){
                     //最初が文字の場合はそのまま設定
                     remainingChildren.push({ type: 'text', value: tmpNode[0]})
                     node.children[0].value = node.children[0].value.replace(tmpNode[0].value,"")
+                    Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
+                    // 先頭ノード削除
+                    node.children.shift();
+                    nodeCnt = nodeCnt + 1
+                    //nishi
                 }
 
-                Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
-                // 先頭ノード削除
-                node.children.shift();
-                //nishi
                 var cnt = 0
-                for(var i = 0 ; i < node.children.length ; i++) {
+                for(var i = nodeCnt ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
                         cnt = i
                         break
                     }    
                 }
                 if(cnt !== node.children.length) {
-                    var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
+                    var colorName = node.children[nodeCnt].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
                     if(/.*<\/span>/.test(colorName)){
                         colorName = colorName.replace(/\".*<\/span>/, '')
                     }
                     var tmp = "<span style=\"color: " + colorName + "\">"
                     const colorText = { type: 'colortext' ,color : colorName}
-                    var openTags = node.children[0].value.replace(tmp, '')
+                    var openTags = node.children[nodeCnt].value.replace(tmp, '')
                     var spanTagsFlg = "0"
                     if(/<span style=\"color:.*/.test(openTags)){
                         // もう一つタグが存在した場合
-                        openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
+                        openTags = node.children[nodeCnt].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
                         spanTagsFlg = "1"
                     }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
