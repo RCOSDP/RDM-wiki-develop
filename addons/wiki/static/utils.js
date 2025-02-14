@@ -233,7 +233,7 @@ export function flatMap(ast, fn) {
                         textChildren.children = textChildren.children.concat(xs2[0])
                         //Mod End
                     }
-                    node.children = [textChildren]
+                    node.children = textChildren
                     //Mod End
                 }else{
                     // 構文エラー
