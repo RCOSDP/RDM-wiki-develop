@@ -154,6 +154,7 @@ export function flatMap(ast, fn) {
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
+                        // 終わりのタグ位置を調べる
                         cnt = i
                         break
                     }    
@@ -166,24 +167,24 @@ export function flatMap(ast, fn) {
                     var tmp = "<span style=\"color: " + colorName + "\">"
                     const colorText = { type: 'colortext' ,color : colorName}
                     var openTags = node.children[0].value.replace(tmp, '')
-                    var spanTagsFlg = "0"
-                    if(/<span style=\"color:.*/.test(openTags)){
-                        // もう一つタグが存在した場合
-                        openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
-                        spanTagsFlg = "1"
-                    }
+                    //var spanTagsFlg = "0"
+                    //if(/<span style=\"color:.*/.test(openTags)){
+                    //    // もう一つタグが存在した場合
+                    //    openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
+                    //    spanTagsFlg = "1"
+                    //}
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     var remainingChildren = []
                     var openCloseTag ="" 
-                    if (cnt === 0){
-                        // 同一ノード内にOpenとCloseがある場合
-                        openCloseTag = openTags.replace(/<\/span>/, '')
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
-                    }else{
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                        remainingChildren = remainingChildren.concat(node.children.slice(nodeCnt + 1,cnt))
-                        if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
-                    }
+                    //if (cnt === 0){
+                    //    // 同一ノード内にOpenとCloseがある場合
+                    //    openCloseTag = openTags.replace(/<\/span>/, '')
+                    //    if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
+                    //}else{
+                    if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
+                    remainingChildren = remainingChildren.concat(node.children.slice(nodeCnt + 1,cnt))
+                    if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
+                    //}
                     
                     //ノードを詰め込む
                     const out = []
@@ -200,7 +201,7 @@ export function flatMap(ast, fn) {
                         textChildren = colorText
                     }
 
-                    if(spanTagsFlg == "1"){
+                    /*if(spanTagsFlg == "1"){
                         // 同一ノード内に複数存在した場合、変換しなかった分を後続に配列で結合する
                         if(openCloseTag == ""){
                             // 同一ノード内にOpenとCloseがなく、複数開始タグがあった場合（本来存在しない）
@@ -209,7 +210,7 @@ export function flatMap(ast, fn) {
                         const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         const tailChildren = { type: 'text' ,value : tailValue}
                         textChildren.children = textChildren.children.concat(tailChildren)
-                    }
+                    }*/
                     // 以降のデータも詰め込む
                     if(cnt < node.children.length-1){
                         const tailChildren = node.children.slice(cnt+1)
