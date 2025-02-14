@@ -121,26 +121,36 @@ export function flatMap(ast, fn) {
             }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
                 // 文字色が存在する場合
                 //nishi
-                /*var tmpNode = []
-                var itemData = node.children[i].value.split('<');
+                var tmpNode = []
+                var itemData = node.children[0].value.split('<');
                 var textTmp = ""
                 for(var j=0 ; j < itemData.length ; j++){
                     if(itemData[j].startsWith("span style")){
                         textTmp = "<" + itemData[j]
-                        tmpNode.children.push({type: 'text' ,value : textTmp})
-                        textTmp = ""
                     }else if(itemData[j].startsWith("\/span>")){
-                        textTmp = "<" + itemData[j]
+                        textTmp = textTmp + "<" + itemData[j]
                         tmpNode.children.push({type: 'text' ,value : textTmp})
                         textTmp = ""
-                    }else if(itemData[j] !== ""){
+                    }else if(itemData[j] !== "" && textTmp === ""){
                         tmpNode.children.push({type: 'text' ,value : itemData[j]})
+                    }else if(itemData[j] !== "" && textTmp !== ""){
+                        textTmp = textTmp + itemData[j]
                     }
                 }
+                if(textTmp !== "" ){
+                    tmpNode.children.push({type: 'text' ,value : textTmp})
+                }
                 
-                if(tmpNode.children[0].startsWith("<span")){
+                var remainingChildren = []  // 戻りの配列
+                if(!(tmpNode.children[0].startsWith("<span"))){
                     //最初が文字の場合はそのまま設定
-                }*/
+                    remainingChildren.push({ type: 'text', value: tmpNode.children[0]})
+                    node.children[0].value = node.children[0].value.replace(tmpNode.children[0],"")
+                }
+                
+                Array.prototype.splice.apply(node.children,[1,0].concat(ptmpNode.children));
+                // 先頭ノード削除
+                node.children.shift();
                 //nishi
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
@@ -165,7 +175,7 @@ export function flatMap(ast, fn) {
                     }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     const remainingChildrentmp = []
-                    var remainingChildren = []
+                    //var remainingChildren = []
                     var openCloseTag =""
                     if (cnt === 0){
                         // 同一ノード内にOpenとCloseがある場合
