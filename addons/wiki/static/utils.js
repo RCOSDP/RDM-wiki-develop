@@ -145,7 +145,7 @@ export function flatMap(ast, fn) {
                 var remainingChildren = []  // 戻りの配列
                 if(!(tmpNode[0].value.startsWith("<span"))){
                     //最初が文字の場合はそのまま設定
-                    remainingChildren.push({ type: 'text', value: tmpNode[0]})
+                    remainingChildren.push({ type: 'text', value: tmpNode[0].value})
                     node.children[0].value = node.children[0].value.replace(tmpNode[0].value,"")
                     Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
                     // 先頭ノード削除
@@ -184,8 +184,8 @@ export function flatMap(ast, fn) {
                         openCloseTag = openTags.replace(/<\/span>/, '')
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
                     }else{
-                        if (openTags.length > 0) {remainingChildrentmp.push({ type: 'text', value: openTags})}
-                        remainingChildren = remainingChildrentmp.concat(node.children.slice(1,cnt))
+                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
+                        remainingChildren = remainingChildren.concat(node.children.slice(nodeCnt + 1,cnt))
                         if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     }
                     
