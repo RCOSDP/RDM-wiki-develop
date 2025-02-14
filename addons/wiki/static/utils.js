@@ -120,6 +120,28 @@ export function flatMap(ast, fn) {
                 }
             }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
                 // 文字色が存在する場合
+                //nishi
+                /*var tmpNode = []
+                var itemData = node.children[i].value.split('<');
+                var textTmp = ""
+                for(var j=0 ; j < itemData.length ; j++){
+                    if(itemData[j].startsWith("span style")){
+                        textTmp = "<" + itemData[j]
+                        tmpNode.children.push({type: 'text' ,value : textTmp})
+                        textTmp = ""
+                    }else if(itemData[j].startsWith("\/span>")){
+                        textTmp = "<" + itemData[j]
+                        tmpNode.children.push({type: 'text' ,value : textTmp})
+                        textTmp = ""
+                    }else if(itemData[j] !== ""){
+                        tmpNode.children.push({type: 'text' ,value : itemData[j]})
+                    }
+                }
+                
+                if(tmpNode.children[0].startsWith("<span")){
+                    //最初が文字の場合はそのまま設定
+                }*/
+                //nishi
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
@@ -176,39 +198,24 @@ export function flatMap(ast, fn) {
                         colorText.children = colorText.children.concat(tailChildren)
                         //colorText = colorText.concat(tailChildren)
                     }
-                    var tmp2 = []
-                    tmp2.push(colorText)
-                    if(cnt<node.children.length-1){
-                        var out2 = []
+                    //Mod Start__
+                    //node.children = [underline]
+                    // 以降のデータも詰め込む
+                    if(cnt < node.children.length-1){
                         //const tailChildren = []
-                        const tailChildren = node.children.slice(cnt+1)
                         //tailChildren.concat(node.children.slice(cnt,-1))
-                        //const xs2 = transform(tailChildren, 0, colorText)
+                        const tailChildren = node.children.slice(cnt+1)
+                        const xs2 = transform(tailChildren, 0, colorText)
                         //Mod Start
-                        //var xs2 = [];
-                        //for(var i = 0 ; i < tailChildren.length ; i++){
+                        //for(var i = 0 ; i < xs2[0].length ; i++){
                         //    // ノード数分、ループして詰める
-                        //    xs2.push(tailChildren[i])
+                        //    colorText.children.push(xs2[0][i])
                         //}
-                        var xs3 = []
-                        xs3.children = tailChildren
-                        //colorText.children = colorText.children.concat(xs2[0])
-                        //colorText = colorText.concat(xs2[0])
-                        //tmp.push(colorText)
-                        //tmp = tmp.concat(tmp)
-                        out2 = transform(xs3, i, null);
-                        tmp2 = tmp2.concat(out2[0].children)
-                        //colorText.children = colorText.children.concat(tailChildren)
+                        colorText.children = colorText.children.concat(xs2[0])
                         //Mod End
                     }
-                    //const xs2 = transform(colorText, i, node);
-                    //addTransformedChildren(tmp, i, node, out);
-                    //node.children = [colorText]
-                    //node.children.push(colorText)
-                    node.children = [tmp2]
-                    //addTransformedChildren(node, i, null, out);
-                    //node.children = [out]
-
+                    node.children = [colorText]
+                    //Mod End
                 }else{
                     // 構文エラー
                 }
