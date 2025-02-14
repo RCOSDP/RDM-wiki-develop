@@ -119,8 +119,13 @@ export function flatMap(ast, fn) {
                     if(itemData[j].startsWith("span style")){
                         textTmp = "<" + itemData[j]
                     }else if(itemData[j].startsWith("\/span>")){
-                        textTmp = textTmp + "<" + itemData[j]
+                        //textTmp = textTmp + "<" + itemData[j]
+                        textTmp = textTmp + "<\/span>"
                         tmpNode.push({type: 'text' ,value : textTmp})
+                        if(itemData[j] !== "<\/span>"){
+                            // 終了タグだけではない場合、終了タグを取り除いた値を設定
+                            tmpNode.push({type: 'text' ,value : itemData[j].replace("<\/span>","")})
+                        }
                         textTmp = ""
                     }else if(itemData[j] !== "" && textTmp === ""){
                         tmpNode.push({type: 'text' ,value : itemData[j]})
