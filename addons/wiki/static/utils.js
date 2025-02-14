@@ -99,19 +99,10 @@ export function flatMap(ast, fn) {
                         }
                     }
                     underline.children = out
-                    //Mod Start__
-                    //node.children = [underline]
                     // 以降のデータも詰め込む
                     if(cnt < node.children.length-1){
-                        //const tailChildren = []
-                        //tailChildren.concat(node.children.slice(cnt,-1))
                         const tailChildren = node.children.slice(cnt+1)
                         const xs2 = transform(tailChildren, 0, underline)
-                        //Mod Start
-                        //for(var i = 0 ; i < xs2[0].length ; i++){
-                        //    // ノード数分、ループして詰める
-                        //    underline.children.push(xs2[0][i])
-                        //}
                         underline.children = underline.children.concat(xs2[0])
                         //Mod End
                     }
@@ -155,6 +146,9 @@ export function flatMap(ast, fn) {
                     node.children.shift();
                     nodeCnt = nodeCnt + 1
                     //nishi
+                }else{
+                    // ノードを付け替える
+                    node.children = tmpNode
                 }
 
                 var cnt = 0
@@ -215,33 +209,20 @@ export function flatMap(ast, fn) {
                         const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         const tailChildren = { type: 'text' ,value : tailValue}
                         textChildren.children = textChildren.children.concat(tailChildren)
-                        //colorText = colorText.concat(tailChildren)
                     }
-                    //Mod Start__
-                    //node.children = [underline]
                     // 以降のデータも詰め込む
                     if(cnt < node.children.length-1){
-                        //const tailChildren = []
-                        //tailChildren.concat(node.children.slice(cnt,-1))
                         const tailChildren = node.children.slice(cnt+1)
                         const xs2 = transform(tailChildren, 0, textChildren)
-                        //Mod Start
-                        //for(var i = 0 ; i < xs2[0].length ; i++){
-                        //    // ノード数分、ループして詰める
-                        //    colorText.children.push(xs2[0][i])
-                        //}
-                        textChildren.children = textChildren.children.concat(xs2[0])
-                        //Mod End
+                        textChildren = textChildren.concat(xs2[0])
                     }
                     node.children = textChildren
-                    //Mod End
                 }else{
                     // 構文エラー
                 }
 
               } else {
 
-            
                 for (var i = 0, n = node.children.length; i < n; i++) {
                     const nthChild = node.children[i];
                     if (nthChild) {
