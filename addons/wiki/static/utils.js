@@ -129,26 +129,26 @@ export function flatMap(ast, fn) {
                         textTmp = "<" + itemData[j]
                     }else if(itemData[j].startsWith("\/span>")){
                         textTmp = textTmp + "<" + itemData[j]
-                        tmpNode.children.push({type: 'text' ,value : textTmp})
+                        tmpNode.push({type: 'text' ,value : textTmp})
                         textTmp = ""
                     }else if(itemData[j] !== "" && textTmp === ""){
-                        tmpNode.children.push({type: 'text' ,value : itemData[j]})
+                        tmpNode.push({type: 'text' ,value : itemData[j]})
                     }else if(itemData[j] !== "" && textTmp !== ""){
                         textTmp = textTmp + itemData[j]
                     }
                 }
                 if(textTmp !== "" ){
-                    tmpNode.children.push({type: 'text' ,value : textTmp})
+                    tmpNode.push({type: 'text' ,value : textTmp})
                 }
                 
                 var remainingChildren = []  // 戻りの配列
-                if(!(tmpNode.children[0].startsWith("<span"))){
+                if(!(tmpNode[0].startsWith("<span"))){
                     //最初が文字の場合はそのまま設定
-                    remainingChildren.push({ type: 'text', value: tmpNode.children[0]})
-                    node.children[0].value = node.children[0].value.replace(tmpNode.children[0],"")
+                    remainingChildren.push({ type: 'text', value: tmpNode[0]})
+                    node.children[0].value = node.children[0].value.replace(tmpNode[0],"")
                 }
-                
-                Array.prototype.splice.apply(node.children,[1,0].concat(ptmpNode.children));
+
+                Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
                 // 先頭ノード削除
                 node.children.shift();
                 //nishi
