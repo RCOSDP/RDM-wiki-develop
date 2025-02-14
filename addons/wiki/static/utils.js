@@ -122,7 +122,7 @@ export function flatMap(ast, fn) {
                 // 文字色が存在する場合
                 //nishi
                 var tmpNode = []
-                var itemData = node.children[0].value.split('<');
+                var itemData = node.children[0].value.split('<')    // 文字列分割
                 var textTmp = ""
                 for(var j=0 ; j < itemData.length ; j++){
                     if(itemData[j].startsWith("span style")){
@@ -137,16 +137,19 @@ export function flatMap(ast, fn) {
                         textTmp = textTmp + itemData[j]
                     }
                 }
+                // 残りのノードを詰め込む
                 if(textTmp !== "" ){
                     tmpNode.push({type: 'text' ,value : textTmp})
                 }
                 
                 var nodeCnt = 0
-                var remainingChildren = []  // 戻りの配列
+                var textChildren = []  // 戻りの配列
                 if(!(tmpNode[0].value.startsWith("<span"))){
                     //最初が文字の場合はそのまま設定
-                    remainingChildren.push({ type: 'text', value: tmpNode[0].value})
+                    textChildren.push({ type: 'text', value: tmpNode[0].value})
                     node.children[0].value = node.children[0].value.replace(tmpNode[0].value,"")
+                    // 詰め込んだ先頭ノードを削除
+                    tmpNode.shift();
                     Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
                     // 先頭ノード削除
                     node.children.shift();
@@ -176,10 +179,12 @@ export function flatMap(ast, fn) {
                         spanTagsFlg = "1"
                     }
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
-                    const remainingChildrentmp = []
-                    //var remainingChildren = []
+                    var remainingChildren = []
                     var openCloseTag =""
-                    if (cnt === 0){
+                    if(remainingChildren !== ""){
+                        // すでに値が設定されていた場合
+                    } 
+                   if (cnt === nodeCnt){
                         // 同一ノード内にOpenとCloseがある場合
                         openCloseTag = openTags.replace(/<\/span>/, '')
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
@@ -198,6 +203,11 @@ export function flatMap(ast, fn) {
                         }
                     }
                     colorText.children = out
+                    if(textChildren !== ""){
+                        textChildren = textChildren.concat(colorText)
+                    }else{
+                        textChildren = colorText
+                    }
 
                     if(spanTagsFlg == "1"){
                         // 同一ノード内に複数存在した場合、変換しなかった分を後続に配列で結合する
@@ -207,7 +217,7 @@ export function flatMap(ast, fn) {
                         }
                         const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
                         const tailChildren = { type: 'text' ,value : tailValue}
-                        colorText.children = colorText.children.concat(tailChildren)
+                        textChildren.children = textChildren.children.concat(tailChildren)
                         //colorText = colorText.concat(tailChildren)
                     }
                     //Mod Start__
@@ -217,16 +227,16 @@ export function flatMap(ast, fn) {
                         //const tailChildren = []
                         //tailChildren.concat(node.children.slice(cnt,-1))
                         const tailChildren = node.children.slice(cnt+1)
-                        const xs2 = transform(tailChildren, 0, colorText)
+                        const xs2 = transform(tailChildren, 0, textChildren)
                         //Mod Start
                         //for(var i = 0 ; i < xs2[0].length ; i++){
                         //    // ノード数分、ループして詰める
                         //    colorText.children.push(xs2[0][i])
                         //}
-                        colorText.children = colorText.children.concat(xs2[0])
+                        textChildren.children = textChildren.children.concat(xs2[0])
                         //Mod End
                     }
-                    node.children = [colorText]
+                    node.children = [textChildren]
                     //Mod End
                 }else{
                     // 構文エラー
