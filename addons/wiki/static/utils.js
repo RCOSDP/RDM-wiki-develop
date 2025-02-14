@@ -142,10 +142,10 @@ export function flatMap(ast, fn) {
                 }
                 
                 var remainingChildren = []  // 戻りの配列
-                if(!(tmpNode[0].startsWith("<span"))){
+                if(!(tmpNode[0].value.startsWith("<span"))){
                     //最初が文字の場合はそのまま設定
                     remainingChildren.push({ type: 'text', value: tmpNode[0]})
-                    node.children[0].value = node.children[0].value.replace(tmpNode[0],"")
+                    node.children[0].value = node.children[0].value.replace(tmpNode[0].value,"")
                 }
 
                 Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
