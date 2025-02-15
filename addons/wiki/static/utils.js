@@ -181,15 +181,15 @@ export function flatMap(ast, fn) {
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     var remainingChildren = []
                     var openCloseTag ="" 
-                    //if (cnt === 0){
-                    //    // 同一ノード内にOpenとCloseがある場合
-                    //    openCloseTag = openTags.replace(/<\/span>/, '')
-                    //    if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
-                    //}else{
-                    if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                    remainingChildren = remainingChildren.concat(node.children.slice(nodeCnt + 1,cnt))
-                    if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
-                    //}
+                    if (cnt === 0){
+                        // 同一ノード内にOpenとCloseがある場合
+                        openCloseTag = openTags.replace(/<\/span>/, '')
+                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
+                    }else{
+                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
+                        remainingChildren = remainingChildren.concat(node.children.slice(nodeCnt + 1,cnt))
+                        if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
+                    }
                     
                     //ノードを詰め込む
                     const out = []
