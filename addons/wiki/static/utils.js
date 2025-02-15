@@ -122,9 +122,9 @@ export function flatMap(ast, fn) {
                         //textTmp = textTmp + "<" + itemData[j]
                         textTmp = textTmp + "<\/span>"
                         tmpNode.push({type: 'text' ,value : textTmp})
-                        if(itemData[j] !== "<\/span>"){
+                        if(itemData[j] !== "\/span>"){
                             // 終了タグだけではない場合、終了タグを取り除いた値を設定
-                            tmpNode.push({type: 'text' ,value : itemData[j].replace("<\/span>","")})
+                            tmpNode.push({type: 'text' ,value : itemData[j].replace("\/span>","")})
                         }
                         textTmp = ""
                     }else if(itemData[j] !== "" && textTmp === ""){
