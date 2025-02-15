@@ -187,7 +187,7 @@ export function flatMap(ast, fn) {
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
                     }else{
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                        remainingChildren = remainingChildren.concat(node.children.slice(nodeCnt + 1,cnt))
+                        remainingChildren = remainingChildren.concat(node.children.slice(1,cnt))
                         if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
                     }
                     
