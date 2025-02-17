@@ -69,7 +69,7 @@ export function flatMap(ast, fn) {
                 // 文字色が存在する場合
                 var textChildren = []  // 戻りの配列
                 // 文字列を分解する
-                splitSpanTags(node,0,textChildren,"u")
+                splitTags(node,0,textChildren,"u")
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
@@ -85,7 +85,7 @@ export function flatMap(ast, fn) {
                     //const colorText = { type: 'colortext' ,color : colorName}
                     //var openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
                     // 終了タグがある文字列を分割する
-                    splitSpanTags(node,cnt,null,"u")
+                    splitTags(node,cnt,null,"u")
                     // 再度終了タグの場所を探す
                     for(var i = 0 ; i < node.children.length ; i++) {
                         if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
@@ -136,7 +136,7 @@ export function flatMap(ast, fn) {
                 // 文字色が存在する場合
                 var textChildren = []  // 戻りの配列
                 // 文字列を分解する
-                splitSpanTags(node,0,textChildren,"span")
+                splitTags(node,0,textChildren,"span")
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
@@ -153,7 +153,7 @@ export function flatMap(ast, fn) {
                     const colorText = { type: 'colortext' ,color : colorName}
                     var openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
                     // 終了タグがある文字列を分割する
-                    splitSpanTags(node,cnt,null,"span")
+                    splitTags(node,cnt,null,"span")
                     // 再度終了タグの場所を探す
                     for(var i = 0 ; i < node.children.length ; i++) {
                         if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
