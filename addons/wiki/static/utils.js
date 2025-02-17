@@ -174,20 +174,14 @@ export function flatMap(ast, fn) {
                     var openTags = node.children[0].value.replace(tmp, '')
                     // 前ならremainingChildrenに詰める。後ろなら、colorText　につめる
                     //nishi
-                    var spanData = node.children[cnt].value.split('span>')    // 文字列分割
-                    var spanNum = spanData.indexOf(spanData,"<\/span>")
                     var closeTags = ""
                     var colorNextTags = ""
-                    for(var i = 0 ; i < spanData.length ; i++ ){
-                        if(i < spanNum){
-                            // タグの前なので、クローズタグに設定する
-                            closeTags = spanData[i]
-                        }else if(i = spanNum){
-                            // 何もしない
-                        }else{
-                            // タグの後ろなので、clorTextにつける
-                            colorNextTags = spanData.push({ type: 'text', value: spanData[i]})
-                        }
+                    var spanData = node.children[cnt].value.split('<\/span>')    // 文字列分割
+                    if(spanData.length === 2){
+                        closeTags = spanData[0]
+                        colorNextTags = spanData[1]
+                    }else{
+                        closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     }
                     //nishi
                     //const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
