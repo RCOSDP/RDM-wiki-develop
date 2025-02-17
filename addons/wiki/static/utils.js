@@ -164,7 +164,7 @@ export function flatMap(ast, fn) {
                     // nishi
                     if(colorNextTags !== ""){
                         // 別のタグが存在した場合
-                        colorText.push(colorNextTags)
+                        colorText.push({ type: 'text', value: colorNextTags})
                     }
                     //nishi
                     if(textChildren !== ""){
