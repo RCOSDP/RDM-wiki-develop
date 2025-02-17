@@ -69,48 +69,7 @@ export function flatMap(ast, fn) {
                 // 文字色が存在する場合
                 var textChildren = []  // 戻りの配列
                 // 文字列を分解する
-                splitSpanTags(node,0,textChildren,0)
-                /*var tmpNode = []
-                var itemData = node.children[0].value.split('<')    // 文字列分割
-                var textTmp = ""
-                for(var j=0 ; j < itemData.length ; j++){
-                    if(itemData[j].startsWith("span style")){
-                        textTmp = "<" + itemData[j]
-                    }else if(itemData[j].startsWith("\/span>")){
-                        textTmp = textTmp + "<\/span>"
-                        tmpNode.push({type: 'text' ,value : textTmp})
-                        if(itemData[j] !== "\/span>"){
-                            // 終了タグだけではない場合、終了タグを取り除いた値を設定
-                            tmpNode.push({type: 'text' ,value : itemData[j].replace("\/span>","")})
-                        }
-                        textTmp = ""
-                    }else if(itemData[j] !== "" && textTmp === ""){
-                        tmpNode.push({type: 'text' ,value : itemData[j]})
-                    }else if(itemData[j] !== "" && textTmp !== ""){
-                        textTmp = textTmp + itemData[j]
-                    }
-                }
-                // 残りのノードを詰め込む
-                if(textTmp !== "" ){
-                    tmpNode.push({type: 'text' ,value : textTmp})
-                }
-                
-                var textChildren = []  // 戻りの配列
-                if(!(tmpNode[0].value.startsWith("<span"))){
-                    //最初が文字の場合はそのまま設定
-                    textChildren.push({ type: 'text', value: tmpNode[0].value})
-                    node.children[0].value = node.children[0].value.replace(tmpNode[0].value,"")
-                    // 詰め込んだ先頭ノードを削除
-                    tmpNode.shift();
-                    Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
-                    // 先頭ノード削除
-                    node.children.shift();
-                    //nishi
-                }else{
-                    // ノードを付け替える
-                    node.children = tmpNode.concat(node.children.slice(1))
-                }
-                */
+                splitSpanTags(node,0,textChildren,span)
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
@@ -126,9 +85,8 @@ export function flatMap(ast, fn) {
                     }
                     const colorText = { type: 'colortext' ,color : colorName}
                     var openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
-                    // 前ならremainingChildrenに詰める。後ろなら、colorText　につめる
                     // 終了タグがある文字列を分割する
-                    splitSpanTags(node,cnt,null,1)
+                    splitSpanTags(node,cnt,null,"span")
                     // 再度終了タグの場所を探す
                     for(var i = 0 ; i < node.children.length ; i++) {
                         if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
@@ -137,17 +95,6 @@ export function flatMap(ast, fn) {
                             break
                         }    
                     }
-                    //nishi
-                    /*var closeTags = ""
-                    var colorNextTags = ""
-                    var spanData = node.children[cnt].value.split('<\/span>')    // 文字列分割
-                    if(spanData.length > 1){
-                        closeTags = spanData[0]
-                        colorNextTags = spanData[1]
-                    }else{
-                        closeTags = node.children[cnt].value.replace(/<\/span>/, '')
-                    }*/
-                    //nishi
                     const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     var remainingChildren = []
                     var openCloseTag ="" 
@@ -170,12 +117,8 @@ export function flatMap(ast, fn) {
                         }
                     }
                     colorText.children = out
-                    // nishi
-                    /*if(colorNextTags !== ""){
-                        // 別のタグが存在した場合
-                        colorText.push({ type: 'text', value: colorNextTags})
-                    }*/
-                    //nishi
+
+                    // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
                     if(textChildren !== ""){
                         textChildren = textChildren.concat(colorText)
                     }else{
@@ -301,19 +244,19 @@ function createImageNode(altNode, linkNode, sizeNode) {
     return imageNode;
 }
 
-function splitSpanTags(node, spritCnt, textChildren,endFlg){
+function splitTags(node, spritCnt, textChildren, tagText){
     var tmpNode = []
     var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
     var tmpText = ""
     for(var j=0 ; j < itemData.length ; j++){
-        if(itemData[j].startsWith("span style")){
+        if(itemData[j].startsWith(tagText)){
             tmpText = "<" + itemData[j]
-        }else if(itemData[j].startsWith("\/span>")){
-            tmpText = tmpText + "<\/span>"
+        }else if(itemData[j].startsWith("\/" + tagText + ">")){
+            tmpText = tmpText + "<\/" + tagText +">"
             tmpNode.push({type: 'text' ,value : tmpText})
-            if(itemData[j] !== "\/span>"){
+            if(itemData[j] !== "\/" + tagText + ">"){
                 // 終了タグだけではない場合、終了タグを取り除いた値を設定
-                tmpNode.push({type: 'text' ,value : itemData[j].replace("\/span>","")})
+                tmpNode.push({type: 'text' ,value : itemData[j].replace("\/" + tagText + ">","")})
             }
             tmpText = ""
         }else if(itemData[j] !== "" && tmpText === ""){
@@ -327,12 +270,9 @@ function splitSpanTags(node, spritCnt, textChildren,endFlg){
         tmpNode.push({type: 'text' ,value : tmpText})
     }
 
-    //var textChildren = []  // 戻りの配列
     if(!(tmpNode[0].value.startsWith("<"))){
         //最初が文字の場合はそのまま設定
-        if(endFlg !== 1){
-            textChildren.push({ type: 'text', value: tmpNode[0].value})
-        }
+        textChildren.push({ type: 'text', value: tmpNode[0].value})
         node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
         // 詰め込んだ先頭ノードを削除
         tmpNode.shift();
@@ -340,11 +280,11 @@ function splitSpanTags(node, spritCnt, textChildren,endFlg){
         // 分解した配列を削除する
         node.children.splice(spritCnt,1);
         //node.children.shift();
-    }else if(tmpNode[0].value.startsWith("<span")){
-        // ノードを付け替える
+    }else if(tmpNode[0].value.startsWith("<" + tagText)){
+        // 開始タグの場合、ノードを付け替える
         node.children = tmpNode.concat(node.children.slice(1))
-    }else if(tmpNode[0].value.startsWith("<\/span")){
-        // 配列の途中に設定
+    }else if(tmpNode[0].value.startsWith("<\/" + tagText)){
+        // 終了タグの場合、配列の途中に設定
         Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
         // 分解した配列を削除する
         node.children.splice(spritCnt,1);
