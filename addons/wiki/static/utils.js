@@ -326,9 +326,9 @@ function splitSpanTags(node, spritCnt, textChildren,endFlg){
     if(tmpText !== "" ){
         tmpNode.push({type: 'text' ,value : tmpText})
     }
-    
+
     //var textChildren = []  // 戻りの配列
-    if(!(tmpNode[0].value.startsWith("<span"))){
+    if(!(tmpNode[0].value.startsWith("<"))){
         //最初が文字の場合はそのまま設定
         if(endFlg !== 1){
             textChildren.push({ type: 'text', value: tmpNode[0].value})
@@ -340,9 +340,14 @@ function splitSpanTags(node, spritCnt, textChildren,endFlg){
         // 分解した配列を削除する
         node.children.splice(spritCnt,1);
         //node.children.shift();
-    }else{
+    }else if(tmpNode[0].value.startsWith("<span")){
         // ノードを付け替える
         node.children = tmpNode.concat(node.children.slice(1))
+    }else if(tmpNode[0].value.startsWith("<\/span")){
+        // 配列の途中に設定
+        Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
+        // 分解した配列を削除する
+        node.children.splice(spritCnt,1);
     }
 }
 function subTransForm(node, index, parent, tagText){
