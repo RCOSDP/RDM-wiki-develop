@@ -172,13 +172,25 @@ export function flatMap(ast, fn) {
                     var tmp = "<span style=\"color: " + colorName + "\">"
                     const colorText = { type: 'colortext' ,color : colorName}
                     var openTags = node.children[0].value.replace(tmp, '')
-                    //var spanTagsFlg = "0"
-                    //if(/<span style=\"color:.*/.test(openTags)){
-                    //    // もう一つタグが存在した場合
-                    //    openTags = node.children[0].value.replace(tmp, '').replace(/<span style=\"color:.*>/, '')
-                    //    spanTagsFlg = "1"
-                    //}
-                    const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
+                    // 前ならremainingChildrenに詰める。後ろなら、colorText　につめる
+                    //nishi
+                    var spanData = node.children[cnt].value.split('span>')    // 文字列分割
+                    var spanNum = spanData.indexOf(spanData,"<\/span>")
+                    var closeTags = ""
+                    var colorNextTags = ""
+                    for(var i = 0 ; i < spanData.length ; i++ ){
+                        if(i < spanNum){
+                            // タグの前なので、クローズタグに設定する
+                            closeTags = spanData[i]
+                        }else if(i = spanNum){
+                            // 何もしない
+                        }else{
+                            // タグの後ろなので、clorTextにつける
+                            colorNextTags = spanData.push({ type: 'text', value: spanData[i]})
+                        }
+                    }
+                    //nishi
+                    //const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
                     var remainingChildren = []
                     var openCloseTag ="" 
                     if (cnt === 0){
@@ -200,22 +212,18 @@ export function flatMap(ast, fn) {
                         }
                     }
                     colorText.children = out
+                    // nishi
+                    if(colorNextTags !== ""){
+                        // 別のタグが存在した場合
+                        colorText.push(colorNextTags)
+                    }
+                    //nishi
                     if(textChildren !== ""){
                         textChildren = textChildren.concat(colorText)
                     }else{
                         textChildren = colorText
                     }
 
-                    /*if(spanTagsFlg == "1"){
-                        // 同一ノード内に複数存在した場合、変換しなかった分を後続に配列で結合する
-                        if(openCloseTag == ""){
-                            // 同一ノード内にOpenとCloseがなく、複数開始タグがあった場合（本来存在しない）
-                            openCloseTag = openTags
-                        }
-                        const tailValue = node.children[0].value.replace(tmp + openCloseTag +"<\/span>", '')
-                        const tailChildren = { type: 'text' ,value : tailValue}
-                        textChildren.children = textChildren.children.concat(tailChildren)
-                    }*/
                     // 以降のデータも詰め込む
                     if(cnt < node.children.length-1){
                         const tailChildren = node.children.slice(cnt+1)
