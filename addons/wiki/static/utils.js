@@ -21,51 +21,7 @@ export function flatMap(ast, fn) {
                     subTransForm(node, index, parent,"<span style=\"color\:.*>")
                 }
             }*/
-            //nishi
-            /*var test = []
-            test.type = node.type
-            test.value = node.value
-            test.children = []
-            for(var i = 0 ; i < node.children.length ; i++){
-                if(node.children[i] && node.children[i].type === 'text' && /<span style=\"color/.test(node.children[i].value) && /<\/span>/.test(node.children[i].value)){
-                    var itemData = node.children[i].value.split('<');
-                    var textTmp = ""
-                    for(var j=0 ; j < itemData.length ; j++){
-                        if(itemData[j].startsWith("span style")){
-                            textTmp = "<" + itemData[j]
-                            test.children.push({type: 'text' ,value : textTmp})
-                            textTmp = ""
-                        }else if(itemData[j].startsWith("\/span>")){
-                            textTmp = "<" + itemData[j]
-                            test.children.push({type: 'text' ,value : textTmp})
-                            textTmp = ""
-                        }else if(itemData[j] !== ""){
-                            test.children.push({type: 'text' ,value : itemData[j]})
-                        }
-                    }
-                }else if(node.children[i] && node.children[i].type === 'text' && /<u>/.test(node.children[i].value) && /<\/u>/.test(node.children[i].value)){
-                    var itemData = node.children[i].value.split('<');
-                    var textTmp = ""
-                    for(var j=0 ; j < itemData.length ; j++){
-                        if(itemData[j].startsWith("u>")){
-                            textTmp = "<" + itemData[j]
-                            test.children.push({type: 'text' ,value : textTmp})
-                            textTmp = ""
-                        }else if(itemData[j].startsWith("/u>")){
-                            textTmp = "<" + itemData[j]
-                            test.children.push({type: 'text' ,value : textTmp})
-                            textTmp = ""
-                        }else if(itemData[j] !== ""){
-                            test.children.push({type: 'text' ,value : itemData[j]})
-                        }
-                    }
-                }else{
-                    test.children.push(node.children[i])
-                }
-            }
-            node = test*/
-            //nishi
-            //if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
+ 
             if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
                 // 下線が存在する場合
                 var cnt = 0
@@ -119,7 +75,6 @@ export function flatMap(ast, fn) {
                     if(itemData[j].startsWith("span style")){
                         textTmp = "<" + itemData[j]
                     }else if(itemData[j].startsWith("\/span>")){
-                        //textTmp = textTmp + "<" + itemData[j]
                         textTmp = textTmp + "<\/span>"
                         tmpNode.push({type: 'text' ,value : textTmp})
                         if(itemData[j] !== "\/span>"){
@@ -177,7 +132,7 @@ export function flatMap(ast, fn) {
                     var closeTags = ""
                     var colorNextTags = ""
                     var spanData = node.children[cnt].value.split('<\/span>')    // 文字列分割
-                    if(spanData.length === 2){
+                    if(spanData.length > 1){
                         closeTags = spanData[0]
                         colorNextTags = spanData[1]
                     }else{
