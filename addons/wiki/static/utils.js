@@ -69,7 +69,7 @@ export function flatMap(ast, fn) {
                 // 文字色が存在する場合
                 var textChildren = []  // 戻りの配列
                 // 文字列を分解する
-                splitSpanTags(node,0,textChildren)
+                splitSpanTags(node,0,textChildren,0)
                 /*var tmpNode = []
                 var itemData = node.children[0].value.split('<')    // 文字列分割
                 var textTmp = ""
@@ -128,7 +128,7 @@ export function flatMap(ast, fn) {
                     var openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
                     // 前ならremainingChildrenに詰める。後ろなら、colorText　につめる
                     // 終了タグがある文字列を分割する
-                    splitSpanTags(node,cnt)
+                    splitSpanTags(node,cnt,null,1)
                     // 再度終了タグの場所を探す
                     for(var i = 0 ; i < node.children.length ; i++) {
                         if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
@@ -301,7 +301,7 @@ function createImageNode(altNode, linkNode, sizeNode) {
     return imageNode;
 }
 
-function splitSpanTags(node, spritCnt, textChildren){
+function splitSpanTags(node, spritCnt, textChildren,endFlg){
     var tmpNode = []
     var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
     var tmpText = ""
@@ -330,7 +330,9 @@ function splitSpanTags(node, spritCnt, textChildren){
     //var textChildren = []  // 戻りの配列
     if(!(tmpNode[0].value.startsWith("<span"))){
         //最初が文字の場合はそのまま設定
-        textChildren.push({ type: 'text', value: tmpNode[0].value})
+        if(endFlg !== 1){
+            textChildren.push({ type: 'text', value: tmpNode[0].value})
+        }
         node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
         // 詰め込んだ先頭ノードを削除
         tmpNode.shift();
