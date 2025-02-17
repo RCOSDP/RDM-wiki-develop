@@ -72,35 +72,34 @@ export function flatMap(ast, fn) {
                 splitSpanTags(node,0,textChildren,"u")
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
-                    if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
+                    if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
                         // 終わりのタグ位置を調べる
                         cnt = i
                         break
                     }    
                 }
                 if(cnt !== node.children.length) {
-                    var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
-                    if(/.*<\/span>/.test(colorName)){
-                        colorName = colorName.replace(/\".*<\/span>/, '')
-                    }
-                    const colorText = { type: 'colortext' ,color : colorName}
-                    var openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
+                    const underline = { type: 'underline' }
+                    const openTags = node.children[0].value.replace(/<u>/, '')
+                    //const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
+                    //const colorText = { type: 'colortext' ,color : colorName}
+                    //var openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
                     // 終了タグがある文字列を分割する
-                    splitSpanTags(node,cnt,null,"span")
+                    splitSpanTags(node,cnt,null,"u")
                     // 再度終了タグの場所を探す
                     for(var i = 0 ; i < node.children.length ; i++) {
-                        if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
+                        if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
                             // 終わりのタグ位置を調べる
                             cnt = i
                             break
                         }    
                     }
-                    const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
+                    const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
                     var remainingChildren = []
                     var openCloseTag ="" 
                     if (cnt === 0){
                         // 同一ノード内にOpenとCloseがある場合
-                        openCloseTag = openTags.replace(/<\/span>/, '')
+                        openCloseTag = openTags.replace(/<\/u>/, '')
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
                     }else{
                         if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
@@ -116,13 +115,13 @@ export function flatMap(ast, fn) {
                             addTransformedChildren(nthChild, i, node, out);
                         }
                     }
-                    colorText.children = out
+                    underline.children = out
 
                     // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
                     if(textChildren !== ""){
-                        textChildren = textChildren.concat(colorText)
+                        textChildren = textChildren.concat(underline)
                     }else{
-                        textChildren = colorText
+                        textChildren = underline
                     }
 
                     // 以降のデータも詰め込む
