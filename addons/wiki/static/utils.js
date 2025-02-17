@@ -68,7 +68,8 @@ export function flatMap(ast, fn) {
             }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
                 // 文字色が存在する場合
                 // 文字列を分解する
-                var tmpNode = []
+                splitTags(node,0)
+                /*var tmpNode = []
                 var itemData = node.children[0].value.split('<')    // 文字列分割
                 var textTmp = ""
                 for(var j=0 ; j < itemData.length ; j++){
@@ -93,7 +94,6 @@ export function flatMap(ast, fn) {
                     tmpNode.push({type: 'text' ,value : textTmp})
                 }
                 
-                var nodeCnt = 0
                 var textChildren = []  // 戻りの配列
                 if(!(tmpNode[0].value.startsWith("<span"))){
                     //最初が文字の場合はそのまま設定
@@ -104,13 +104,12 @@ export function flatMap(ast, fn) {
                     Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
                     // 先頭ノード削除
                     node.children.shift();
-                    nodeCnt = nodeCnt + 1
                     //nishi
                 }else{
                     // ノードを付け替える
                     node.children = tmpNode.concat(node.children.slice(1))
                 }
-
+                */
                 var cnt = 0
                 for(var i = 0 ; i < node.children.length ; i++) {
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
@@ -292,6 +291,50 @@ function createImageNode(altNode, linkNode, sizeNode) {
     return imageNode;
 }
 
+function splitTags(node, spritCnt){
+    var tmpNode = []
+    var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
+    var textTmp = ""
+    for(var j=0 ; j < itemData.length ; j++){
+        if(itemData[j].startsWith("span style")){
+            textTmp = "<" + itemData[j]
+        }else if(itemData[j].startsWith("\/span>")){
+            textTmp = textTmp + "<\/span>"
+            tmpNode.push({type: 'text' ,value : textTmp})
+            if(itemData[j] !== "\/span>"){
+                // 終了タグだけではない場合、終了タグを取り除いた値を設定
+                tmpNode.push({type: 'text' ,value : itemData[j].replace("\/span>","")})
+            }
+            textTmp = ""
+        }else if(itemData[j] !== "" && textTmp === ""){
+            tmpNode.push({type: 'text' ,value : itemData[j]})
+        }else if(itemData[j] !== "" && textTmp !== ""){
+            textTmp = textTmp + itemData[j]
+        }
+    }
+    // 残りのノードを詰め込む
+    if(textTmp !== "" ){
+        tmpNode.push({type: 'text' ,value : textTmp})
+    }
+    
+    var textChildren = []  // 戻りの配列
+    if(!(tmpNode[0].value.startsWith("<span"))){
+        //最初が文字の場合はそのまま設定
+        textChildren.push({ type: 'text', value: tmpNode[0].value})
+        node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
+        // 詰め込んだ先頭ノードを削除
+        tmpNode.shift();
+        Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
+        // 先頭ノード削除
+        // 配列の4番目から１つ要素を削除する
+        node.children.splice(spritCnt,1);
+        //node.children.shift();
+        //nishi
+    }else{
+        // ノードを付け替える
+        node.children = tmpNode.concat(node.children.slice(1))
+    }
+}
 function subTransForm(node, index, parent, tagText){
     var characterType = ""
     var startTagText = ""
