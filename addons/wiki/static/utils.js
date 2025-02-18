@@ -402,8 +402,9 @@ export function flatMap(ast, fn) {
                 tailNode.children = node.children.slice(endCnt+1)
                 //nishi const xs2 = transform(tailChildren, 0, textChildren)
                 const xs2 = transform(tailNode, 0, textChildren)
+                //textChildren = textChildren.concat(xs2[0])
+                textChildren = textChildren.concat(xs2[0].children)
                 //Mod End
-                textChildren = textChildren.concat(xs2[0])
             }
             node.children = textChildren
         }
