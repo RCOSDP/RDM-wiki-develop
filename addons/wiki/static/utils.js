@@ -397,8 +397,12 @@ export function flatMap(ast, fn) {
 
             // 以降のデータも詰め込む
             if(endCnt < node.children.length-1){
-                const tailChildren = node.children.slice(endCnt+1)
-                const xs2 = transform(tailChildren, 0, textChildren)
+                //nishi const tailChildren = node.children.slice(endCnt+1)
+                var tailNode =[]
+                tailNode.children = node.children.slice(endCnt+1)
+                //nishi const xs2 = transform(tailChildren, 0, textChildren)
+                const xs2 = transform(tailNode, 0, textChildren)
+                //Mod End
                 textChildren = textChildren.concat(xs2[0])
             }
             node.children = textChildren
