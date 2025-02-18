@@ -16,9 +16,9 @@ export function flatMap(ast, fn) {
             const out = [];
             if (node.children[0] && node.children[0].type === 'text' ) {
                 if(/<u>/.test(node.children[0].value)) {
-                    subTransForm(node, index, parent,"<u>")
+                    subTransForm(node,"u")
                 }else if (/<span style=\"color\:/.test(node.children[0].value)) {
-                    subTransForm(node, index, parent,"<span style=\"color\:.*>")
+                    subTransForm(node, "span")
                 }
             }
  
