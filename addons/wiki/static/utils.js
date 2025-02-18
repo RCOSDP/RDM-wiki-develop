@@ -331,7 +331,7 @@ function subTransForm(node, tagText){
     // 文字列を分解する
     splitTags(node,0,textChildren)
     var endCnt = 0
-    var endTag = /<\// + tagText + />/
+    var endTag = "/<\/" + tagText + ">/"
     for(var i = 0 ; i < node.children.length ; i++) {
         if(node.children[i].type === 'text' && endTag.test(node.children[i].value)) {
             // 終わりのタグ位置を調べる
