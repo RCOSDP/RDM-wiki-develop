@@ -393,7 +393,7 @@ function subTransForm(node, tagText){
             if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
         }else{
             if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-            remainingChildren = remainingChildren.concat(node.children.slice(1,cnt))
+            remainingChildren = remainingChildren.concat(node.children.slice(1,endCnt))
             if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
         }
 
@@ -415,8 +415,8 @@ function subTransForm(node, tagText){
         }
 
         // 以降のデータも詰め込む
-        if(cnt < node.children.length-1){
-            const tailChildren = node.children.slice(cnt+1)
+        if(endCnt < node.children.length-1){
+            const tailChildren = node.children.slice(endCnt+1)
             const xs2 = transform(tailChildren, 0, textChildren)
             textChildren = textChildren.concat(xs2[0])
         }
