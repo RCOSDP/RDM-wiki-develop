@@ -331,13 +331,22 @@ function subTransForm(node, tagText){
     // 文字列を分解する
     splitTags(node,0,textChildren)
     var endCnt = 0
-    var endTag = "/<\/" + tagText + ">/"
+    var endTag = "<\/" + tagText + ">"
     for(var i = 0 ; i < node.children.length ; i++) {
-        if(node.children[i].type === 'text' && endTag.test(node.children[i].value)) {
-            // 終わりのタグ位置を調べる
-            endCnt = i
-            break
-        }    
+        if(tagText === "span"){
+            if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
+                // 終わりのタグ位置を調べる
+                endCnt = i
+                break
+            } 
+        }else if(tagText === "u"){
+            if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
+                // 終わりのタグ位置を調べる
+                endCnt = i
+                break
+            } 
+        }
+   
     }
     if(endCnt !== node.children.length) {
         var retrunNode =[]  // 戻り値
@@ -360,11 +369,19 @@ function subTransForm(node, tagText){
         splitTags(node,endCnt,null)
         // 再度終了タグの場所を探す
         for(var i = 0 ; i < node.children.length ; i++) {
-            if(node.children[i].type === 'text' && endTag.test(node.children[i].value)) {
-                // 終わりのタグ位置を調べる
-                endCnt = i
-                break
-            }    
+            if(tagText === "span"){
+                if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
+                    // 終わりのタグ位置を調べる
+                    endCnt = i
+                    break
+                } 
+            }else if(tagText === "u"){
+                if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
+                    // 終わりのタグ位置を調べる
+                    endCnt = i
+                    break
+                } 
+            } 
         }
         // クローズタグを消した値を設定する
         closeTags = node.children[endCnt].value.replace(endTag, '')
