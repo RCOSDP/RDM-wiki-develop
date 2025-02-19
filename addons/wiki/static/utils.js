@@ -14,6 +14,7 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
+            //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
                 if(/<u>/.test(node.children[0].value)) {
                     subTransForm(node,"u")
@@ -21,161 +22,21 @@ export function flatMap(ast, fn) {
                     subTransForm(node, "span")
                 }
             }
- 
-/*            if (node.children[0] && node.children[0].type === 'text' && /<u>/.test(node.children[0].value)) {
-                // 下線が存在する場合
-                // 文字色が存在する場合
-                var textChildren = []  // 戻りの配列
-                // 文字列を分解する
-                splitTags(node,0,textChildren)
-                var cnt = 0
-                for(var i = 0 ; i < node.children.length ; i++) {
-                    if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
-                        // 終わりのタグ位置を調べる
-                        cnt = i
-                        break
-                    }    
-                }
-                if(cnt !== node.children.length) {
-                    const underline = { type: 'underline' }
-                    const openTags = node.children[0].value.replace(/<u>/, '')
-                     // 終了タグがある文字列を分割する
-                    splitTags(node,cnt,null)
-                    // 再度終了タグの場所を探す
-                    for(var i = 0 ; i < node.children.length ; i++) {
-                        if(node.children[i].type === 'text' && /<\/u>/.test(node.children[i].value)) {
-                            // 終わりのタグ位置を調べる
-                            cnt = i
-                            break
-                        }    
-                    }
-                    const closeTags = node.children[cnt].value.replace(/<\/u>/, '')
-                    var remainingChildren = []
-                    var openCloseTag ="" 
-                    if (cnt === 0){
-                        // 同一ノード内にOpenとCloseがある場合
-                        openCloseTag = openTags.replace(/<\/u>/, '')
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
-                    }else{
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                        remainingChildren = remainingChildren.concat(node.children.slice(1,cnt))
-                        if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
-                    }
-                    
-                    //ノードを詰め込む
-                    const out = []
-                    for (var i = 0, n = remainingChildren.length; i < n; i++) {
-                        const nthChild = remainingChildren[i];
-                        if (nthChild) {
-                            addTransformedChildren(nthChild, i, node, out);
-                        }
-                    }
-                    underline.children = out
-
-                    // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
-                    if(textChildren !== ""){
-                        textChildren = textChildren.concat(underline)
-                    }else{
-                        textChildren = underline
-                    }
-
-                    // 以降のデータも詰め込む
-                    if(cnt < node.children.length-1){
-                        const tailChildren = node.children.slice(cnt+1)
-                        const xs2 = transform(tailChildren, 0, textChildren)
-                        textChildren = textChildren.concat(xs2[0])
-                    }
-                    node.children = textChildren
-                }
-            }else if(node.children[0] && node.children[0].type === 'text' && /<span style=\"color/.test(node.children[0].value)) {
-                // 文字色が存在する場合
-                var textChildren = []  // 戻りの配列
-                // 文字列を分解する
-                splitTags(node,0,textChildren)
-                var cnt = 0
-                for(var i = 0 ; i < node.children.length ; i++) {
-                    if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
-                        // 終わりのタグ位置を調べる
-                        cnt = i
-                        break
-                    }    
-                }
-                if(cnt !== node.children.length) {
-                    var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/
-//, '')
-/*                    if(/.*<\/span>/.test(colorName)){
-                        colorName = colorName.replace(/\".*<\/span>/, '')
-                    }
-                    const colorText = { type: 'colortext' ,color : colorName}
-                    var openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
-                    // 終了タグがある文字列を分割する
-                    splitTags(node,cnt,null)
-                    // 再度終了タグの場所を探す
-                    for(var i = 0 ; i < node.children.length ; i++) {
-                        if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
-                            // 終わりのタグ位置を調べる
-                            cnt = i
-                            break
-                        }    
-                    }
-                    const closeTags = node.children[cnt].value.replace(/<\/span>/, '')
-                    var remainingChildren = []
-                    var openCloseTag ="" 
-                    if (cnt === 0){
-                        // 同一ノード内にOpenとCloseがある場合
-                        openCloseTag = openTags.replace(/<\/span>/, '')
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
-                    }else{
-                        if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                        remainingChildren = remainingChildren.concat(node.children.slice(1,cnt))
-                        if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
-                    }
-                    
-                    //ノードを詰め込む
-                    const out = []
-                    for (var i = 0, n = remainingChildren.length; i < n; i++) {
-                        const nthChild = remainingChildren[i];
-                        if (nthChild) {
-                            addTransformedChildren(nthChild, i, node, out);
-                        }
-                    }
-                    colorText.children = out
-
-                    // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
-                    if(textChildren !== ""){
-                        textChildren = textChildren.concat(colorText)
-                    }else{
-                        textChildren = colorText
-                    }
-
-                    // 以降のデータも詰め込む
-                    if(cnt < node.children.length-1){
-                        const tailChildren = node.children.slice(cnt+1)
-                        const xs2 = transform(tailChildren, 0, textChildren)
-                        textChildren = textChildren.concat(xs2[0])
-                    }
-                    node.children = textChildren
-                }else{
-                    // 構文エラー
-                }
-
-              } else {
-*/
-                for (var i = 0, n = node.children.length; i < n; i++) {
-                    const nthChild = node.children[i];
-                    if (nthChild) {
-                        if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
-                            const remainingChildren = getRemainingNode(i, node.children);
-                            const transformedChildren = transformImageSection(remainingChildren);
-                            out.push(...transformedChildren)
-                            break;
-                        } else {
-                            addTransformedChildren(nthChild, i, node, out);
-                        }
+            //#47039 Add End 下線文字色対応
+            for (var i = 0, n = node.children.length; i < n; i++) {
+                const nthChild = node.children[i];
+                if (nthChild) {
+                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
+                        const remainingChildren = getRemainingNode(i, node.children);
+                        const transformedChildren = transformImageSection(remainingChildren);
+                        out.push(...transformedChildren)
+                        break;
+                    } else {
+                           addTransformedChildren(nthChild, i, node, out);
                     }
                 }
-                node.children = out;
- //           }
+            }
+            node.children = out;
         }
         return fn(node, index, parent);
     }
@@ -249,63 +110,6 @@ export function flatMap(ast, fn) {
     }
 
     //#47039 Add Start 下線文字色対応
-    function splitTags(node, spritCnt, textChildren){
-        var tmpNode = []
-        var tmpText = ""
-        var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
-        for(var j=0 ; j < itemData.length ; j++){
-            if(itemData[j].startsWith("span style")){
-                tmpText = "<" + itemData[j]
-            }else if(itemData[j].startsWith("u>")){
-                tmpText = "<" + itemData[j]
-            }else if(itemData[j].startsWith("\/span>")){
-                tmpText = tmpText + "<\/span>"
-                tmpNode.push({type: 'text' ,value : tmpText})
-                if(itemData[j] !== "\/span>"){
-                    // 終了タグだけではない場合、終了タグを取り除いた値を設定
-                    tmpNode.push({type: 'text' ,value : itemData[j].replace("\/span>","")})
-                }
-                tmpText = ""
-            }else if(itemData[j].startsWith("\/u>")){
-                tmpText = tmpText + "<\/u>"
-                tmpNode.push({type: 'text' ,value : tmpText})
-                if(itemData[j] !== "\/u>"){
-                    // 終了タグだけではない場合、終了タグを取り除いた値を設定
-                    tmpNode.push({type: 'text' ,value : itemData[j].replace("\/u>","")})
-                }
-                tmpText = ""
-            }else if(itemData[j] !== "" && tmpText === ""){
-                tmpNode.push({type: 'text' ,value : itemData[j]})
-            }else if(itemData[j] !== "" && tmpText !== ""){
-                tmpText = tmpText + itemData[j]
-            }
-        }
-        // 残りのノードを詰め込む
-        if(tmpText !== "" ){
-            tmpNode.push({type: 'text' ,value : tmpText})
-        }
-
-        if(!(tmpNode[0].value.startsWith("<"))){
-            //最初が文字の場合はそのまま設定
-            textChildren.push({ type: 'text', value: tmpNode[0].value})
-            node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
-            // 詰め込んだ先頭ノードを削除
-            tmpNode.shift();
-            Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
-            // 分解した配列を削除する
-            node.children.splice(spritCnt,1);
-            //node.children.shift();
-        }else if(tmpNode[0].value.startsWith("<span") || tmpNode[0].value.startsWith("<u")){
-            // 開始タグの場合、ノードを付け替える
-            node.children = tmpNode.concat(node.children.slice(1))
-        }else if(tmpNode[0].value.startsWith("<\/span") || tmpNode[0].value.startsWith("<\/u")){
-            // 終了タグの場合、配列の途中に設定
-            Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
-            // 分解した配列を削除する
-            node.children.splice(spritCnt,1);
-        }
-    }
-
     // 文字色と下線の処理
     function subTransForm(node, tagText){
         var textChildren = []  // 戻りの配列
@@ -397,16 +201,70 @@ export function flatMap(ast, fn) {
 
             // 以降のデータも詰め込む
             if(endCnt < node.children.length-1){
-                //nishi const tailChildren = node.children.slice(endCnt+1)
                 var tailNode =[]
                 tailNode.children = node.children.slice(endCnt+1)
-                //nishi const xs2 = transform(tailChildren, 0, textChildren)
                 const xs2 = transform(tailNode, 0, textChildren)
-                //textChildren = textChildren.concat(xs2[0])
                 textChildren = textChildren.concat(xs2[0].children)
-                //Mod End
             }
             node.children = textChildren
+        }
+    }
+
+    // 文字分割処理
+    function splitTags(node, spritCnt, textChildren){
+        var tmpNode = []
+        var tmpText = ""
+        var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
+        for(var j=0 ; j < itemData.length ; j++){
+            if(itemData[j].startsWith("span style")){
+                tmpText = "<" + itemData[j]
+            }else if(itemData[j].startsWith("u>")){
+                tmpText = "<" + itemData[j]
+            }else if(itemData[j].startsWith("\/span>")){
+                tmpText = tmpText + "<\/span>"
+                tmpNode.push({type: 'text' ,value : tmpText})
+                if(itemData[j] !== "\/span>"){
+                    // 終了タグだけではない場合、終了タグを取り除いた値を設定
+                    tmpNode.push({type: 'text' ,value : itemData[j].replace("\/span>","")})
+                }
+                tmpText = ""
+            }else if(itemData[j].startsWith("\/u>")){
+                tmpText = tmpText + "<\/u>"
+                tmpNode.push({type: 'text' ,value : tmpText})
+                if(itemData[j] !== "\/u>"){
+                    // 終了タグだけではない場合、終了タグを取り除いた値を設定
+                    tmpNode.push({type: 'text' ,value : itemData[j].replace("\/u>","")})
+                }
+                tmpText = ""
+            }else if(itemData[j] !== "" && tmpText === ""){
+                tmpNode.push({type: 'text' ,value : itemData[j]})
+            }else if(itemData[j] !== "" && tmpText !== ""){
+                tmpText = tmpText + itemData[j]
+            }
+        }
+        // 残りのノードを詰め込む
+        if(tmpText !== "" ){
+            tmpNode.push({type: 'text' ,value : tmpText})
+        }
+
+        if(!(tmpNode[0].value.startsWith("<"))){
+            //最初が文字の場合はそのまま設定
+            textChildren.push({ type: 'text', value: tmpNode[0].value})
+            node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
+            // 詰め込んだ先頭ノードを削除
+            tmpNode.shift();
+            Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
+            // 分解した配列を削除する
+            node.children.splice(spritCnt,1);
+            //node.children.shift();
+        }else if(tmpNode[0].value.startsWith("<span") || tmpNode[0].value.startsWith("<u")){
+            // 開始タグの場合、ノードを付け替える
+            node.children = tmpNode.concat(node.children.slice(1))
+        }else if(tmpNode[0].value.startsWith("<\/span") || tmpNode[0].value.startsWith("<\/u")){
+            // 終了タグの場合、配列の途中に設定
+            Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
+            // 分解した配列を削除する
+            node.children.splice(spritCnt,1);
         }
     }
     //#47039 Add End 下線文字色対応
