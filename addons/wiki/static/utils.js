@@ -20,9 +20,9 @@ export function flatMap(ast, fn) {
                     subTransForm(node,"u")
                 }else if (/<span style=\"color\:/.test(node.children[0].value)) {
                     subTransForm(node, "span")
-                }else if(node.children[0].indexOf('©') >= 0){
+                }else if(node.children[0].value.indexOf('©') >= 0){
                     //
-                    node.children[0].replace('©', '&copy;')
+                    node.children[0].value = node.children[0].value.replace('©', '&copy;')
                 }
             }
             //#47039 Add End 下線文字色対応
