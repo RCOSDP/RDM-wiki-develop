@@ -16,13 +16,20 @@ export function flatMap(ast, fn) {
             const out = [];
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
+                if(node.children[0].value.indexOf('©') >= 0){
+                    //array1.unshift(4, 5)
+                    var ch = {type: 'text', value :''}
+                    var test = {type: 'strong'}
+                    test.children = [ch]
+                    node.children[0].unshift(test)
+                    //node.children[0].value = node.children[0].value.replace('©', ' &copy;')
+                }
+                // 下線の場合
                 if(/<u>/.test(node.children[0].value)) {
                     subTransForm(node,"u")
+                // 文字色の場合
                 }else if (/<span style=\"color\:/.test(node.children[0].value)) {
                     subTransForm(node, "span")
-                }else if(node.children[0].value.indexOf('©') >= 0){
-                    //
-                    node.children[0].value = node.children[0].value.replace('©', '&copy;')
                 }
             }
             //#47039 Add End 下線文字色対応
