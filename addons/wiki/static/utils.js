@@ -22,6 +22,7 @@ export function flatMap(ast, fn) {
                     var test = {type: 'strong'}
                     test.children = [ch]
                     node.children.unshift(test)
+                    node.children[0].value = node.children[0].value.replace('©', '©️')
                     //node.children[0].value = node.children[0].value.replace('©', ' &copy;')
                 }
                 // 下線の場合
