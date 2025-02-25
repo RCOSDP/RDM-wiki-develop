@@ -18,11 +18,11 @@ export function flatMap(ast, fn) {
             if (node.children[0] && node.children[0].type === 'text' ) {
                 if(node.children[0].value.indexOf('©') >= 0){
                     //array1.unshift(4, 5)
+                    node.children[0].value = node.children[0].value.replace('©', '©️')
                     var ch = {type: 'text', value :''}
                     var test = {type: 'strong'}
                     test.children = [ch]
                     node.children.unshift(test)
-                    node.children[0].value = node.children[0].value.replace('©', '©️')
                     //node.children[0].value = node.children[0].value.replace('©', ' &copy;')
                 }
                 // 下線の場合
