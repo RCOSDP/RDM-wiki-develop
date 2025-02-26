@@ -17,13 +17,8 @@ export function flatMap(ast, fn) {
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
                 if(node.children[0].value.indexOf('©') >= 0){
-                    //array1.unshift(4, 5)
-                    node.children[0].value = node.children[0].value.replace('©', '©️')
-                    var ch = {type: 'text', value :''}
-                    var test = {type: 'strong'}
-                    test.children = [ch]
-                    node.children.unshift(test)
-                    //node.children[0].value = node.children[0].value.replace('©', ' &copy;')
+                    // コピーライトが存在した場合に表示できるよう文字列置換する
+                    changeCopyRight(node)
                 }
                 // 下線の場合
                 if(/<u>/.test(node.children[0].value)) {
@@ -279,6 +274,15 @@ export function flatMap(ast, fn) {
         }
     }
     //#47039 Add End 下線文字色対応
+    //#50457 Add Start コピーライト対応
+    function changeCopyRight(node){
+        node.children[0].value = node.children[0].value.replace('©', '©️')
+        var ch = {type: 'text', value :''}
+        var tmp = {type: 'strong'}
+        tmp.children = [ch]
+        node.children.unshift(tmp)
+    }
+    //#50457 Add End コピーライト対応
 }
 
 function createImageNode(altNode, linkNode, sizeNode) {
