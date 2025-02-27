@@ -53,6 +53,11 @@ export function flatMap(ast, fn) {
                 }
             }
             node.children = out;
+//        }
+        }else{
+            if(node.type ==='inlineMath' && node.value){
+                node.value = node.value.replace('\n','')
+            }
         }
         return fn(node, index, parent);
     }
