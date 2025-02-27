@@ -14,14 +14,11 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
+            if (node.children[0] && node.children[0].type === 'paragraph' ) {
+                node.children[0].type = 'code'
+            }
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
-                if(node.children[0].value !== '' && node.children[0].value.startsWith('\¥t')){
-                    node.children[0].type = 'code'
-                }
-                if(node.children[0].value !== '' && node.children[0].value.startsWith('    ')){
-                    node.children[0].type = 'code'
-                }
                 if(node.children[0].value.indexOf('©') >= 0){
                     // コピーライトが存在した場合に表示できるよう文字列置換する
                     changeCopyRight(node)
