@@ -14,6 +14,13 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
+            if(node.hChildlen){
+                for(var i=0 ; i<node.hChildlen ; i++){
+                    if(node.hChildlen[i].type === 'text'){
+                        node.hChildlen[i].value = node.hChildlen[i].value.replace('\n','')
+                    }
+                }
+            }
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
                 if(node.children[0].value.indexOf('©') >= 0){
