@@ -57,6 +57,12 @@ export function flatMap(ast, fn) {
         }else{
             if(node.type ==='inlineMath' && node.value){
                 node.value = node.value.replace('\n','')
+            }else if(node.hChildlen){
+                for(var i=0 ; i<node.hChildlen ; i++){
+                    if(node.hChildlen[i].type === 'text'){
+                        node.hChildlen[i].value = node.hChildlen[i].value.replace('\n','')
+                    }
+                }
             }
         }
         return fn(node, index, parent);
