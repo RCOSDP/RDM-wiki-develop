@@ -16,10 +16,6 @@ export function flatMap(ast, fn) {
             const out = [];
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
-                if(node.children[0].value.indexOf("\'") >= 0){
-                    // コピーライトが存在した場合に表示できるよう文字列置換する
-                    node.children[0].value = node.children[0].value.replace("\'","'")
-                }
                 if(node.children[0].value.indexOf('©') >= 0){
                     // コピーライトが存在した場合に表示できるよう文字列置換する
                     changeCopyRight(node)
@@ -33,6 +29,16 @@ export function flatMap(ast, fn) {
                 }
             }
             //#47039 Add End 下線文字色対応
+            // Add Start
+            if(node.children[0] && node.children[0].type === 'inlineMath'){
+                if(node.children[0].data && node.children[0].data.hChildlen){
+                    for(var i=0 ; i < node.children[0].data.hChildlen.length ; i++){
+                        node.children[0].value = node.children[0].value + "¥¥n" + node.children[i].data.hChildlen.value
+                    }
+                }
+                node.children[0].type = 'code'
+            }
+            // Add End
             for (var i = 0, n = node.children.length; i < n; i++) {
                 const nthChild = node.children[i];
                 if (nthChild) {
