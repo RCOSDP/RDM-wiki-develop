@@ -37,14 +37,14 @@ export function flatMap(ast, fn) {
             }
             //#47039 Add End 下線文字色対応
             // Add Start
-            if(node.children[0] && node.children[0].type === 'inlineMath'){
-                if(node.children[0].data && node.children[0].data.hChildlen){
-                    for(var i=0 ; i < node.children[0].data.hChildlen.length ; i++){
-                        node.children[0].value = node.children[0].value + "¥¥n" + node.children[0].data.hChildlen[i].value
-                    }
-                }
-                node.children[0].type = 'code'
-            }
+//            if(node.children[0] && node.children[0].type === 'inlineMath'){
+//                if(node.children[0].data && node.children[0].data.hChildlen){
+//                    for(var i=0 ; i < node.children[0].data.hChildlen.length ; i++){
+//                        node.children[0].value = node.children[0].value + "¥¥n" + node.children[0].data.hChildlen[i].value
+//                    }
+//                }
+//                node.children[0].type = 'code'
+//            }
             // Add End
             for (var i = 0, n = node.children.length; i < n; i++) {
                 const nthChild = node.children[i];
@@ -61,18 +61,18 @@ export function flatMap(ast, fn) {
             }
             node.children = out;
 //        }
-        }else{
-            if(node.type ==='inlineMath' && node.value){
-                node.value = node.value.replace('\n','')
-                if(node.data.hChildlen){
-                    for(var i=0 ; i<node.hChildlen ; i++){
-                        if(node.hChildlen[i].type === 'text'){
-                            //node.hChildlen[i].value = node.hChildlen[i].value.replace('\n','')
-                            node.children[0].value = node.children[0].value + "¥¥n" + node.children[0].data.hChildlen[i].value.replace('\n','')
-                        }
-                    }
-                }
-            }
+//        }else{
+//            if(node.type ==='inlineMath' && node.value){
+//                node.value = node.value.replace('\n','')
+//                if(node.data.hChildlen){
+//                    for(var i=0 ; i<node.hChildlen ; i++){
+//                        if(node.hChildlen[i].type === 'text'){
+//                            //node.hChildlen[i].value = node.hChildlen[i].value.replace('\n','')
+//                            node.children[0].value = node.children[0].value + "¥¥n" + node.children[0].data.hChildlen[i].value.replace('\n','')
+//                        }
+//                    }
+//               }
+//            }
         }
         return fn(node, index, parent);
     }
