@@ -40,7 +40,7 @@ export function flatMap(ast, fn) {
             if(node.children[0] && node.children[0].type === 'inlineMath'){
                 if(node.children[0].data && node.children[0].data.hChildlen){
                     for(var i=0 ; i < node.children[0].data.hChildlen.length ; i++){
-                        node.children[0].value = node.children[0].value + "¥¥n" + node.children[i].data.hChildlen.value
+                        node.children[0].value = node.children[0].value + "¥¥n" + node.children[0].data.hChildlen[i].value
                     }
                 }
                 node.children[0].type = 'code'
@@ -67,7 +67,8 @@ export function flatMap(ast, fn) {
                 if(node.data.hChildlen){
                     for(var i=0 ; i<node.hChildlen ; i++){
                         if(node.hChildlen[i].type === 'text'){
-                            node.hChildlen[i].value = node.hChildlen[i].value.replace('\n','')
+                            //node.hChildlen[i].value = node.hChildlen[i].value.replace('\n','')
+                            node.children[0].value = node.children[0].value + "¥¥n" + node.children[0].data.hChildlen[i].value.replace('\n','')
                         }
                     }
                 }
