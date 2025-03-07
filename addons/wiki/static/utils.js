@@ -16,10 +16,10 @@ export function flatMap(ast, fn) {
             const out = [];
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
-                if(node.children[0].value.indexOf('©') >= 0){
-                    // コピーライトが存在した場合に表示できるよう文字列置換する
-                    changeCopyRight(node)
-                }
+//                if(node.children[0].value.indexOf('©') >= 0){
+//                    // コピーライトが存在した場合に表示できるよう文字列置換する
+//                    changeCopyRight(node)
+//                }
                 // 下線の場合
                 if(/<u>/.test(node.children[0].value)) {
                     subTransForm(node,"u")
@@ -124,7 +124,7 @@ export function flatMap(ast, fn) {
                             const beforeImage = matchBeforeImage[0];
                             const imageUrl = beforeImage.replace("\(","").replace("\)","").replace("\!\[\]");
                             if (imageUrl) {
-                                remainingChildren.push({type: 'image', url: imageUrl})
+                                remainingChildren.push({type: 'image', url: imageUrl, title: null, alt: ''})
                             }
                         }
                         continue;
