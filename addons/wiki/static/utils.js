@@ -118,13 +118,13 @@ export function flatMap(ast, fn) {
                   continue;
 //                }
 //nishi
-                    }else if (nodeChildren[i].value.match(/.*!\[.*\]\(.*\)$/)) {
+                    }else if (nodeChildren[i].value.match(/!\[\]\(.*\)$/)) {
                         const matchBeforeImage = nodeChildren[i].value.match(/(.*=.*)/);
                         if (matchBeforeImage[0] !== '') {
                             const beforeImage = matchBeforeImage[0];
-                            const imageUrl = beforeImage.replace("\(","").replace("\)","");
+                            const imageUrl = beforeImage.replace("\(","").replace("\)","").replace("\!\[\]");
                             if (imageUrl) {
-                                remainingChildren.push({type: 'image', value: imageUrl})
+                                remainingChildren.push({type: 'image', url: imageUrl})
                             }
                         }
                         continue;
