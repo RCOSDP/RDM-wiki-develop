@@ -122,7 +122,7 @@ export function flatMap(ast, fn) {
                         const matchBeforeImage = nodeChildren[i].value.match(/(.*=.*)/);
                         if (matchBeforeImage[0] !== '') {
                             const beforeImage = matchBeforeImage[0];
-                            const imageUrl = beforeImage.replace("\(","").replace("\)","").replace("\!\[\]");
+                            const imageUrl = beforeImage.replace("\!\[\]\(","").replace("\)","");
                             if (imageUrl) {
                                 remainingChildren.push({type: 'image', url: imageUrl, title: null, alt: ''})
                             }
