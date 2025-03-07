@@ -32,7 +32,8 @@ export function flatMap(ast, fn) {
             for (var i = 0, n = node.children.length; i < n; i++) {
                 const nthChild = node.children[i];
                 if (nthChild) {
-                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
+//nishi                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
+                    if (nthChild.type === 'text' && /.*!\[.*\]\(.*$/.test(nthChild.value) ) {
                         const remainingChildren = getRemainingNode(i, node.children);
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
