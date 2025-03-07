@@ -80,7 +80,8 @@ export function flatMap(ast, fn) {
       var remainingChildren = [];
       for (var i = startIdx; i < nodeChildren.length; i++) {
           if (nodeChildren[i].type === 'text') {
-              if (nodeChildren[i].value.match(/.*!\[.*\]\($/)) {
+ //nishi             if (nodeChildren[i].value.match(/.*!\[.*\]\($/)) {
+              if (nodeChildren[i].value.match(/.*!\[.*\]\(.*$/)) {
                   const matchBeforeImage = nodeChildren[i].value.match(/^(.*?)(!\[.*\]\()$/);
                   if (matchBeforeImage[1] !== '') {
                       const beforeImage = matchBeforeImage[1];
