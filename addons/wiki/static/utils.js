@@ -32,12 +32,19 @@ export function flatMap(ast, fn) {
             for (var i = 0, n = node.children.length; i < n; i++) {
                 const nthChild = node.children[i];
                 if (nthChild) {
-//nishi                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
+                    if (nthChild.type === 'text' && /.*!\[.*\]\($/.test(nthChild.value) ) {
+                        const remainingChildren = getRemainingNode(i, node.children);
+                        const transformedChildren = transformImageSection(remainingChildren);
+                        out.push(...transformedChildren)
+                        break;
+//nishi
+                    }else 
                     if (nthChild.type === 'text' && /.*!\[.*\]\(.*$/.test(nthChild.value) ) {
                         const remainingChildren = getRemainingNode(i, node.children);
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
                         break;
+//nishi
                     } else {
                            addTransformedChildren(nthChild, i, node, out);
                     }
@@ -80,8 +87,7 @@ export function flatMap(ast, fn) {
       var remainingChildren = [];
       for (var i = startIdx; i < nodeChildren.length; i++) {
           if (nodeChildren[i].type === 'text') {
- //nishi             if (nodeChildren[i].value.match(/.*!\[.*\]\($/)) {
-              if (nodeChildren[i].value.match(/.*!\[.*\]\(.*$/)) {
+              if (nodeChildren[i].value.match(/.*!\[.*\]\($/)) {
                   const matchBeforeImage = nodeChildren[i].value.match(/^(.*?)(!\[.*\]\()$/);
                   if (matchBeforeImage[1] !== '') {
                       const beforeImage = matchBeforeImage[1];
@@ -110,7 +116,20 @@ export function flatMap(ast, fn) {
                       }
                   }
                   continue;
-                }
+//                }
+//nishi
+                    }else if (nodeChildren[i].value.match(/.*!\[.*\]\(.*\)$/)) {
+                        const matchBeforeImage = nodeChildren[i].value.match(/(.*=.*)/);
+                        if (matchBeforeImage[0] !== '') {
+                            const beforeImage = matchBeforeImage[0];
+                            const imageUrl = beforeImage.replace("\(","").replace("\)","");
+                            if (imageUrl) {
+                                remainingChildren.push({type: 'image', value: imageUrl})
+                            }
+                        }
+                        continue;
+                    }
+//nishi
           }
           remainingChildren.push(nodeChildren[i])
       }
