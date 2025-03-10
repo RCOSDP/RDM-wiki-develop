@@ -220,18 +220,32 @@ export function flatMap(ast, fn) {
                 if((node.children[1].value.match(/\*/g) || []).length === 2 ){
                     //イタリックがある
                     empChildren.push({ type: 'emphasis'})
-                    empChildren.children = remainingChildren
+                    const out = []
+                    addTransformedChildren(remainingChildren, i, node, out);
+                    empChildren.children = out
                     top = empChildren
                 }
                 if((node.children[1].value.match(/\*/g) || []).length === 3){
-                    strongChildren.children = remainingChildren
-                    empChildren.children = strongChildren
+                    //strongChildren.children = remainingChildren
+                    const out = []
+                    addTransformedChildren(remainingChildren, i, node, out);
+                    strongChildren.children = out
+
+                    //empChildren.children = strongChildren
+                    const out2 = []
+                    addTransformedChildren(remainingChildren, i, node, out2);
+                    empChildren.children = out2
+
                     top = empChildren
                 }else if((node.children[1].value.match(/\*/g) || []).length === 1){
-                    strongChildren.children = remainingChildren
+                    //strongChildren.children = remainingChildren
+                    const out = []
+                    addTransformedChildren(remainingChildren, i, node, out);
+                    strongChildren.children = out
+
                     top = strongChildren
                 }
-                node.children[1].value = node.children[1].value.replace('\*','')
+                node.children[1].value = node.children[1].value.replace('/\*/g','')
             }
             if(top === ""){
                 top = remainingChildren
