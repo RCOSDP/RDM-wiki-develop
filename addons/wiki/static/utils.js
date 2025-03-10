@@ -248,15 +248,17 @@ export function flatMap(ast, fn) {
                 node.children[1].value = node.children[1].value.replace('/\*/g','')
             }
             if(top === ""){
-                top = remainingChildren
+            //    top = remainingChildren
+            }else{
+                remainingChildren.children = top
             }
             //nishi
             //ノードを詰め込む
             const out = []
-            //nishi for (var i = 0, n = remainingChildren.length; i < n; i++) {
-                for (var i = 0, n = top.length; i < n; i++) {
-                //nishi const nthChild = remainingChildren[i];
-                const nthChild = top[i];
+            for (var i = 0, n = remainingChildren.length; i < n; i++) {
+            //    for (var i = 0, n = top.length; i < n; i++) {
+                const nthChild = remainingChildren[i];
+                //const nthChild = top[i];
                 if (nthChild) {
                     addTransformedChildren(nthChild, i, node, out);
                 }
