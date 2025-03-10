@@ -209,15 +209,22 @@ export function flatMap(ast, fn) {
                 if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             }
             //nishi
+            var asCnt = -1
+            for(var i=0 ; i<node.children.length ; i++){
+                if(node.children[i].value && (node.children[1].value.match(/\*/g) || []).length >= 1){
+                    // 存在した場合
+                    asCnt = i
+                }
+            }
             var top = []
-            if(node.children.length >= 2 && (node.children[1].value.match(/\*/g) || []).length >= 1){
+            if(asCnt >= 0){
                 var strongChildren = []
-                if((node.children[1].value.match(/\*/g) || []).length === 1 || (node.children[0].value.match(/\*/g) || []).length.length === 3){
+                if((node.children[asCnt].value.match(/\*/g) || []).length === 1 || (node.children[asCnt].value.match(/\*/g) || []).length.length === 3){
                     //太文字指定がある
                     strongChildren.push({ type: 'emphasis'})
                 }
                 var empChildren = []
-                if((node.children[1].value.match(/\*/g) || []).length === 2 ){
+                if((node.children[asCnt].value.match(/\*/g) || []).length === 2 ){
                     //イタリックがある
                     empChildren.push({ type: 'strong'})
                     const out = []
@@ -225,7 +232,7 @@ export function flatMap(ast, fn) {
                     empChildren.children = out
                     top = empChildren
                 }
-                if((node.children[1].value.match(/\*/g) || []).length === 3){
+                if((node.children[asCnt].value.match(/\*/g) || []).length === 3){
                     //strongChildren.children = remainingChildren
                     const out = []
                     addTransformedChildren(remainingChildren, i, node, out);
@@ -237,7 +244,7 @@ export function flatMap(ast, fn) {
                     empChildren.children = out2
 
                     top = empChildren
-                }else if((node.children[1].value.match(/\*/g) || []).length === 1){
+                }else if((node.children[asCnt].value.match(/\*/g) || []).length === 1){
                     //strongChildren.children = remainingChildren
                     const out = []
                     addTransformedChildren(remainingChildren, i, node, out);
@@ -245,8 +252,8 @@ export function flatMap(ast, fn) {
 
                     top = strongChildren
                 }
-                var tmp = node.children[1].value.replace('/\*/g','')
-                node.children[1].value = tmp
+                var tmp = node.children[asCnt].value.replace('/\*/g','')
+                node.children[asCnt].value = tmp
                 if(top === ""){
                     //    top = remainingChildren
                 }else{
