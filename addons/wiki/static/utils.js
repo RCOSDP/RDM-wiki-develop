@@ -252,7 +252,7 @@ export function flatMap(ast, fn) {
 
                     top = strongChildren
                 }
-                var tmp = node.children[asCnt].value.replace('/\*/g','')
+                var tmp = node.children[asCnt].value.replace(/\*/g,'')
                 node.children[asCnt].value = tmp
                 if(top === ""){
                     //    top = remainingChildren
