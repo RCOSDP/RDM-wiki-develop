@@ -16,10 +16,10 @@ export function flatMap(ast, fn) {
             const out = [];
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
-//                if(node.children[0].value.indexOf('©') >= 0){
-//                    // コピーライトが存在した場合に表示できるよう文字列置換する
-//                    changeCopyRight(node)
-//                }
+               // コピーライト等が存在した場合に表示できるよう文字列置換する
+               if(node.children[0].value.indexOf('©') >= 0 || node.children[0].value.indexOf('®') >= 0){     
+                    changeLangCode(node)
+                }
                 // 下線の場合
                 if(/<u>/.test(node.children[0].value)) {
                     subTransForm(node,"u")
@@ -37,14 +37,13 @@ export function flatMap(ast, fn) {
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
                         break;
-//nishi
-                    }else 
-                    if (nthChild.type === 'text' && /.*!\[.*\]\(.*$/.test(nthChild.value) ) {
+                    //#49455 Add Start リンク付き画像対応
+                    }else if (nthChild.type === 'text' && /.*!\[.*\]\(.*$/.test(nthChild.value) ) {
                         const remainingChildren = getRemainingNode(i, node.children);
                         const transformedChildren = transformImageSection(remainingChildren);
                         out.push(...transformedChildren)
                         break;
-//nishi
+                    //#49455 Add End リンク付き画像対応
                     } else {
                            addTransformedChildren(nthChild, i, node, out);
                     }
@@ -117,7 +116,7 @@ export function flatMap(ast, fn) {
                   }
                   continue;
 //                }
-//nishi
+//#49455 Add Start リンク付き画像対応
                     }else if (nodeChildren[i].value.match(/!\[\]\(.*\)$/)) {
                         const matchBeforeImage = nodeChildren[i].value.match(/(.*=.*)/);
                         if (matchBeforeImage[0] !== '') {
@@ -129,7 +128,7 @@ export function flatMap(ast, fn) {
                         }
                         continue;
                     }
-//nishi
+//#49455 Add End リンク付き画像対応
           }
           remainingChildren.push(nodeChildren[i])
       }
@@ -296,8 +295,12 @@ export function flatMap(ast, fn) {
     }
     //#47039 Add End 下線文字色対応
     //#50457 Add Start コピーライト対応
-    function changeCopyRight(node){
-        node.children[0].value = node.children[0].value.replace('©', '©️')
+    function changeLangCode(node){
+        if(node.children[0].value.indexOf('©') >= 0){
+            node.children[0].value = node.children[0].value.replace('©', '©️')
+        }else{
+            node.children[0].value = node.children[0].value.replace('®', '®️')
+        }
         var ch = {type: 'text', value :''}
         var tmp = {type: 'strong'}
         tmp.children = [ch]
