@@ -212,25 +212,26 @@ export function flatMap(ast, fn) {
             var top = []
             if(node.children.length >= 2){
                 var strongChildren = []
-                if(node.children[1].value.match(/\*/g) || [].length === 1 || node.children[0].value.match(/\*/g).length === 3){
+                if((node.children[1].value.match(/\*/g) || []).length === 1 || (node.children[0].value.match(/\*/g) || []).length.length === 3){
                     //太文字指定がある
                     strongChildren.push({ type: 'strong'})
                 }
                 var empChildren = []
-                if(node.children[1].value.match(/\*/g) || [].length === 2 ){
+                if((node.children[1].value.match(/\*/g) || []).length === 2 ){
                     //イタリックがある
                     empChildren.push({ type: 'emphasis'})
                     empChildren.children = remainingChildren
                     top = empChildren
                 }
-                if(node.children[1].value.match(/\*/g) || [].length === 3){
+                if((node.children[1].value.match(/\*/g) || []).length === 3){
                     strongChildren.children = remainingChildren
                     empChildren.children = strongChildren
                     top = empChildren
-                }else if(node.children[1].value.match(/\*/g) || [].length === 1){
+                }else if((node.children[1].value.match(/\*/g) || []).length === 1){
                     strongChildren.children = remainingChildren
                     top = strongChildren
                 }
+                node.children[1].value = node.children[1].value.replace('\*','')
             }
             if(top === ""){
                 top = remainingChildren
