@@ -245,11 +245,12 @@ export function flatMap(ast, fn) {
 
                     top = strongChildren
                 }
-                node.children[1].value = node.children[1].value.replace('/\*/g','')
+                var tmp = node.children[1].value.replace('/\*/g','')
+                node.children[1].value = tmp
                 if(top === ""){
                     //    top = remainingChildren
                 }else{
-                    remainingChildren = top
+                    remainingChildren.push(top)
                 }
             }
 
@@ -257,9 +258,7 @@ export function flatMap(ast, fn) {
             //ノードを詰め込む
             const out = []
             for (var i = 0, n = remainingChildren.length; i < n; i++) {
-            //    for (var i = 0, n = top.length; i < n; i++) {
                 const nthChild = remainingChildren[i];
-                //const nthChild = top[i];
                 if (nthChild) {
                     addTransformedChildren(nthChild, i, node, out);
                 }
