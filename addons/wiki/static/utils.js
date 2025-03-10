@@ -210,25 +210,30 @@ export function flatMap(ast, fn) {
             }
             //nishi
             var top = []
-            var strongChildren = []
-            if(node.children[0].value.match(/\*/g).length === 1 || node.children[0].value.match(/\*/g).length === 3){
-                //太文字指定がある
-                strongChildren.push({ type: 'strong'})
+            if(node.children.length >= 2){
+                var strongChildren = []
+                if(node.children[1].value.match(/\*/g) || [].length === 1 || node.children[0].value.match(/\*/g).length === 3){
+                    //太文字指定がある
+                    strongChildren.push({ type: 'strong'})
+                }
+                var empChildren = []
+                if(node.children[1].value.match(/\*/g) || [].length === 2 ){
+                    //イタリックがある
+                    empChildren.push({ type: 'emphasis'})
+                    empChildren.children = remainingChildren
+                    top = empChildren
+                }
+                if(node.children[1].value.match(/\*/g) || [].length === 3){
+                    strongChildren.children = remainingChildren
+                    empChildren.children = strongChildren
+                    top = empChildren
+                }else if(node.children[1].value.match(/\*/g) || [].length === 1){
+                    strongChildren.children = remainingChildren
+                    top = strongChildren
+                }
             }
-            var empChildren = []
-            if(node.children[0].value.match(/\*/g).length === 2 ){
-                //イタリックがある
-                empChildren.push({ type: 'emphasis'})
-                empChildren.children = remainingChildren
-                top.children = empChildren
-            }
-            if(node.children[0].value.match(/\*/g).length === 3){
-                strongChildren.children = remainingChildren
-                empChildren.children = strongChildren
-                top.children = empChildren
-            }else if(node.children[0].value.match(/\*/g).length === 1){
-                strongChildren.children = remainingChildren
-                top.children = strongChildren
+            if(top === ""){
+                top = remainingChildren
             }
             //nishi
             //ノードを詰め込む
