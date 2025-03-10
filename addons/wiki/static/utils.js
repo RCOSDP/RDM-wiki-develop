@@ -176,6 +176,7 @@ export function flatMap(ast, fn) {
                 retrunNode = { type: 'colortext' ,color : colorName}
                 openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
             }
+
             // 終了タグがある文字列を分割する
             splitTags(node,endCnt,null)
             // 再度終了タグの場所を探す
@@ -207,11 +208,35 @@ export function flatMap(ast, fn) {
                 remainingChildren = remainingChildren.concat(node.children.slice(1,endCnt))
                 if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             }
-
+            //nishi
+            var top = []
+            var strongChildren = []
+            if(node.children[0].value.match(/\*/g).length === 1 || node.children[0].value.match(/\*/g).length === 3){
+                //太文字指定がある
+                strongChildren.push({ type: 'strong'})
+            }
+            var empChildren = []
+            if(node.children[0].value.match(/\*/g).length === 2 ){
+                //イタリックがある
+                empChildren.push({ type: 'emphasis'})
+                empChildren.children = remainingChildren
+                top.children = empChildren
+            }
+            if(node.children[0].value.match(/\*/g).length === 3){
+                strongChildren.children = remainingChildren
+                empChildren.children = strongChildren
+                top.children = empChildren
+            }else if(node.children[0].value.match(/\*/g).length === 1){
+                strongChildren.children = remainingChildren
+                top.children = strongChildren
+            }
+            //nishi
             //ノードを詰め込む
             const out = []
-            for (var i = 0, n = remainingChildren.length; i < n; i++) {
-                const nthChild = remainingChildren[i];
+            //nishi for (var i = 0, n = remainingChildren.length; i < n; i++) {
+                for (var i = 0, n = top.length; i < n; i++) {
+                //nishi const nthChild = remainingChildren[i];
+                const nthChild = top[i];
                 if (nthChild) {
                     addTransformedChildren(nthChild, i, node, out);
                 }
