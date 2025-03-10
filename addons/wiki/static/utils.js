@@ -210,16 +210,16 @@ export function flatMap(ast, fn) {
             }
             //nishi
             var top = []
-            if(node.children.length >= 2){
+            if(node.children.length >= 2 && (node.children[1].value.match(/\*/g) || []).length >= 1){
                 var strongChildren = []
                 if((node.children[1].value.match(/\*/g) || []).length === 1 || (node.children[0].value.match(/\*/g) || []).length.length === 3){
                     //太文字指定がある
-                    strongChildren.push({ type: 'strong'})
+                    strongChildren.push({ type: 'emphasis'})
                 }
                 var empChildren = []
                 if((node.children[1].value.match(/\*/g) || []).length === 2 ){
                     //イタリックがある
-                    empChildren.push({ type: 'emphasis'})
+                    empChildren.push({ type: 'strong'})
                     const out = []
                     addTransformedChildren(remainingChildren, i, node, out);
                     empChildren.children = out
@@ -233,7 +233,7 @@ export function flatMap(ast, fn) {
 
                     //empChildren.children = strongChildren
                     const out2 = []
-                    addTransformedChildren(remainingChildren, i, node, out2);
+                    addTransformedChildren(strongChildren, i, node, out2);
                     empChildren.children = out2
 
                     top = empChildren
@@ -246,12 +246,13 @@ export function flatMap(ast, fn) {
                     top = strongChildren
                 }
                 node.children[1].value = node.children[1].value.replace('/\*/g','')
+                if(top === ""){
+                    //    top = remainingChildren
+                }else{
+                    remainingChildren = top
+                }
             }
-            if(top === ""){
-            //    top = remainingChildren
-            }else{
-                remainingChildren.children = top
-            }
+
             //nishi
             //ノードを詰め込む
             const out = []
