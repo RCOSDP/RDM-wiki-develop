@@ -471,6 +471,15 @@ function ViewModel(options){
         }
 
         var paramPrefix = '?';
+        //nishi
+        // URLのアンカー（#以降の部分）を取得
+        var urlHash = location.hash;
+
+        // URLにアンカーが存在する場合
+        if(urlHash){
+            url += urlHash
+        }
+        //nishi
         var url = self.pageURL;
         // Preserve initial query params
         if (self.initialQueryParams) {
@@ -1194,8 +1203,6 @@ function notUploaded(response, multiple) {
 var WikiPageMilkdown = function(selector, options) {
     var self = this;
     self.options = $.extend({}, defaultOptions, options);
-
-    console.log('test!!')
 
     this.viewModel = new ViewModel(self.options);
     $osf.applyBindings(self.viewModel, selector);
