@@ -20,6 +20,12 @@ export function flatMap(ast, fn) {
                if(node.children[0].value.indexOf('©') >= 0 || node.children[0].value.indexOf('®') >= 0){     
                     changeLangCode(node)
                 }
+                //nishi
+                if(/\*\</.test(node.children[0].value)) {
+                    // 太文字かイタリックが存在した場合（下線or文字色と同時の場合のみ）
+                    subTransFormStrong(node)
+                }
+                //nishi
                 // 下線の場合
                 if(/<u>/.test(node.children[0].value)) {
                     subTransForm(node,"u")
@@ -208,60 +214,6 @@ export function flatMap(ast, fn) {
                 remainingChildren = remainingChildren.concat(node.children.slice(1,endCnt))
                 if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             }
-            //nishi
-            var asCnt = -1
-            for(var i=0 ; i<node.children.length ; i++){
-                if(node.children[i].value && (node.children[1].value.match(/\*/g) || []).length >= 1){
-                    // 存在した場合
-                    asCnt = i
-                }
-            }
-            var top = []
-            if(asCnt >= 0){
-                var strongChildren = []
-                if((node.children[asCnt].value.match(/\*/g) || []).length === 1 || (node.children[asCnt].value.match(/\*/g) || []).length.length === 3){
-                    //太文字指定がある
-                    strongChildren.push({ type: 'emphasis'})
-                }
-                var empChildren = []
-                if((node.children[asCnt].value.match(/\*/g) || []).length === 2 ){
-                    //イタリックがある
-                    empChildren.push({ type: 'strong'})
-                    const out = []
-                    addTransformedChildren(remainingChildren, i, node, out);
-                    empChildren.children = out
-                    top = empChildren
-                }
-                if((node.children[asCnt].value.match(/\*/g) || []).length === 3){
-                    //strongChildren.children = remainingChildren
-                    const out = []
-                    addTransformedChildren(remainingChildren, i, node, out);
-                    strongChildren.children = out
-
-                    //empChildren.children = strongChildren
-                    const out2 = []
-                    addTransformedChildren(strongChildren, i, node, out2);
-                    empChildren.children = out2
-
-                    top = empChildren
-                }else if((node.children[asCnt].value.match(/\*/g) || []).length === 1){
-                    //strongChildren.children = remainingChildren
-                    const out = []
-                    addTransformedChildren(remainingChildren, i, node, out);
-                    strongChildren.children = out
-
-                    top = strongChildren
-                }
-                var tmp = node.children[asCnt].value.replace(/\*/g,'')
-                node.children[asCnt].value = tmp
-                if(top === ""){
-                    //    top = remainingChildren
-                }else{
-                    remainingChildren = top
-                }
-            }
-
-            //nishi
             //ノードを詰め込む
             const out = []
             for (var i = 0, n = remainingChildren.length; i < n; i++) {
@@ -290,6 +242,31 @@ export function flatMap(ast, fn) {
         }
     }
 
+// nishi
+    function subTransFormStrong(node){
+        var textChildren = []  // 戻りの配列
+        var retrunNode =[]  // 戻り値
+        var remainingChildren = []
+        var str = node.children[0].value.replace(/\*/g,'')
+        var strChildren = ({type: 'text', value: str})
+        if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
+            //太文字とイタリックがある
+            var stEmpChildren =[]
+            stEmpChildren.push({ type: 'strong' , children: strChildren})
+            remainingChildren.push({ type: 'emphasis' , children: stEmpChildren})
+        }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
+            //イタリックがある
+            remainingChildren.push({ type: 'emphasis', children: strChildren})
+        }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
+            //太文字だけある
+            remainingChildren.push({ type: 'strong', children: strChildren})
+        }else{
+            //何もない
+            return
+        }
+        node.children[0] = remainingChildren
+    }
+//nishi
     // 文字分割処理
     function splitTags(node, spritCnt, textChildren){
         var tmpNode = []
