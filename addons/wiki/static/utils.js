@@ -246,7 +246,7 @@ export function flatMap(ast, fn) {
     function subTransFormStrong(node){
         var remainingChildren = []
         var remainingChildren2 = []
-        var frontStr = node.children[0].value.replace(/\*{1,3}\<.*$/,'')       // アスタリスク前
+        var frontStr = node.children[0].value.replace(/\*{1,3}\<.*/,'')       // アスタリスク前
         var tailStr = node.children[0].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
         var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
 
@@ -272,9 +272,9 @@ export function flatMap(ast, fn) {
             return
         }
         if(remainingChildren2 !== ""){
-            remainingChildren = remainingChildren.concat(remainingChildren2)
+            remainingChildren.push([remainingChildren2])
         }
-        remainingChildren = remainingChildren.concat({type: 'text' , value: tailStr})
+        remainingChildren.push({type: 'text' , value: tailStr})
 
         node.children[0] = remainingChildren
     }
