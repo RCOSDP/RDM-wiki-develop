@@ -257,7 +257,7 @@ export function flatMap(ast, fn) {
                 if(top === ""){
                     //    top = remainingChildren
                 }else{
-                    remainingChildren.push(top)
+                    remainingChildren = top
                 }
             }
 
