@@ -271,7 +271,9 @@ export function flatMap(ast, fn) {
             //何もない
             return
         }
-        remainingChildren = remainingChildren.concat(remainingChildren2)
+        if(remainingChildren2 !== ""){
+            remainingChildren = remainingChildren.concat(remainingChildren2)
+        }
         remainingChildren = remainingChildren.concat({type: 'text' , value: tailStr})
 
         node.children[0] = remainingChildren
