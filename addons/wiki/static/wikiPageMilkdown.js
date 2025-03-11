@@ -471,6 +471,7 @@ function ViewModel(options){
         }
 
         var paramPrefix = '?';
+        var url = self.pageURL;
         //nishi
         // URLのアンカー（#以降の部分）を取得
         var urlHash = location.hash;
@@ -480,7 +481,6 @@ function ViewModel(options){
             url += urlHash
         }
         //nishi
-        var url = self.pageURL;
         // Preserve initial query params
         if (self.initialQueryParams) {
             url += paramPrefix + self.initialQueryParams;
