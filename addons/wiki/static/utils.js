@@ -254,7 +254,8 @@ export function flatMap(ast, fn) {
             var stEmpChildren =[]
             stEmpChildren.children.push(strChildren)
             stEmpChildren.push({ type: 'strong' })
-            remainingChildren.push({ type: 'emphasis' , children: stEmpChildren})
+            remainingChildren.push({ type: 'emphasis' })
+            remainingChildren.children.push(stEmpChildren)
         }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
             //イタリックがある
             remainingChildren.children.push(strChildren)
