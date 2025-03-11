@@ -244,30 +244,36 @@ export function flatMap(ast, fn) {
 
 // nishi
     function subTransFormStrong(node){
-        var textChildren = []  // 戻りの配列
-        var retrunNode =[]  // 戻り値
         var remainingChildren = []
-        var str = node.children[0].value.replace(/\*/g,'')
+        var remainingChildren2 = []
+        var frontStr = node.children[0].value.replace('[\*]\<.*$','')       // アスタリスク前
+        var tailStr = node.children[0].value.frontStr.replace('^.*\>[\*]','')   // アスタリスクあと
+        var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
+
+        remainingChildren = ({type: 'text' , value: frontStr})
         var strChildren = ({type: 'text', value: str})
         if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
             //太文字とイタリックがある
             var stEmpChildren =[]
             stEmpChildren = ({ type: 'strong' })
             stEmpChildren.children = [strChildren]
-            remainingChildren = ({ type: 'emphasis' })
-            remainingChildren.children = [stEmpChildren]
+            remainingChildren2 = ({ type: 'emphasis' })
+            remainingChildren2.children = [stEmpChildren]
         }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
             //太文字だけある
-            remainingChildren = ({ type: 'strong'})
-            remainingChildren.children = [strChildren]
+            remainingChildren2 = ({ type: 'strong'})
+            remainingChildren2.children = [strChildren]
         }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
             //イタリックがある
-            remainingChildren = ({ type: 'emphasis'})
-            remainingChildren.children = [strChildren]
+            remainingChildren2 = ({ type: 'emphasis'})
+            remainingChildren2.children = [strChildren]
         }else{
             //何もない
             return
         }
+        remainingChildren.push(remainingChildren2)
+        remainingChildren.push({type: 'text' , value: tailStr})
+
         node.children[0] = remainingChildren
     }
 //nishi

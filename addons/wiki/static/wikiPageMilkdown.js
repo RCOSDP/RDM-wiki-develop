@@ -478,7 +478,7 @@ function ViewModel(options){
 
         // URLにアンカーが存在する場合
         if(urlHash){
-            url += urlHash
+            url = url.slice(0, -1) + urlHash
         }
         //nishi
         // Preserve initial query params
