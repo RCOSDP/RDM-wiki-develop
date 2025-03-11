@@ -252,17 +252,17 @@ export function flatMap(ast, fn) {
         if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
             //太文字とイタリックがある
             var stEmpChildren =[]
-            stEmpChildren.children.push(strChildren)
+            stEmpChildren.children = strChildren
             stEmpChildren.push({ type: 'strong' })
             remainingChildren.push({ type: 'emphasis' })
             remainingChildren.children = [stEmpChildren]
         }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
             //イタリックがある
-            remainingChildren.children = [strChildren]
+            remainingChildren.children = strChildren
             remainingChildren.push({ type: 'emphasis'})
         }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
             //太文字だけある
-            remainingChildren.children = [strChildren]
+            remainingChildren.children = strChildren
             remainingChildren.push({ type: 'strong'})
         }else{
             //何もない
