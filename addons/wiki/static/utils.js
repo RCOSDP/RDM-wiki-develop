@@ -255,14 +255,14 @@ export function flatMap(ast, fn) {
             stEmpChildren.children.push(strChildren)
             stEmpChildren.push({ type: 'strong' })
             remainingChildren.push({ type: 'emphasis' })
-            remainingChildren.children.push(stEmpChildren)
+            remainingChildren.children = [stEmpChildren]
         }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
             //イタリックがある
-            remainingChildren.children.push(strChildren)
+            remainingChildren.children = [strChildren]
             remainingChildren.push({ type: 'emphasis'})
         }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
             //太文字だけある
-            remainingChildren.children.push(strChildren)
+            remainingChildren.children = [strChildren]
             remainingChildren.push({ type: 'strong'})
         }else{
             //何もない
