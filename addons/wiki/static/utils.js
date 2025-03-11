@@ -276,7 +276,11 @@ export function flatMap(ast, fn) {
         }
         remainingChildren.push({type: 'text' , value: tailStr})
 
-        node.children[0] = remainingChildren
+        // ノードの２番目に挿入
+        Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));
+        // 元々のノードを削除
+        node.shift();
+        //node.children[0] = remainingChildren
     }
 //nishi
     // 文字分割処理
