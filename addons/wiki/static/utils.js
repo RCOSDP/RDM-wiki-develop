@@ -250,7 +250,7 @@ export function flatMap(ast, fn) {
         var tailStr = node.children[0].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
         var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
 
-        remainingChildren = ({type: 'text' , value: frontStr})
+        remainingChildren.push({type: 'text' , value: frontStr})
         var strChildren = ({type: 'text', value: str})
         if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
             //太文字とイタリックがある
@@ -272,7 +272,7 @@ export function flatMap(ast, fn) {
             return
         }
         if(remainingChildren2 !== ""){
-            remainingChildren.push([remainingChildren2])
+            remainingChildren.push(remainingChildren2)
         }
         remainingChildren.push({type: 'text' , value: tailStr})
 
