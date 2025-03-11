@@ -252,18 +252,18 @@ export function flatMap(ast, fn) {
         if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
             //太文字とイタリックがある
             var stEmpChildren =[]
+            stEmpChildren= ({ type: 'strong' })
             stEmpChildren.children = strChildren
-            stEmpChildren.push({ type: 'strong' })
-            remainingChildren.push({ type: 'emphasis' })
+            remainingChildren = ({ type: 'emphasis' })
             remainingChildren.children = [stEmpChildren]
         }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
             //イタリックがある
-            remainingChildren.children = [strChildren]
             remainingChildren = ({ type: 'emphasis'})
+            remainingChildren.children = [strChildren]
         }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
             //太文字だけある
-            remainingChildren.children = [strChildren]
             remainingChildren = ({ type: 'strong'})
+            remainingChildren.children = [strChildren]
         }else{
             //何もない
             return
