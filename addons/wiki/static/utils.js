@@ -252,13 +252,13 @@ export function flatMap(ast, fn) {
         var endCnt = 0
         var strChildren = []
         for(var i=0 ; i<node.children.length ; i++){
-            if((node.children[i].value.match(/.*\>\*{1,3}/) || []).length === 1){
+            if(node.children[i].value && (node.children[i].value.match(/.*\>\*{1,3}/) || []).length === 1){
                 endCnt = i
                 break
             }
         }
         var tailStr = node.children[endCnt].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
-        if(endCnt !== 0 ){
+        if(endCnt >= 1 ){
             for(var i=1 ; i<=endcnt ; i++){
                 strChildren.push(node.children[i])
             }
@@ -267,37 +267,39 @@ export function flatMap(ast, fn) {
             strChildren = ({type: 'text', value: str})
         }
 
-        remainingChildren.push({type: 'text' , value: frontStr})
-        //var strChildren = ({type: 'text', value: str})
-        if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
-            //太文字とイタリックがある
-            var stEmpChildren =[]
-            stEmpChildren = ({ type: 'strong' })
-            stEmpChildren.children = [strChildren]
-            remainingChildren2 = ({ type: 'emphasis' })
-            remainingChildren2.children = [stEmpChildren]
-        }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
-            //太文字だけある
-            remainingChildren2 = ({ type: 'strong'})
-            remainingChildren2.children = [strChildren]
-        }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
-            //イタリックがある
-            remainingChildren2 = ({ type: 'emphasis'})
-            remainingChildren2.children = [strChildren]
-        }else{
-            //何もない
-            return
-        }
-        if(remainingChildren2 !== ""){
-            remainingChildren.push(remainingChildren2)
-        }
-        remainingChildren.push({type: 'text' , value: tailStr})
+        if(strChildren){
+            remainingChildren.push({type: 'text' , value: frontStr})
+            //var strChildren = ({type: 'text', value: str})
+            if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
+                //太文字とイタリックがある
+                var stEmpChildren =[]
+                stEmpChildren = ({ type: 'strong' })
+                stEmpChildren.children = [strChildren]
+                remainingChildren2 = ({ type: 'emphasis' })
+                remainingChildren2.children = [stEmpChildren]
+            }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
+                //太文字だけある
+                remainingChildren2 = ({ type: 'strong'})
+                remainingChildren2.children = [strChildren]
+            }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
+                //イタリックがある
+                remainingChildren2 = ({ type: 'emphasis'})
+                remainingChildren2.children = [strChildren]
+            }else{
+                //何もない
+                return
+            }
+            if(remainingChildren2 !== ""){
+                remainingChildren.push(remainingChildren2)
+            }
+            remainingChildren.push({type: 'text' , value: tailStr})
 
-        // ノードの２番目に挿入
-        Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));
-        // 元々のノードを削除
-        node.children.shift();
-        //node.children[0] = remainingChildren
+            // ノードの２番目に挿入
+            Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));
+            // 元々のノードを削除
+            node.children.shift();
+            //node.children[0] = remainingChildren
+        }
     }
 //nishi
     // 文字分割処理
