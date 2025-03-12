@@ -259,7 +259,7 @@ export function flatMap(ast, fn) {
         }
         var tailStr = node.children[endCnt].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
         if(endCnt >= 1 ){
-            for(var i=1 ; i<=endcnt ; i++){
+            for(var i=1 ; i<=endCnt ; i++){
                 strChildren.push(node.children[i])
             }
         }else{
