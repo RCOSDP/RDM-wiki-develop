@@ -242,22 +242,21 @@ export function flatMap(ast, fn) {
         }
     }
 
-// nishi
+    // 太文字とイタリックの変換修正対応
     function subTransFormStrong(node){
         var remainingChildren = []
         var remainingChildren2 = []
         var frontStr = node.children[0].value.replace(/\*{1,3}\<.*/,'')       // アスタリスク前
-        //var tailStr = node.children[0].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
-        //var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
         var endCnt = 0
         var strChildren = []
+        // 終わりの場所を調べる
         for(var i=0 ; i<node.children.length ; i++){
             if(node.children[i].value && (node.children[i].value.match(/.*\>\*{1,3}/) || []).length === 1){
                 endCnt = i
                 break
             }
         }
-        var tailStr = node.children[endCnt].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
+        var tailStr = node.children[endCnt].value.replace(/.*\>\*{1,3}/,'')   // アスタリスク後
         if(endCnt >= 1 ){
             for(var i=1 ; i<endCnt ; i++){
                 strChildren.push(node.children[i])
@@ -269,7 +268,6 @@ export function flatMap(ast, fn) {
 
         if(strChildren){
             remainingChildren.push({type: 'text' , value: frontStr})
-            //var strChildren = ({type: 'text', value: str})
             if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
                 //太文字とイタリックがある
                 var stEmpChildren =[]
@@ -297,12 +295,9 @@ export function flatMap(ast, fn) {
             // ノードの２番目に挿入
             node.children.splice( 0, endCnt+1 );        // 変換したノードを削除
             Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));    //　ノードを追加
-            // 元々のノードを削除
-            //node.children.shift();
-            //node.children[0] = remainingChildren
         }
     }
-//nishi
+
     // 文字分割処理
     function splitTags(node, spritCnt, textChildren){
         var tmpNode = []
