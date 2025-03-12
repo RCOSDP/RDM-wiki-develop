@@ -279,7 +279,7 @@ export function flatMap(ast, fn) {
         // ノードの２番目に挿入
         Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));
         // 元々のノードを削除
-        node.shift();
+        node.children.shift();
         //node.children[0] = remainingChildren
     }
 //nishi
@@ -373,3 +373,16 @@ function createImageNode(altNode, linkNode, sizeNode) {
 
     return imageNode;
 }
+//nishi
+function loadFinished(){
+    // URLのアンカー（#以降の部分）を取得
+    var urlHash = location.hash;
+
+    // URLにアンカーが存在する場合
+    if(urlHash){
+        window.location.hash = urlHash
+    }
+}
+
+window.onload = loadFinished;
+//nishi
