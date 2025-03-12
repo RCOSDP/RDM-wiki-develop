@@ -264,7 +264,7 @@ export function flatMap(ast, fn) {
             }
         }else{
             var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
-            strChildren = ({type: 'text', value: str})
+            strChildren.push({type: 'text', value: str})
         }
 
         if(strChildren){
@@ -274,17 +274,17 @@ export function flatMap(ast, fn) {
                 //太文字とイタリックがある
                 var stEmpChildren =[]
                 stEmpChildren = ({ type: 'strong' })
-                stEmpChildren.children = [strChildren]
+                stEmpChildren.children = strChildren
                 remainingChildren2 = ({ type: 'emphasis' })
                 remainingChildren2.children = [stEmpChildren]
             }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
                 //太文字だけある
                 remainingChildren2 = ({ type: 'strong'})
-                remainingChildren2.children = [strChildren]
+                remainingChildren2.children = strChildren
             }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
                 //イタリックがある
                 remainingChildren2 = ({ type: 'emphasis'})
-                remainingChildren2.children = [strChildren]
+                remainingChildren2.children = strChildren
             }else{
                 //何もない
                 return
