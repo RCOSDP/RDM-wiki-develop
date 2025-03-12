@@ -247,11 +247,28 @@ export function flatMap(ast, fn) {
         var remainingChildren = []
         var remainingChildren2 = []
         var frontStr = node.children[0].value.replace(/\*{1,3}\<.*/,'')       // アスタリスク前
-        var tailStr = node.children[0].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
-        var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
+        //var tailStr = node.children[0].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
+        //var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
+        var endCnt = 0
+        var strChildren = []
+        for(var i=0 ; i<node.children[i] ; i++){
+            if((node.children[i].value.match(/.*\>\*{1,3}/) || []).length === 1){
+                endCnt = i
+                break
+            }
+        }
+        var tailStr = node.children[endCnt].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
+        if(endCnt !== 0 ){
+            for(var i=1 ; i<=endcnt ; i++){
+                strChildren.push(node.children[i])
+            }
+        }else{
+            var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
+            strChildren = ({type: 'text', value: str})
+        }
 
         remainingChildren.push({type: 'text' , value: frontStr})
-        var strChildren = ({type: 'text', value: str})
+        //var strChildren = ({type: 'text', value: str})
         if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
             //太文字とイタリックがある
             var stEmpChildren =[]
