@@ -259,7 +259,7 @@ export function flatMap(ast, fn) {
         }
         var tailStr = node.children[endCnt].value.replace(/.*\>\*{1,3}/,'')   // アスタリスクあと
         if(endCnt >= 1 ){
-            for(var i=1 ; i<=endCnt ; i++){
+            for(var i=1 ; i<endCnt ; i++){
                 strChildren.push(node.children[i])
             }
         }else{
@@ -295,9 +295,10 @@ export function flatMap(ast, fn) {
             remainingChildren.push({type: 'text' , value: tailStr})
 
             // ノードの２番目に挿入
-            Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));
+            node.children.splice( 0, endCnt+1 );        // 変換したノードを削除
+            Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));    //　ノードを追加
             // 元々のノードを削除
-            node.children.shift();
+            //node.children.shift();
             //node.children[0] = remainingChildren
         }
     }
