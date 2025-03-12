@@ -251,7 +251,7 @@ export function flatMap(ast, fn) {
         //var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
         var endCnt = 0
         var strChildren = []
-        for(var i=0 ; i<node.length ; i++){
+        for(var i=0 ; i<node.children.length ; i++){
             if((node.children[i].value.match(/.*\>\*{1,3}/) || []).length === 1){
                 endCnt = i
                 break
