@@ -268,6 +268,12 @@ export function flatMap(ast, fn) {
 
         if(strChildren){
             remainingChildren.push({type: 'text' , value: frontStr})
+            //nishi Add Start
+            if(endCnt >= 1 ){
+                var tagStartStr = node.children[0].value.replace(/.*\*{1,3}\</,'<')
+                remainingChildren.push({type: 'text' , value: tagStartStr})
+            }
+            //nishi Add End
             if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
                 //太文字とイタリックがある
                 var stEmpChildren =[]
@@ -290,6 +296,12 @@ export function flatMap(ast, fn) {
             if(remainingChildren2 !== ""){
                 remainingChildren.push(remainingChildren2)
             }
+            //nishi Add Start
+            if(endCnt >= 1 ){
+                var tagEndStr = node.children[endCnt].value.replace(/\>\*{1,3}.*/,'>')
+                remainingChildren.push({type: 'text' , value: tagEndStr})
+            }
+            //nishi Add End
             remainingChildren.push({type: 'text' , value: tailStr})
 
             // ノードの２番目に挿入
