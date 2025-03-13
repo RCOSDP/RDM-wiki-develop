@@ -307,6 +307,18 @@ export function flatMap(ast, fn) {
             // ノードの２番目に挿入
             node.children.splice( 0, endCnt+1 );        // 変換したノードを削除
             Array.prototype.splice.apply(node.children,[1,0].concat(remainingChildren));    //　ノードを追加
+            //nishi Add Start
+            if(endCnt >= 1 ){
+                //ノードを詰め込む
+                const out = []
+                for (var i = 0, n = node.length; i < n; i++) {
+                    const nthChild = node[i];
+                    if (nthChild) {
+                        addTransformedChildren(nthChild, i, node, out);
+                    }
+                }
+                node.children = out
+            }
         }
     }
 
