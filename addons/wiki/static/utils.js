@@ -17,15 +17,13 @@ export function flatMap(ast, fn) {
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
                // コピーライト等が存在した場合に表示できるよう文字列置換する
-               if(node.children[0].value.indexOf('©') >= 0 || node.children[0].value.indexOf('®') >= 0){     
-                    changeLangCode(node)
-                }
-                //nishi
+               //if(node.children[0].value.indexOf('©') >= 0 || node.children[0].value.indexOf('®') >= 0){
+               //     changeLangCode(node)
+               // }
                 if(/\*\</.test(node.children[0].value)) {
                     // 太文字かイタリックが存在した場合（下線or文字色と同時の場合のみ）
                     subTransFormStrong(node)
                 }
-                //nishi
                 // 下線の場合
                 if(/<u>/.test(node.children[0].value)) {
                     subTransForm(node,"u")
@@ -121,7 +119,6 @@ export function flatMap(ast, fn) {
                       }
                   }
                   continue;
-//                }
 //#49455 Add Start リンク付き画像対応
                     }else if (nodeChildren[i].value.match(/!\[\]\(.*\)$/)) {
                         const matchBeforeImage = nodeChildren[i].value.match(/(.*=.*)/);
@@ -268,7 +265,6 @@ export function flatMap(ast, fn) {
 
         if(strChildren){
             remainingChildren.push({type: 'text' , value: frontStr})
-
             if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
                 //太文字とイタリックがある
                 var stEmpChildren =[]
@@ -291,7 +287,6 @@ export function flatMap(ast, fn) {
             if(remainingChildren2 !== ""){
                 remainingChildren.push(remainingChildren2)
             }
-
             remainingChildren.push({type: 'text' , value: tailStr})
 
             // ノードの２番目に挿入
