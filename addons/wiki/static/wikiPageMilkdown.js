@@ -472,7 +472,7 @@ function ViewModel(options){
 
         var paramPrefix = '?';
         var url = self.pageURL;
-        //nishi
+        //#46532 対応 Add Start
         // URLのアンカー（#以降の部分）を取得
         var urlHash = location.hash;
 
@@ -480,7 +480,7 @@ function ViewModel(options){
         if(urlHash){
             url = url.slice(0, -1) + urlHash
         }
-        //nishi
+        //#46532 対応 Add End
         // Preserve initial query params
         if (self.initialQueryParams) {
             url += paramPrefix + self.initialQueryParams;
@@ -1223,18 +1223,5 @@ var WikiPageMilkdown = function(selector, options) {
     });
 };
 
-//nishi
-function loadFinished(){
-    // URLのアンカー（#以降の部分）を取得
-    var urlHash = location.hash;
-
-    // URLにアンカーが存在する場合
-    if(urlHash){
-        window.location.hash = urlHash
-    }
-}
-
-window.onload = loadFinished;
-//nishi
 export default WikiPageMilkdown;
 
