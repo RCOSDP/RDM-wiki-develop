@@ -269,7 +269,7 @@ export function flatMap(ast, fn) {
         if(strChildren){
             remainingChildren.push({type: 'text' , value: frontStr})
             //nishi Add Start
-            var tagStartStr = node.children[0].value.replace(/\*{1,3}\</,'<')
+            var tagStartStr = node.children[0].value.replace(/.*\*{1,3}\</,'<')
             remainingChildren.push({type: 'text' , value: tagStartStr})
             //nishi Add End
             if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
@@ -295,7 +295,7 @@ export function flatMap(ast, fn) {
                 remainingChildren.push(remainingChildren2)
             }
             //nishi Add Start
-            var tagEndStr = node.children[0].value.replace(/\>\*{1,3}/,'>')
+            var tagEndStr = node.children[endCnt].value.replace(/\>\*{1,3}.*/,'>')
             remainingChildren.push({type: 'text' , value: tagEndStr})
             //nishi Add End
             remainingChildren.push({type: 'text' , value: tailStr})
