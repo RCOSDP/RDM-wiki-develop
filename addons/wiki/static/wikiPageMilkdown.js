@@ -1224,4 +1224,3 @@ var WikiPageMilkdown = function(selector, options) {
 };
 
 export default WikiPageMilkdown;
-
