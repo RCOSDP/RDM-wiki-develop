@@ -1222,6 +1222,36 @@ var WikiPageMilkdown = function(selector, options) {
         }
     });
 };
+//nishi
+const MAX_RETRY_COUNT_FIND_DIFF_CONTAINER = 10;
+var retry_counter = 0;
+set_interval_id = setInterval(getDiffContainerElements, 1000);
 
+/**
+ * diff-container要素を取得
+ */
+function getDiffContainerElements() {
+    retry_counter++;
+    // 要素がMAXリトライ値になっても見つからない場合、処理を停止する
+    if(retry_counter > MAX_RETRY_COUNT_FIND_DIFF_CONTAINER) {
+        clearInterval(set_interval_id);
+    }
+    var diff_container_elements = document.getElementsByClassName('diff-container');
+    if(diff_container_elements.length > 0) {
+        if(typeof(set_interval_id) != 'undefined') { // setIntervalをセットしている状態(初回起動)
+            clearInterval(set_interval_id);
+            // URLのアンカー（#以降の部分）を取得
+            var urlHash = location.hash;
+            console.log('Test1' + urlHash);
+            // URLにアンカーが存在する場合
+            if(urlHash){
+                window.location.hash = urlHash
+            }
+        }else { // インターバル以外で関数を呼ぶとき(単純にdiff-container要素を取得したい場合に使用)
+            return diff_container_elements;
+        }
+    }
+}
+//nishi
 export default WikiPageMilkdown;
 
