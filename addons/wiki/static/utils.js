@@ -120,17 +120,17 @@ export function flatMap(ast, fn) {
                   }
                   continue;
 //#49455 Add Start リンク付き画像対応
-                    }else if (nodeChildren[i].value.match(/!\[\]\(.*\)$/)) {
-                        const matchBeforeImage = nodeChildren[i].value.match(/(.*=.*)/);
-                        if (matchBeforeImage[0] !== '') {
-                            const beforeImage = matchBeforeImage[0];
-                            const imageUrl = beforeImage.replace("\!\[\]\(","").replace("\)","");
-                            if (imageUrl) {
-                                remainingChildren.push({type: 'image', url: imageUrl, title: null, alt: ''})
-                            }
+                }else if (nodeChildren[i].value.match(/!\[\]\(.*\)$/)) {
+                    const matchBeforeImage = nodeChildren[i].value.match(/(.*=.*)/);
+                    if (matchBeforeImage[0] !== '') {
+                        const beforeImage = matchBeforeImage[0];
+                        const imageUrl = beforeImage.replace("\!\[\]\(","").replace("\)","");
+                        if (imageUrl) {
+                            remainingChildren.push({type: 'image', url: imageUrl, title: null, alt: ''})
                         }
-                        continue;
                     }
+                    continue;
+                }
 //#49455 Add End リンク付き画像対応
           }
           remainingChildren.push(nodeChildren[i])
@@ -386,3 +386,18 @@ function createImageNode(altNode, linkNode, sizeNode) {
     return imageNode;
 }
 
+//nishi Add Start
+onload = function () {
+    frames['frameA'].funcA();
+    };
+
+window.addEventListener('load', function() {
+    // URLのアンカー（#以降の部分）を取得
+    var urlHash = location.hash;
+    console.log('Test1' + urlHash);
+    // URLにアンカーが存在する場合
+    if(urlHash){
+        window.location.hash = urlHash
+    }
+  });
+//nishi Add End
