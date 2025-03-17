@@ -387,10 +387,6 @@ function createImageNode(altNode, linkNode, sizeNode) {
 }
 
 //nishi Add Start
-onload = function () {
-    frames['frameA'].funcA();
-    };
-
 window.addEventListener('load', function() {
     // URLのアンカー（#以降の部分）を取得
     var urlHash = location.hash;
