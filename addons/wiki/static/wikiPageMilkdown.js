@@ -469,7 +469,15 @@ function ViewModel(options){
         if (typeof window.history.replaceState === 'undefined') {
             return;
         }
+        //#46532 対応 Add Start
+        // URLのアンカー（#以降の部分）を取得
+        var urlHash = location.hash;
 
+        // URLにアンカーが存在する場合
+        if(urlHash){
+            url = url.slice(0, -1) + urlHash
+        }
+        //#46532 対応 Add End
         var paramPrefix = '?';
         var url = self.pageURL;
 
@@ -501,15 +509,7 @@ function ViewModel(options){
         if (self.menuVis()) {
             url += paramPrefix + 'menu';
         }
-        //#46532 対応 Add Start
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
 
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            url = url.slice(0, -1) + urlHash
-        }
-        //#46532 対応 Add End
         window.history.replaceState({}, self.pageTitle, url);
     });
 
