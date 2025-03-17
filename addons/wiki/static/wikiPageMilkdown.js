@@ -472,15 +472,7 @@ function ViewModel(options){
 
         var paramPrefix = '?';
         var url = self.pageURL;
-        //#46532 対応 Add Start
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
 
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            url = url.slice(0, -1) + urlHash
-        }
-        //#46532 対応 Add End
         // Preserve initial query params
         if (self.initialQueryParams) {
             url += paramPrefix + self.initialQueryParams;
@@ -509,7 +501,15 @@ function ViewModel(options){
         if (self.menuVis()) {
             url += paramPrefix + 'menu';
         }
+        //#46532 対応 Add Start
+        // URLのアンカー（#以降の部分）を取得
+        var urlHash = location.hash;
 
+        // URLにアンカーが存在する場合
+        if(urlHash){
+            url = url.slice(0, -1) + urlHash
+        }
+        //#46532 対応 Add End
         window.history.replaceState({}, self.pageTitle, url);
     });
 
