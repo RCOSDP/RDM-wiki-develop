@@ -1284,14 +1284,18 @@ window.onload = () => {
             console.log('Test1' + urlHash);
             // URLにアンカーが存在する場合
             //if(urlHash){
-                window.location.hash = urlHash
+            window.location.hash = urlHash
+            linkscroll(urlHash)
                 //var w = window.open(self.pageURL);
-                ('html, body').animate({scrollTop: $(urlHash).offset().top}, 800, 'swing');
+                //('html, body').animate({scrollTop: $(urlHash).offset().top}, 800, 'swing');
                 //w.focus();
             //}
         }
     }
     useSleep();
 }
+function linkscroll(target) {
+    $('html, body').animate({scrollTop: $(target).offset().top}, 800, 'swing');
+  }
 //nishi
 export default WikiPageMilkdown;
