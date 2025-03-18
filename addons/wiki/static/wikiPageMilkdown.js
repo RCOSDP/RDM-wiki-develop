@@ -1262,8 +1262,6 @@ async function twoSleep(){
 	console.log("2秒経過");
 	await sleep(1000);
 	console.log("3秒経過");
-	await sleep(1000);
-	console.log("4秒経過");
     //callback();
 }
 window.onload = () => {
