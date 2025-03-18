@@ -385,19 +385,3 @@ function createImageNode(altNode, linkNode, sizeNode) {
 
     return imageNode;
 }
-
-//nishi Add Start
-window.addEventListener('load', function() {
-    // URLのアンカー（#以降の部分）を取得
-    var urlHash = location.hash;
-    console.log('Test1' + urlHash);
-    // URLにアンカーが存在する場合
-    if(urlHash){
-        window.location.hash = urlHash
-        //var w = window.open(self.pageURL);
-        ('html, body').animate({scrollTop: $(urlHash).offset().top}, 800, 'swing');
-        //w.focus();
-    }
-  });
-
-//nishi Add End

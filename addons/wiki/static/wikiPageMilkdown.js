@@ -1271,6 +1271,7 @@ window.onload = () => {
 */
         // 現在のURLにハッシュが含まれているか確認
         if (window.location.hash) {
+            await twoSleep();
             const target = document.querySelector(window.location.hash);
             if (target) {
                 // 目的の要素へスクロール
