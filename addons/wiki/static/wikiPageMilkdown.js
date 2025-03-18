@@ -1256,7 +1256,7 @@ const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ�
 
 //async function twoSleep(callback){
 async function twoSleep(){
-	await sleep(1000);
+	await sleep(500);
 	console.log("1秒経過");
     //callback();
 }
