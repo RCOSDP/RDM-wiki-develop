@@ -1241,14 +1241,15 @@ window.addEventListener('load', function() {
     var urlHash = location.hash; //URLのハッシュタグを取得
     if (urlHash) { //ハッシュタグが有る場合
         twoSleep();
-        $("body,html").scrollTop(0);
-        setTimeout(function () { //無くてもいいが有ると動作が安定する
-            var target = $(urlHash);
-            var position = target.offset().top - headH;
-            $("body,html").stop().animate({
-                scrollTop: position
-            }, animeSpeed);
-        }, 0);
+//        $("body,html").scrollTop(0);
+//        setTimeout(function () { //無くてもいいが有ると動作が安定する
+//            var target = $(urlHash);
+//            var position = target.offset().top - headH;
+//            $("body,html").stop().animate({
+//                scrollTop: position
+//            }, animeSpeed);
+//        }, 0);
+        window.location.hash = urlHash
     }
 });
 const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
@@ -1258,6 +1259,10 @@ async function twoSleep(){
 	console.log("1秒経過");
 	await sleep(1000);
 	console.log("2秒経過");
+	await sleep(1000);
+	console.log("3秒経過");
+	await sleep(1000);
+	console.log("4秒経過");
 }
 //nishi
 export default WikiPageMilkdown;
