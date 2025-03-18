@@ -1234,5 +1234,21 @@ window.addEventListener('load', function() {
         window.location.hash = urlHash
     }
   });
+
+  $(function () {
+    var headH = $("header").outerHeight();
+    var animeSpeed = 500;
+    var urlHash = location.hash; //URLのハッシュタグを取得
+    if (urlHash) { //ハッシュタグが有る場合
+        $("body,html").scrollTop(0);
+        setTimeout(function () { //無くてもいいが有ると動作が安定する
+            var target = $(urlHash);
+            var position = target.offset().top - headH;
+            $("body,html").stop().animate({
+                scrollTop: position
+            }, animeSpeed);
+        }, 0);
+    }
+});
 //nishi
 export default WikiPageMilkdown;
