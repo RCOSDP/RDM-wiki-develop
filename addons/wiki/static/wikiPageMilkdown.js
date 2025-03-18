@@ -1240,6 +1240,7 @@ window.addEventListener('load', function() {
     var animeSpeed = 500;
     var urlHash = location.hash; //URLのハッシュタグを取得
     if (urlHash) { //ハッシュタグが有る場合
+        twoSleep();
         $("body,html").scrollTop(0);
         setTimeout(function () { //無くてもいいが有ると動作が安定する
             var target = $(urlHash);
@@ -1250,5 +1251,13 @@ window.addEventListener('load', function() {
         }, 0);
     }
 });
+const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
+
+async function twoSleep(){
+	await sleep(1000);
+	console.log("1秒経過");
+	await sleep(1000);
+	console.log("2秒経過");
+}
 //nishi
 export default WikiPageMilkdown;
