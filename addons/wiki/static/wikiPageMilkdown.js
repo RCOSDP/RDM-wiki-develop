@@ -1225,7 +1225,7 @@ var WikiPageMilkdown = function(selector, options) {
 };
 
 //nishi
-window.addEventListener('load', function() {
+/*window.addEventListener('load', function() {
     // URLのアンカー（#以降の部分）を取得
     var urlHash = location.hash;
     console.log('Test1' + urlHash);
@@ -1251,7 +1251,7 @@ window.addEventListener('load', function() {
         }, 0);
         //window.location.hash = urlHash
     }
-});
+});*/
 const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
 
 async function twoSleep(){
@@ -1263,6 +1263,26 @@ async function twoSleep(){
 	console.log("3秒経過");
 	await sleep(1000);
 	console.log("4秒経過");
+}
+window.onload = () => {
+    async function useSleep(){
+        var headH = $("header").outerHeight();
+        var animeSpeed = 500;
+        var urlHash = location.hash; //URLのハッシュタグを取得
+        twoSleep();
+        if (urlHash) { //ハッシュタグが有る場合
+            twoSleep();
+            $("body,html").scrollTop(0);
+            setTimeout(function () { //無くてもいいが有ると動作が安定する
+                var target = $(urlHash);
+                var position = target.offset().top - headH;
+                $("body,html").stop().animate({
+                    scrollTop: position
+                }, animeSpeed);
+            }, 0);
+        }
+    }
+    useSleep();
 }
 //nishi
 export default WikiPageMilkdown;
