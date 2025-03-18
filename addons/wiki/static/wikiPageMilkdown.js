@@ -1254,7 +1254,8 @@ var WikiPageMilkdown = function(selector, options) {
 });*/
 const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
 
-async function twoSleep(callback){
+//async function twoSleep(callback){
+async function twoSleep(){
 	await sleep(1000);
 	console.log("1秒経過");
 	await sleep(1000);
@@ -1263,15 +1264,16 @@ async function twoSleep(callback){
 	console.log("3秒経過");
 	await sleep(1000);
 	console.log("4秒経過");
-    callback();
+    //callback();
 }
 window.onload = () => {
     async function useSleep(){
         var headH = $("header").outerHeight();
         var animeSpeed = 500;
         var urlHash = location.hash; //URLのハッシュタグを取得
-        var callback = ""
-        twoSleep(callback);
+        //var callback = ""
+        //twoSleep(callback);
+        await twoSleep();
         if (urlHash) { //ハッシュタグが有る場合
             twoSleep();
             $("body,html").scrollTop(0);
