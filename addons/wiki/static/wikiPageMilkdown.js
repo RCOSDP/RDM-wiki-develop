@@ -469,6 +469,8 @@ function ViewModel(options){
         if (typeof window.history.replaceState === 'undefined') {
             return;
         }
+        var paramPrefix = '?';
+        var url = self.pageURL;
         //#46532 対応 Add Start
         // URLのアンカー（#以降の部分）を取得
         var urlHash = location.hash;
@@ -478,8 +480,6 @@ function ViewModel(options){
             url = url.slice(0, -1) + urlHash
         }
         //#46532 対応 Add End
-        var paramPrefix = '?';
-        var url = self.pageURL;
 
         // Preserve initial query params
         if (self.initialQueryParams) {
