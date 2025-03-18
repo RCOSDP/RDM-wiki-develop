@@ -1262,34 +1262,20 @@ async function twoSleep(){
 }
 window.onload = () => {
     async function useSleep(){
-        var headH = $("header").outerHeight();
-        var animeSpeed = 500;
-        var urlHash = location.hash; //URLのハッシュタグを取得
-        //var callback = ""
-        //twoSleep(callback);
+/*        var urlHash = location.hash; //URLのハッシュタグを取得
         if (urlHash) { //ハッシュタグが有る場合
             await twoSleep();
- /*           window.location.hash = urlHash
-            $("body,html").scrollTop(0);
-            setTimeout(function () { //無くてもいいが有ると動作が安定する
-                var target = $(urlHash);
-                var position = target.offset().top - headH;
-                $("body,html").stop().animate({
-                    scrollTop: position
-                }, animeSpeed);
-            }, 0);
-*/
-            // URLのアンカー（#以降の部分）を取得
-            //var urlHash = location.hash;
-            console.log('Test1' + urlHash);
-            // URLにアンカーが存在する場合
-            //if(urlHash){
             window.location.hash = urlHash
             linkscroll(urlHash)
-                //var w = window.open(self.pageURL);
-                //('html, body').animate({scrollTop: $(urlHash).offset().top}, 800, 'swing');
-                //w.focus();
-            //}
+        }
+*/
+        // 現在のURLにハッシュが含まれているか確認
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                // 目的の要素へスクロール
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
     }
     useSleep();
