@@ -1275,7 +1275,8 @@ window.onload = () => {
         //twoSleep(callback);
         if (urlHash) { //ハッシュタグが有る場合
             await twoSleep();
-/*            $("body,html").scrollTop(0);
+            window.location.hash = urlHash
+            $("body,html").scrollTop(0);
             setTimeout(function () { //無くてもいいが有ると動作が安定する
                 var target = $(urlHash);
                 var position = target.offset().top - headH;
@@ -1283,8 +1284,7 @@ window.onload = () => {
                     scrollTop: position
                 }, animeSpeed);
             }, 0);
-*/
-            window.location.hash = urlHash
+
         }
     }
     useSleep();
