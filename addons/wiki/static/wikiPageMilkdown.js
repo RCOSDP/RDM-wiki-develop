@@ -518,15 +518,6 @@ function ViewModel(options){
     });
     request.done(function (resp) {
         self.rawContent = resp.wiki_content;
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     });
 
     self.viewVM = new ViewWidget(self.viewVis, self.viewVersion, self.viewText, self.renderedView, self.contentURL, self.allowMathjaxification, self.allowFullRender, self.editor);
@@ -545,15 +536,6 @@ function ViewModel(options){
                 mEdit = createMEditor(mEdit, self, rawContent);
             }
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     }
     var bodyElement = $('body');
     bodyElement.on('togglePanel', function (event, panel, display) {
@@ -599,15 +581,6 @@ function ViewModel(options){
             document.getElementById("redoWiki").disabled = false;
             document.getElementById("msoRedo").style.opacity = 1;
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.redoWiki = function() {
         mEdit.action((ctx) => {
@@ -622,15 +595,6 @@ function ViewModel(options){
             document.getElementById("undoWiki").disabled = false;
             document.getElementById("msoUndo").style.opacity = 1;
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.strong = function() {
         mEdit.action((ctx) => {
@@ -638,15 +602,6 @@ function ViewModel(options){
             view.focus();
             mUtils.callCommand(mCommonmark.toggleStrongCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.getLinkInfo = function() {
         mEdit.action((ctx) => {
@@ -672,15 +627,6 @@ function ViewModel(options){
                 }
             });
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.link = function() {
         var linkHref = document.getElementById("linkSrc");
@@ -716,15 +662,6 @@ function ViewModel(options){
             linkTitle.value = '';
             view.focus();
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.getImageInfo = function() {
         mEdit.action((ctx) => {
@@ -760,15 +697,6 @@ function ViewModel(options){
                 }
             });
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.image = function() {
         var imageSrc = document.getElementById("imageSrc");
@@ -801,15 +729,6 @@ function ViewModel(options){
             imageWidth.value = '';
             view.focus();
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.changeImage = function() {
         var imageWidth = document.getElementById("imageWidth");
@@ -817,15 +736,6 @@ function ViewModel(options){
         mEdit.action((ctx) => {
             mUtils.callCommand(extendedUpdateImageCommand.key, {width: imageWidth.value, link: imageLink.value})(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.italic = function() {
         mEdit.action((ctx) => {
@@ -833,15 +743,6 @@ function ViewModel(options){
             view.focus();
             mUtils.callCommand(mCommonmark.toggleEmphasisCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.quote = function() {
         mEdit.action((ctx) => {
@@ -849,15 +750,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mCommonmark.wrapInBlockquoteCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.code = function() {
         mEdit.action((ctx) => {
@@ -865,15 +757,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mCommonmark.createCodeBlockCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.listNumbered = function() {
         mEdit.action((ctx) => {
@@ -881,15 +764,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mCommonmark.wrapInOrderedListCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.listBulleted = function() {
         mEdit.action((ctx) => {
@@ -897,15 +771,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mCommonmark.wrapInBulletListCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
     self.head = function() {
         mEdit.action((ctx) => {
@@ -914,15 +779,6 @@ function ViewModel(options){
             mUtils.callCommand(mCommonmark.wrapInHeadingCommand.key, headNum)(ctx);
             headNum === 6 ? headNum = 1 : headNum =  headNum + 1;
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.horizontal = function() {
@@ -931,15 +787,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mCommonmark.insertHrCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.underline = function() {
@@ -948,15 +795,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(toggleUnderlineCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.mokujimacro = function() {
@@ -1007,15 +845,6 @@ function ViewModel(options){
                     mUtils.callCommand(toggleColortextCommand.key, self.color())(ctx);
                 }
             }
-                    //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
             return mUtils.callCommand(toggleColortextCommand.key, self.color())(ctx);
         });
     };
@@ -1040,15 +869,6 @@ function ViewModel(options){
                 return mUtils.callCommand(mGfm.insertTableCommand.key)(ctx);
             });
         }
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.addColumnBef = function() {
@@ -1057,15 +877,7 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mGfm.addColBeforeCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
+
     };
 
     self.addColumnAft = function() {
@@ -1074,15 +886,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mGfm.addColAfterCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.addRowBef = function() {
@@ -1091,15 +894,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mGfm.addRowBeforeCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.addRowAft = function() {
@@ -1108,15 +902,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mGfm.addRowAfterCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.deleteSelectedCell = function() {
@@ -1125,15 +910,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mGfm.deleteSelectedCellsCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     self.deleteTable = function() {
@@ -1143,15 +919,6 @@ function ViewModel(options){
             mUtils.callCommand(mGfm.selectTableCommand.key)(ctx);
             mUtils.callCommand(mGfm.deleteSelectedCellsCommand.key)(ctx);
         });
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     };
 
     var addLink = document.querySelector('#addLink');
@@ -1166,15 +933,6 @@ function ViewModel(options){
         if (!(event.target.closest('.table-dropdown-item')) && !(event.target.closest('#tableBtn'))) {
             document.getElementById("tableMenu").style.display = "none";
         }
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     });
 
     document.addEventListener('click', (event) => {
@@ -1187,15 +945,6 @@ function ViewModel(options){
         if (event.target.closest('.tableWrapper')) {
             document.getElementById("arrowDropDown").style.display = "";
         }
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     });
 
     self.editMode = function() {
@@ -1218,15 +967,6 @@ function ViewModel(options){
             });
         }
         self.viewVersion('preview');
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
       }
     };
 
@@ -1329,15 +1069,6 @@ function getOrCreateWikiImagesFolder() {
                 return response.data.attributes.path;
             });
         }
-                //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     });
 }
 
@@ -1384,15 +1115,6 @@ async function uplaodDnDFiles(files, path, fileNames) {
     } else {
         notUploaded(null, multiple);
     }
-            //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
 }
 
 async function getFileUrl(infos) {
@@ -1442,15 +1164,7 @@ function autoIncrementFileName(name, nameList) {
         }
         break;
     }
-            //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
+
     return newName;
 }
 
@@ -1479,15 +1193,6 @@ async function localFileHandler(files) {
         notUploaded(response, false);
     });
 
-    //nishi
-    // URLのアンカー（#以降の部分）を取得
-    var urlHash = location.hash;
-    console.log('Test1' + urlHash);
-    // URLにアンカーが存在する場合
-    if(urlHash){
-        window.location.hash = urlHash
-    }
-    //nishi
     info = await uplaodDnDFiles(files, path, fileNames);
     renderInfo = await getFileUrl(info);
     return renderInfo;
@@ -1503,15 +1208,6 @@ function notUploaded(response, multiple) {
             'again or contact <a href="mailto: support@cos.io">support@cos.io</a> ' +
             'if the problem persists.', 'danger');
     }
-            //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
 }
 
 var WikiPageMilkdown = function(selector, options) {
@@ -1534,15 +1230,6 @@ var WikiPageMilkdown = function(selector, options) {
                 mEdit = createMEditor(mEdit, self.viewModel, rawContent);
             });
         }
-        //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     });
 };
 
