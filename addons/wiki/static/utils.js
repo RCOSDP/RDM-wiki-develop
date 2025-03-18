@@ -394,6 +394,10 @@ window.addEventListener('load', function() {
     // URLにアンカーが存在する場合
     if(urlHash){
         window.location.hash = urlHash
+        //var w = window.open(self.pageURL);
+        ('html, body').animate({scrollTop: $(urlHash).offset().top}, 800, 'swing');
+        //w.focus();
     }
   });
+
 //nishi Add End

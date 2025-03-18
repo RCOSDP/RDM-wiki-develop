@@ -1258,10 +1258,6 @@ const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ�
 async function twoSleep(){
 	await sleep(1000);
 	console.log("1秒経過");
-	await sleep(1000);
-	console.log("2秒経過");
-	await sleep(1000);
-	console.log("3秒経過");
     //callback();
 }
 window.onload = () => {
@@ -1273,7 +1269,7 @@ window.onload = () => {
         //twoSleep(callback);
         if (urlHash) { //ハッシュタグが有る場合
             await twoSleep();
-            window.location.hash = urlHash
+ /*           window.location.hash = urlHash
             $("body,html").scrollTop(0);
             setTimeout(function () { //無くてもいいが有ると動作が安定する
                 var target = $(urlHash);
@@ -1282,7 +1278,17 @@ window.onload = () => {
                     scrollTop: position
                 }, animeSpeed);
             }, 0);
-
+*/
+            // URLのアンカー（#以降の部分）を取得
+            //var urlHash = location.hash;
+            console.log('Test1' + urlHash);
+            // URLにアンカーが存在する場合
+            //if(urlHash){
+                window.location.hash = urlHash
+                //var w = window.open(self.pageURL);
+                ('html, body').animate({scrollTop: $(urlHash).offset().top}, 800, 'swing');
+                //w.focus();
+            //}
         }
     }
     useSleep();
