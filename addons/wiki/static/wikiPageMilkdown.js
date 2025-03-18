@@ -1015,15 +1015,6 @@ function ViewModel(options){
         self.showSizeError(!isValidSize && width !== '');
         document.getElementById("addImage").disabled = !(isValidSrc && isValidSize);
     };
-        //nishi
-        // URLのアンカー（#以降の部分）を取得
-        var urlHash = location.hash;
-        console.log('Test1' + urlHash);
-        // URLにアンカーが存在する場合
-        if(urlHash){
-            window.location.hash = urlHash
-        }
-        //nishi
     self.imageSrcInput.subscribe(self.validateInputs);
     self.imageWidthInput.subscribe(self.validateInputs);
     self.validateInputs();
