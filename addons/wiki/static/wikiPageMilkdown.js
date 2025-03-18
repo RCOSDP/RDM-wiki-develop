@@ -1241,15 +1241,15 @@ window.addEventListener('load', function() {
     var urlHash = location.hash; //URLのハッシュタグを取得
     if (urlHash) { //ハッシュタグが有る場合
         twoSleep();
-//        $("body,html").scrollTop(0);
-//        setTimeout(function () { //無くてもいいが有ると動作が安定する
-//            var target = $(urlHash);
-//            var position = target.offset().top - headH;
-//            $("body,html").stop().animate({
-//                scrollTop: position
-//            }, animeSpeed);
-//        }, 0);
-        window.location.hash = urlHash
+        $("body,html").scrollTop(0);
+        setTimeout(function () { //無くてもいいが有ると動作が安定する
+            var target = $(urlHash);
+            var position = target.offset().top - headH;
+            $("body,html").stop().animate({
+                scrollTop: position
+            }, animeSpeed);
+        }, 0);
+        //window.location.hash = urlHash
     }
 });
 const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
