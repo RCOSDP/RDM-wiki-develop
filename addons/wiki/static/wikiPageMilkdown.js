@@ -1223,55 +1223,17 @@ var WikiPageMilkdown = function(selector, options) {
         }
     });
 };
-
-//nishi
-/*window.addEventListener('load', function() {
-    // URLのアンカー（#以降の部分）を取得
-    var urlHash = location.hash;
-    console.log('Test1' + urlHash);
-    // URLにアンカーが存在する場合
-    if(urlHash){
-        window.location.hash = urlHash
-    }
-  });
-
-  $(function () {
-    var headH = $("header").outerHeight();
-    var animeSpeed = 500;
-    var urlHash = location.hash; //URLのハッシュタグを取得
-    if (urlHash) { //ハッシュタグが有る場合
-        twoSleep();
-        $("body,html").scrollTop(0);
-        setTimeout(function () { //無くてもいいが有ると動作が安定する
-            var target = $(urlHash);
-            var position = target.offset().top - headH;
-            $("body,html").stop().animate({
-                scrollTop: position
-            }, animeSpeed);
-        }, 0);
-        //window.location.hash = urlHash
-    }
-});*/
+//#46532 対応 Add Start
 const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
 
-//async function twoSleep(callback){
-async function twoSleep(){
+async function pFiveSleep(){
 	await sleep(500);
-	console.log("1秒経過");
-    //callback();
 }
 window.onload = () => {
     async function useSleep(){
-/*        var urlHash = location.hash; //URLのハッシュタグを取得
-        if (urlHash) { //ハッシュタグが有る場合
-            await twoSleep();
-            window.location.hash = urlHash
-            linkscroll(urlHash)
-        }
-*/
         // 現在のURLにハッシュが含まれているか確認
         if (window.location.hash) {
-            await twoSleep();
+            await pFiveSleep();
             const target = document.querySelector(window.location.hash);
             if (target) {
                 // 目的の要素へスクロール
@@ -1281,8 +1243,5 @@ window.onload = () => {
     }
     useSleep();
 }
-function linkscroll(target) {
-    $('html, body').animate({scrollTop: $(target).offset().top}, 800, 'swing');
-  }
-//nishi
+//#46532 対応 Add End
 export default WikiPageMilkdown;
