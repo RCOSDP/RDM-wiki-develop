@@ -477,8 +477,7 @@ function ViewModel(options){
 
         // URLにアンカーが存在する場合
         if(urlHash){
-            //url = url.slice(0, -1) + urlHash
-            url = url + urlHash
+            url = url.slice(0, -1) + urlHash
         }
         //#46532 対応 Add End
 
