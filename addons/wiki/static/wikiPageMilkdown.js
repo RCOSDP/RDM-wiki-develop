@@ -477,7 +477,8 @@ function ViewModel(options){
 
         // URLにアンカーが存在する場合
         if(urlHash){
-            url = url.slice(0, -1) + urlHash
+            //url = url.slice(0, -1) + urlHash
+            url = url + urlHash
         }
         //#46532 対応 Add End
 
@@ -1224,13 +1225,13 @@ var WikiPageMilkdown = function(selector, options) {
     });
 };
 //#46532 対応 Add Start
-const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
+const sleep = (time) => new Promise((r) => setTimeout(r, time));
 
 async function pFiveSleep(){
 	await sleep(500);
 }
 window.onload = () => {
-    async function useSleep(){
+    async function useJump(){
         // 現在のURLにハッシュが含まれているか確認
         if (window.location.hash) {
             await pFiveSleep();
@@ -1241,7 +1242,7 @@ window.onload = () => {
             }
         }
     }
-    useSleep();
+    useJump();
 }
 //#46532 対応 Add End
 export default WikiPageMilkdown;
