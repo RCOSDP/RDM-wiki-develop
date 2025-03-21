@@ -14,6 +14,15 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
+            //#48569 Add Start 子アンカー対応
+            if (node.children[0] && node.children[0].type === 'link') {
+
+                // URLにアンカーが存在する場合
+                if(window.location.hash){
+                    node.children[0].url = node.children[0].url.replace('\.\.\/','\.\/')
+                }
+            }
+            //#48569 Add End 子アンカー対応
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
                // コピーライト等が存在した場合に表示できるよう文字列置換する
