@@ -1234,7 +1234,7 @@ window.onload = () => {
         // 現在のURLにハッシュが含まれているか確認
         if (window.location.hash) {
             await pFiveSleep();
-            const target = ""
+            var target = ""
             try{
                 const decodedURI = decodeURI(window.location.hash);
                 target = document.querySelector(decodedURI);
