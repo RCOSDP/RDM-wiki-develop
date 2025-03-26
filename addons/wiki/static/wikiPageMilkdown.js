@@ -1227,7 +1227,7 @@ var WikiPageMilkdown = function(selector, options) {
 const sleep = (time) => new Promise((r) => setTimeout(r, time));
 
 async function pFiveSleep(){
-	await sleep(500);
+	await sleep(1000);
 }
 window.onload = () => {
     async function useJump(){
