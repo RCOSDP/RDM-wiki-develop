@@ -469,6 +469,7 @@ function ViewModel(options){
         if (typeof window.history.replaceState === 'undefined') {
             return;
         }
+
         var paramPrefix = '?';
         var url = self.pageURL;
         //#46532 対応 Add Start
@@ -480,7 +481,6 @@ function ViewModel(options){
             url = url.slice(0, -1) + urlHash
         }
         //#46532 対応 Add End
-
         // Preserve initial query params
         if (self.initialQueryParams) {
             url += paramPrefix + self.initialQueryParams;
@@ -877,7 +877,6 @@ function ViewModel(options){
             view.focus();
             return mUtils.callCommand(mGfm.addColBeforeCommand.key)(ctx);
         });
-
     };
 
     self.addColumnAft = function() {
@@ -1015,6 +1014,7 @@ function ViewModel(options){
         self.showSizeError(!isValidSize && width !== '');
         document.getElementById("addImage").disabled = !(isValidSrc && isValidSize);
     };
+
     self.imageSrcInput.subscribe(self.validateInputs);
     self.imageWidthInput.subscribe(self.validateInputs);
     self.validateInputs();
@@ -1155,7 +1155,6 @@ function autoIncrementFileName(name, nameList) {
         }
         break;
     }
-
     return newName;
 }
 
@@ -1223,6 +1222,7 @@ var WikiPageMilkdown = function(selector, options) {
         }
     });
 };
+
 //#46532 対応 Add Start
 const sleep = (time) => new Promise((r) => setTimeout(r, time));
 

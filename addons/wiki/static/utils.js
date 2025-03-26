@@ -25,10 +25,6 @@ export function flatMap(ast, fn) {
             //#48569 Add End 子アンカー対応
             //#47039 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
-               // コピーライト等が存在した場合に表示できるよう文字列置換する
-               //if(node.children[0].value.indexOf('©') >= 0 || node.children[0].value.indexOf('®') >= 0){
-               //     changeLangCode(node)
-               // }
                 if(/\*\</.test(node.children[0].value)) {
                     // 太文字かイタリックが存在した場合（下線or文字色と同時の場合のみ）
                     subTransFormStrong(node)
@@ -362,19 +358,6 @@ export function flatMap(ast, fn) {
         }
     }
     //#47039 Add End 下線文字色対応
-    //#50457 Add Start コピーライト対応
-    function changeLangCode(node){
-        if(node.children[0].value.indexOf('©') >= 0){
-            node.children[0].value = node.children[0].value.replace('©', '©️')
-        }else{
-            node.children[0].value = node.children[0].value.replace('®', '®️')
-        }
-        var ch = {type: 'text', value :''}
-        var tmp = {type: 'strong'}
-        tmp.children = [ch]
-        node.children.unshift(tmp)
-    }
-    //#50457 Add End コピーライト対応
 }
 
 function createImageNode(altNode, linkNode, sizeNode) {
@@ -394,3 +377,4 @@ function createImageNode(altNode, linkNode, sizeNode) {
 
     return imageNode;
 }
+
