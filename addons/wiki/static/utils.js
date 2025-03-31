@@ -23,14 +23,6 @@ export function flatMap(ast, fn) {
                 }
             }
             //#48569 Add End 子アンカー対応
-            //#51297 Add Start 見出し内の文字色
-            if (node.children[0] && node.children[0].type === 'html') {
-                // 下線の場合
-                if (/<span style=\"color\:/.test(node.children[0].value)) {
-                    node.children[0].type = "text"
-                }
-            }
-            //#51297 Add End 見出し内の文字色
             //#51297 Add Start 下線文字色対応
             if (node.children[0] && node.children[0].type === 'text' ) {
                 if(/\*\</.test(node.children[0].value)) {
