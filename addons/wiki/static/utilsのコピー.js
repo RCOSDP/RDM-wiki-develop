@@ -14,30 +14,27 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
+            //#48569 Add Start 子アンカー対応
+            if (node.children[0] && node.children[0].type === 'link') {
 
-            for (var i = 0, n = node.children.length; i < n; i++) {
-                //#48569 Add Start 子アンカー対応
-                if (node.children[i] && node.children[i].type === 'link') {
-
-                    // URLにアンカーが存在する場合
-                    if(window.location.hash){
-                        node.children[i].url = node.children[i].url.replace('\.\.\/','\.\/')
-                    }
+                // URLにアンカーが存在する場合
+                if(window.location.hash){
+                    node.children[0].url = node.children[0].url.replace('\.\.\/','\.\/')
                 }
-                //#48569 Add End 子アンカー対応
-                //#51297 Add Start 下線文字色対応
-                if (node.children[i] && node.children[i].type === 'text' ) {
-                    if(/\*\</.test(node.children[i].value)) {
-                        // 太文字かイタリックが存在した場合（下線or文字色と同時の場合のみ）
-                        subTransFormStrong(node,i)
-                    }
-                    // 下線の場合
-                    if(/<u>/.test(node.children[i].value)) {
-                        subTransForm(node,"u",i)
-                    // 文字色の場合
-                    }else if (/<span style=\"color\:/.test(node.children[i].value)) {
-                        subTransForm(node, "span",i)
-                    }
+            }
+            //#48569 Add End 子アンカー対応
+            //#51297 Add Start 下線文字色対応
+            if (node.children[0] && node.children[0].type === 'text' ) {
+                if(/\*\</.test(node.children[0].value)) {
+                    // 太文字かイタリックが存在した場合（下線or文字色と同時の場合のみ）
+                    subTransFormStrong(node)
+                }
+                // 下線の場合
+                if(/<u>/.test(node.children[0].value)) {
+                    subTransForm(node,"u")
+                // 文字色の場合
+                }else if (/<span style=\"color\:/.test(node.children[0].value)) {
+                    subTransForm(node, "span")
                 }
             }
             //#47039 Add End 下線文字色対応
@@ -148,13 +145,13 @@ export function flatMap(ast, fn) {
 
     //#47039 Add Start 下線文字色対応
     // 文字色と下線の処理
-    function subTransForm(node, tagText, startCnt){
+    function subTransForm(node, tagText){
         var textChildren = []  // 戻りの配列
         // 文字列を分解する
-        splitTags(node,startCnt,textChildren)
-        var endCnt = startCnt
+        splitTags(node,0,textChildren)
+        var endCnt = 0
         var endTag = "<\/" + tagText + ">"
-        for(var i = startCnt ; i < node.children.length ; i++) {
+        for(var i = 0 ; i < node.children.length ; i++) {
             if(tagText === "span"){
                 if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
                     // 終わりのタグ位置を調べる
@@ -191,7 +188,7 @@ export function flatMap(ast, fn) {
             // 終了タグがある文字列を分割する
             splitTags(node,endCnt,null)
             // 再度終了タグの場所を探す
-            for(var i = startCnt ; i < node.children.length ; i++) {
+            for(var i = 0 ; i < node.children.length ; i++) {
                 if(tagText === "span"){
                     if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
                         // 終わりのタグ位置を調べる
@@ -210,7 +207,7 @@ export function flatMap(ast, fn) {
             closeTags = node.children[endCnt].value.replace(endTag, '')
 
             var remainingChildren = []
-            if (endCnt === startCnt){
+            if (endCnt === 0){
                 // 同一ノード内にOpenとCloseがある場合
                 var openCloseTag = openTags.replace(endTag, '')
                 if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
@@ -248,14 +245,14 @@ export function flatMap(ast, fn) {
     }
 
     // 太文字とイタリックの変換修正対応
-    function subTransFormStrong(node,startCnt){
+    function subTransFormStrong(node){
         var remainingChildren = []
         var remainingChildren2 = []
-        var frontStr = node.children[startCnt].value.replace(/\*{1,3}\<.*/,'')       // アスタリスク前
-        var endCnt = startCnt
+        var frontStr = node.children[0].value.replace(/\*{1,3}\<.*/,'')       // アスタリスク前
+        var endCnt = 0
         var strChildren = []
         // 終わりの場所を調べる
-        for(var i=startCnt ; i<node.children.length ; i++){
+        for(var i=0 ; i<node.children.length ; i++){
             if(node.children[i].value && (node.children[i].value.match(/.*\>\*{1,3}/) || []).length === 1){
                 endCnt = i
                 break
@@ -267,24 +264,24 @@ export function flatMap(ast, fn) {
                 strChildren.push(node.children[i])
             }
         }else{
-            var str = node.children[startCnt].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
+            var str = node.children[0].value.replace(frontStr,'').replace(tailStr,'').replace(/\*/g,'') // アスタリスクの中
             strChildren.push({type: 'text', value: str})
         }
 
         if(strChildren){
             remainingChildren.push({type: 'text' , value: frontStr})
-            if((node.children[startCnt].value.match(/\*\*\*\</g) || []).length === 1){
+            if((node.children[0].value.match(/\*\*\*\</g) || []).length === 1){
                 //太文字とイタリックがある
                 var stEmpChildren =[]
                 stEmpChildren = ({ type: 'strong' })
                 stEmpChildren.children = strChildren
                 remainingChildren2 = ({ type: 'emphasis' })
                 remainingChildren2.children = [stEmpChildren]
-            }else if((node.children[startCnt].value.match(/\*\*\</g) || []).length === 1){
+            }else if((node.children[0].value.match(/\*\*\</g) || []).length === 1){
                 //太文字だけある
                 remainingChildren2 = ({ type: 'strong'})
                 remainingChildren2.children = strChildren
-            }else if((node.children[startCnt].value.match(/\*\</g) || []).length === 1){
+            }else if((node.children[0].value.match(/\*\</g) || []).length === 1){
                 //イタリックがある
                 remainingChildren2 = ({ type: 'emphasis'})
                 remainingChildren2.children = strChildren
