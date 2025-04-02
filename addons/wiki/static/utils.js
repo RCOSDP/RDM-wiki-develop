@@ -15,28 +15,28 @@ export function flatMap(ast, fn) {
         if (isParent(node)) {
             const out = [];
 
-            for (var i = 0, n = node.children.length; i < n; i++) {
+            for (var sCnt = 0 ; sCnt < node.children.length ; i++) {
                 //#48569 Add Start 子アンカー対応
-                if (node.children[i] && node.children[i].type === 'link') {
+                if (node.children[sCnt] && node.children[sCnt].type === 'link') {
 
                     // URLにアンカーが存在する場合
                     if(window.location.hash){
-                        node.children[i].url = node.children[i].url.replace('\.\.\/','\.\/')
+                        node.children[sCnt].url = node.children[sCnt].url.replace('\.\.\/','\.\/')
                     }
                 }
                 //#48569 Add End 子アンカー対応
                 //#51297 Add Start 下線文字色対応
-                if (node.children[i] && node.children[i].type === 'text' ) {
-                    if(/\*\</.test(node.children[i].value)) {
+                if (node.children[sCnt] && node.children[sCnt].type === 'text' ) {
+                    if(/\*\</.test(node.children[sCnt].value)) {
                         // 太文字かイタリックが存在した場合（下線or文字色と同時の場合のみ）
                         subTransFormStrong(node,i)
                     }
                     // 下線の場合
-                    if(/<u>/.test(node.children[i].value)) {
-                        subTransForm(node,"u",i)
+                    if(/<u>/.test(node.children[sCnt].value)) {
+                        subTransForm(node,"u",sCnt)
                     // 文字色の場合
-                    }else if (/<span style=\"color\:/.test(node.children[i].value)) {
-                        subTransForm(node, "span",i)
+                    }else if (/<span style=\"color\:/.test(node.children[sCnt].value)) {
+                        subTransForm(node, "span",sCnt)
                     }
                 }
             }
@@ -154,10 +154,10 @@ export function flatMap(ast, fn) {
         var textStartChildren = []  // 最初の文字列の配列
         // 以前のデータも詰め込む
         if(startCnt > 0){
-            var tailNode =[]
-            tailNode.children = node.children.slice(0,startCnt+1)
-            const xs2 = transform(tailNode, 0, textStartChildren)
-            textStartChildren = textStartChildren.concat(xs2[0].children)
+//            var tailNode =[]
+            textStartChildren = node.children.slice(0,startCnt+1)
+//            const xs2 = transform(tailNode, 0, textStartChildren)
+//            textStartChildren = textStartChildren.concat(xs2[0].children)
         }
 
         // 文字列を分解する
