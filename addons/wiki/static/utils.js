@@ -227,8 +227,22 @@ export function flatMap(ast, fn) {
                     addTransformedChildren(nthChild, i, node, out);
                 }
             }
-            retrunNode.children = out
 
+            var textStartChildren = []  // 最初の文字列の配列
+            // 以前のデータも詰め込む
+            if(startCnt > 0){
+                var tailNode =[]
+                tailNode.children = node.children.slice(0,startCnt+1)
+                const xs2 = transform(tailNode, 0, textStartChildren)
+                textStartChildren = textStartChildren.concat(xs2[0].children)
+            }
+
+            // 文字色や下線の前に文字があった場合
+            if(textStartChildren!== ""){
+                retrunNode.children = textStartChildren.concat(out)
+            }else{
+                retrunNode.children = out
+            }
             // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
             if(textChildren !== ""){
                 textChildren = textChildren.concat(retrunNode)
