@@ -150,6 +150,16 @@ export function flatMap(ast, fn) {
     // 文字色と下線の処理
     function subTransForm(node, tagText, startCnt){
         var textChildren = []  // 戻りの配列
+
+        var textStartChildren = []  // 最初の文字列の配列
+        // 以前のデータも詰め込む
+        if(startCnt > 0){
+            var tailNode =[]
+            tailNode.children = node.children.slice(0,startCnt+1)
+            const xs2 = transform(tailNode, 0, textStartChildren)
+            textStartChildren = textStartChildren.concat(xs2[0].children)
+        }
+
         // 文字列を分解する
         splitTags(node,startCnt,textChildren)
         var endCnt = startCnt
@@ -226,15 +236,6 @@ export function flatMap(ast, fn) {
                 if (nthChild) {
                     addTransformedChildren(nthChild, i, node, out);
                 }
-            }
-
-            var textStartChildren = []  // 最初の文字列の配列
-            // 以前のデータも詰め込む
-            if(startCnt > 0){
-                var tailNode =[]
-                tailNode.children = node.children.slice(0,startCnt+1)
-                const xs2 = transform(tailNode, 0, textStartChildren)
-                textStartChildren = textStartChildren.concat(xs2[0].children)
             }
 
             // 文字色や下線の前に文字があった場合
@@ -356,7 +357,9 @@ export function flatMap(ast, fn) {
 
         if(!(tmpNode[0].value.startsWith("<"))){
             //最初が文字の場合はそのまま設定
-            textChildren.push({ type: 'text', value: tmpNode[0].value})
+            if(textChildren !=="" ){
+                textChildren.push({ type: 'text', value: tmpNode[0].value})
+            }
             node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
             // 詰め込んだ先頭ノードを削除
             tmpNode.shift();
