@@ -161,7 +161,7 @@ export function flatMap(ast, fn) {
         }
 
         // 文字列を分解する
-        splitTags(node,startCnt,textChildren)
+        splitTags(node,startCnt)
         var endCnt = startCnt
         var endTag = "<\/" + tagText + ">"
         for(var i = startCnt ; i < node.children.length ; i++) {
@@ -199,7 +199,7 @@ export function flatMap(ast, fn) {
             }
 
             // 終了タグがある文字列を分割する
-            splitTags(node,endCnt,null)
+            splitTags(node,endCnt)
             // 再度終了タグの場所を探す
             for(var i = startCnt ; i < node.children.length ; i++) {
                 if(tagText === "span"){
@@ -319,10 +319,11 @@ export function flatMap(ast, fn) {
     }
 
     // 文字分割処理
-    function splitTags(node, spritCnt, textChildren){
+    function splitTags(node, spritCnt){
         var tmpNode = []
         var tmpText = ""
         var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
+
         for(var j=0 ; j < itemData.length ; j++){
             if(itemData[j].startsWith("span style")){
                 tmpText = "<" + itemData[j]
@@ -357,9 +358,6 @@ export function flatMap(ast, fn) {
 
         if(!(tmpNode[0].value.startsWith("<"))){
             //最初が文字の場合はそのまま設定
-            if(textChildren !=="" ){
-                textChildren.push({ type: 'text', value: tmpNode[0].value})
-            }
             node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
             // 詰め込んだ先頭ノードを削除
             tmpNode.shift();
@@ -369,7 +367,9 @@ export function flatMap(ast, fn) {
             //node.children.shift();
         }else if(tmpNode[0].value.startsWith("<span") || tmpNode[0].value.startsWith("<u")){
             // 開始タグの場合、ノードを付け替える
-            node.children = tmpNode.concat(node.children.slice(1))
+            //node.children = tmpNode.concat(node.children.slice(1))
+            Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
+            node.children.splice(spritCnt,1);
         }else if(tmpNode[0].value.startsWith("<\/span") || tmpNode[0].value.startsWith("<\/u")){
             // 終了タグの場合、配列の途中に設定
             Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
