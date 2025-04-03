@@ -15,7 +15,7 @@ export function flatMap(ast, fn) {
         if (isParent(node)) {
             const out = [];
 
-            for (var sCnt = 0 ; sCnt < node.children.length ; i++) {
+            for (var sCnt = 0 ; sCnt < node.children.length ; sCnt++) {
                 //#48569 Add Start 子アンカー対応
                 if (node.children[sCnt] && node.children[sCnt].type === 'link') {
 
