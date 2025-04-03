@@ -155,7 +155,7 @@ export function flatMap(ast, fn) {
         // 以前のデータも詰め込む
         if(startCnt > 0){
 //            var tailNode =[]
-            textStartChildren = node.children.slice(0,startCnt+1)
+            textStartChildren = node.children.slice(0,startCnt)
 //            const xs2 = transform(tailNode, 0, textStartChildren)
 //            textStartChildren = textStartChildren.concat(xs2[0].children)
         }
