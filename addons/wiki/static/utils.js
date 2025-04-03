@@ -187,15 +187,15 @@ export function flatMap(ast, fn) {
             if(tagText ===  "u"){
                 // 下線の場合
                 retrunNode = { type: 'underline' }
-                openTags = node.children[0].value.replace(/<u>/, '')
+                openTags = node.children[startCnt].value.replace(/<u>/, '')
             }else if(tagText === "span"){
                 // 文字色の場合
-                var colorName = node.children[0].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
+                var colorName = node.children[startCnt].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '')
                 if(/.*<\/span>/.test(colorName)){
                     colorName = colorName.replace(/\".*<\/span>/, '')
                 }
                 retrunNode = { type: 'colortext' ,color : colorName}
-                openTags = node.children[0].value.replace("<span style=\"color: " + colorName + "\">", '')
+                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\">", '')
             }
 
             // 終了タグがある文字列を分割する
