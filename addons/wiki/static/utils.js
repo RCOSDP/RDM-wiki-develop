@@ -245,8 +245,8 @@ export function flatMap(ast, fn) {
                 retrunNode.children = out
 //            }
             // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
-            if(textChildren !== ""){
-                textChildren = textChildren.concat(retrunNode)
+            if(textStartChildren !== ""){
+                textChildren = textStartChildren.concat(retrunNode)
             }else{
                 textChildren = retrunNode
             }
