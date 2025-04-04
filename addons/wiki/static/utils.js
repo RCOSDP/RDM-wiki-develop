@@ -195,8 +195,8 @@ export function flatMap(ast, fn) {
                     colorName = colorName.replace(/\".*<\/span>/, '')
                 }
                 retrunNode = { type: 'colortext' ,color : colorName}
-//                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\">", '')
-                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\;\">", '')
+                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\">", '')
+//                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\;\">", '')
             }
 
             // 終了タグがある文字列を分割する
@@ -373,7 +373,7 @@ export function flatMap(ast, fn) {
         }else if(tmpNode[0].value.startsWith("<span") || tmpNode[0].value.startsWith("<u")){
             // 開始タグの場合、ノードを付け替える
             //node.children = tmpNode.concat(node.children.slice(1))
-            Array.prototype.splice.apply(node.children,[1,0].concat(tmpNode));
+            Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
             node.children.splice(spritCnt,1);
         }else if(tmpNode[0].value.startsWith("<\/span") || tmpNode[0].value.startsWith("<\/u")){
             // 終了タグの場合、配列の途中に設定
