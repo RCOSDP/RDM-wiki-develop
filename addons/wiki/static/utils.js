@@ -226,7 +226,7 @@ export function flatMap(ast, fn) {
                 if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
             }else{
                 if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                remainingChildren = remainingChildren.concat(node.children.slice(startCnt +1,startCnt + endCnt))
+                remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt -1))
                 if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             }
             //ノードを詰め込む
@@ -239,11 +239,11 @@ export function flatMap(ast, fn) {
             }
 
             // 文字色や下線の前に文字があった場合
-            if(textStartChildren!== ""){
-                retrunNode.children = textStartChildren.concat(out)
-            }else{
+//            if(textStartChildren!== ""){
+//                retrunNode.children = textStartChildren.concat(out)
+//            }else{
                 retrunNode.children = out
-            }
+//            }
             // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
             if(textChildren !== ""){
                 textChildren = textChildren.concat(retrunNode)
