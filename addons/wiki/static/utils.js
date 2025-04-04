@@ -226,7 +226,11 @@ export function flatMap(ast, fn) {
                 if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
             }else{
                 if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt -1))
+                if(startCnt = 0){
+                    remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt))
+                }else{
+                    remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt -1))
+                }
                 if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             }
             //ノードを詰め込む
