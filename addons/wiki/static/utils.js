@@ -195,7 +195,8 @@ export function flatMap(ast, fn) {
                     colorName = colorName.replace(/\".*<\/span>/, '')
                 }
                 retrunNode = { type: 'colortext' ,color : colorName}
-                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\">", '')
+//                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\">", '')
+                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\;\">", '')
             }
 
             // 終了タグがある文字列を分割する
