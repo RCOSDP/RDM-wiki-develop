@@ -161,7 +161,7 @@ export function flatMap(ast, fn) {
         }
 
         // 文字列を分解する
-        splitTags(node,startCnt,0)
+        startCnt = splitTags(node,startCnt)
         var endCnt = startCnt
         var endTag = "<\/" + tagText + ">"
         for(var i = startCnt ; i < node.children.length ; i++) {
@@ -200,7 +200,7 @@ export function flatMap(ast, fn) {
             }
 
             // 終了タグがある文字列を分割する
-            splitTags(node,endCnt,1)
+            splitTags(node,endCnt)
             // 再度終了タグの場所を探す
             for(var i = startCnt ; i < node.children.length ; i++) {
                 if(tagText === "span"){
@@ -386,6 +386,7 @@ export function flatMap(ast, fn) {
             // 分解した配列を削除する
             node.children.splice(spritCnt,1);
         }
+        return spritCnt
     }
     //#47039 Add End 下線文字色対応
 }
