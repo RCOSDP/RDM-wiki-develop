@@ -363,12 +363,13 @@ export function flatMap(ast, fn) {
 
         if(!(tmpNode[0].value.startsWith("<"))){
             //最初が文字の場合はそのまま設定
-            node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
+//            node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
+            node.children[spritCnt].value = tmpNode[0].value
             // 詰め込んだ先頭ノードを削除
             tmpNode.shift();
             Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
             // 分解した配列を削除する
-            node.children.splice(spritCnt,1);
+            //node.children.splice(spritCnt,1);
             //node.children.shift();
         }else if(tmpNode[0].value.startsWith("<span") || tmpNode[0].value.startsWith("<u")){
             // 開始タグの場合、ノードを付け替える
