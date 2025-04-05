@@ -161,7 +161,7 @@ export function flatMap(ast, fn) {
         }
 
         // 文字列を分解する
-        splitTags(node,startCnt)
+        splitTags(node,startCnt,0)
         var endCnt = startCnt
         var endTag = "<\/" + tagText + ">"
         for(var i = startCnt ; i < node.children.length ; i++) {
@@ -200,7 +200,7 @@ export function flatMap(ast, fn) {
             }
 
             // 終了タグがある文字列を分割する
-            splitTags(node,endCnt)
+            splitTags(node,endCnt,1)
             // 再度終了タグの場所を探す
             for(var i = startCnt ; i < node.children.length ; i++) {
                 if(tagText === "span"){
@@ -323,8 +323,8 @@ export function flatMap(ast, fn) {
         }
     }
 
-    // 文字分割処理
-    function splitTags(node, spritCnt){
+    // 文字分割処理(flg:0はStart、1:はEnd)
+    function splitTags(node, spritCnt, flg){
         var tmpNode = []
         var tmpText = ""
         var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
@@ -368,6 +368,10 @@ export function flatMap(ast, fn) {
             // 詰め込んだ先頭ノードを削除
             tmpNode.shift();
             Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
+            if(flg === 0){
+                // 開始位置を変更する
+                spritCnt = spritCnt + 1;
+            }
             // 分解した配列を削除する
             //node.children.splice(spritCnt,1);
             //node.children.shift();
