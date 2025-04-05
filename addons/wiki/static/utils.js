@@ -153,15 +153,23 @@ export function flatMap(ast, fn) {
 
         var textStartChildren = []  // 最初の文字列の配列
         // 以前のデータも詰め込む
+//        if(startCnt > 0){
+//            var tailNode =[]
+//            textStartChildren = node.children.slice(0,startCnt)
+//            const xs2 = transform(tailNode, 0, textStartChildren)
+//            textStartChildren = textStartChildren.concat(xs2[0].children)
+//        }
+
+        // 文字列を分解する
+        startCnt = splitTags(node,startCnt)
+
+        // 以前のデータも詰め込む
         if(startCnt > 0){
 //            var tailNode =[]
             textStartChildren = node.children.slice(0,startCnt)
 //            const xs2 = transform(tailNode, 0, textStartChildren)
 //            textStartChildren = textStartChildren.concat(xs2[0].children)
         }
-
-        // 文字列を分解する
-        startCnt = splitTags(node,startCnt)
         var endCnt = startCnt
         var endTag = "<\/" + tagText + ">"
         for(var i = startCnt ; i < node.children.length ; i++) {
