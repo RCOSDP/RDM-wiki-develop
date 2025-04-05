@@ -324,7 +324,7 @@ export function flatMap(ast, fn) {
     }
 
     // 文字分割処理(flg:0はStart、1:はEnd)
-    function splitTags(node, spritCnt, flg){
+    function splitTags(node, spritCnt){
         var tmpNode = []
         var tmpText = ""
         var itemData = node.children[spritCnt].value.split('<')    // 文字列分割
@@ -368,10 +368,7 @@ export function flatMap(ast, fn) {
             // 詰め込んだ先頭ノードを削除
             tmpNode.shift();
             Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
-            if(flg === 0){
-                // 開始位置を変更する
-                spritCnt = spritCnt + 1;
-            }
+            spritCnt = spritCnt + 1;
             // 分解した配列を削除する
             //node.children.splice(spritCnt,1);
             //node.children.shift();
