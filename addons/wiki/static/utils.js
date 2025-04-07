@@ -212,7 +212,8 @@ export function flatMap(ast, fn) {
             // 再度終了タグの場所を探す
             for(var i = startCnt ; i < node.children.length ; i++) {
                 if(tagText === "span"){
-                    if(node.children[i].type === 'text' && /<\/span>/.test(node.children[i].value)) {
+                    if((node.children[i].type === 'text' || node.children[i].type === 'html') 
+                        && /<\/span>/.test(node.children[i].value)) {
                         // 終わりのタグ位置を調べる
                         endCnt = i
                         break
