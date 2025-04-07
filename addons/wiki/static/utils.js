@@ -15,9 +15,9 @@ export function flatMap(ast, fn) {
         if (isParent(node)) {
             const out = [];
 //nishi Add Start
-            for (var sCnt = 0 ; sCnt < node.children.length ; sCnt++) {
-                if (node.children[sCnt] && node.children[sCnt].type === 'text'
-                    && node.children[sCnt].value.match((/.*\~\~.*$/))) {
+            for (var i = 0 ; i < node.children.length ; i++) {
+                if (node.children[i] && node.children[i].type === 'text'
+                    && node.children[i].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     node = deleteChange(node);
                 }
