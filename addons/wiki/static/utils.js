@@ -14,7 +14,15 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
-
+//nishi Add Start
+            for (var sCnt = 0 ; sCnt < node.children.length ; sCnt++) {
+                if (node.children[sCnt] && node.children[sCnt].type === 'text'
+                    && node.children[sCnt].value.match((/.*\~\~.*$/))) {
+                    // 取り消し線が設定済みの場合
+                    node = deleteChange(node);
+                }
+            }
+//nishi Add End
             for (var sCnt = 0 ; sCnt < node.children.length ; sCnt++) {
                 //#48569 Add Start 子アンカー対応
                 if (node.children[sCnt] && node.children[sCnt].type === 'link') {
@@ -394,6 +402,46 @@ export function flatMap(ast, fn) {
         return spritCnt
     }
     //#47039 Add End 下線文字色対応
+
+    // 取り消し線対応
+    function deleteChange(node){
+        var startCnt = 0
+        var endCnt = 0
+        var tmpNode = []
+        var tmpNodeCh = []
+        var tmpText = ""
+
+        for(var i = 0 ; i < node.children.length ; i++) {
+            // 最初に見つかった取り消し線開始の場所を探す
+            for (var j = startCnt ; j < node.children.length ; j++) {
+                if (node.children[j] && node.children[j].value.match((/.*\~\~.*$/))) {
+                    // 取り消し線が設定済みの場合
+                    startCnt = j;
+                    tmpText = node.children[j].value.replace('\~\~','')
+                    tmpNode.push({type: 'text', value:tmpText})
+                    tmpNode.push({type: 'delete'})
+                    break;
+                }
+                tmpNode.push(node.children[j])
+            }
+
+            // 最初に見つかった終わりの場所を探す
+            for (var j = startCnt+1 ; j < node.children.length ; j++) {
+                if (node.children[j] && node.children[j].value.match((/.*\~\~.*$/))) {
+                    // 取り消し線が設定済みの場合
+                    endCnt = j;
+                    startCnt = startCnt + 1 ;
+                    tmpText = node.children[j].value.replace('\~\~','')
+                    tmpNode.push({type: 'text', value:tmpText})
+                    break;
+                }
+                tmpNodeCh.push(node.children[j])
+            }
+            tmpNode[startCnt].children = tmpNodeCh
+            i = endCnt
+        }
+        return tmpNode
+    }
 }
 
 function createImageNode(altNode, linkNode, sizeNode) {
