@@ -417,7 +417,7 @@ export function flatMap(ast, fn) {
         for(var i = 0 ; i < node.children.length ; i++) {
             // 最初に見つかった取り消し線開始の場所を探す
             for (var j = startCnt ; j < node.children.length ; j++) {
-                if (node.children[j] && node.children[j].value.type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
+                if (node.children[j] && node.children[j].type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     startCnt = j;
                     var tmpSText = node.children[j].value.substring(0,node.children[j].value.indexOf('\~\~'))
@@ -439,7 +439,7 @@ export function flatMap(ast, fn) {
 
             // 最初に見つかった終わりの場所を探す
             for (var j = startCnt ; j < node.children.length ; j++) {
-                if (node.children[j] && node.children[j].value.type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
+                if (node.children[j] && node.children[j].type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     endCnt = j;
                     startCnt = startCnt + 1 ;
