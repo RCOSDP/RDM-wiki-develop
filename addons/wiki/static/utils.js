@@ -423,11 +423,12 @@ export function flatMap(ast, fn) {
                     var tmpSText = node.children[j].value.substring(0,node.children[j].value.indexOf('\~\~'))
                     if(tmpSText !== ""){
                         tmpNode.push({type: 'text', value:tmpSText})
+                        node.children[j].value = node.children[j].value.replace
                         startCnt = startCnt + 1
                     }
                     //tmpText = node.children[j].value.replace('\~\~','')
                     //tmpNode.push({type: 'text', value:tmpText})
-                    var tmpEText = node.children[j].value.replace(tmpNode.value,'').replace('\~\~','')
+                    var tmpEText = node.children[j].value.replace(tmpSText.value,'').replace('\~\~','')
                     if(tmpEText !== ""){
                         tmpNodeCh.push({type: 'text', value:tmpEText})
                     }
