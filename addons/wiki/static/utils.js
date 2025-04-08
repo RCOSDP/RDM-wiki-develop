@@ -20,10 +20,14 @@ export function flatMap(ast, fn) {
                 if (node.children[i] && node.children[i].type === 'text'
                     && node.children[i].value.match(/.*\~\~.*$/)) {
                     // 取り消し線が設定済みの場合
-                    node = deleteChange(node);
+                    nodeTmp = deleteChange(node);
                     break;
                 }
             }
+            if(nodeTmp !== ''){
+                node.children = nodeTmp
+            }
+            node = nodeTmp
 //nishi Add End
             for (var sCnt = 0 ; sCnt < node.children.length ; sCnt++) {
                 //#48569 Add Start 子アンカー対応
