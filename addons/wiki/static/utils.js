@@ -417,17 +417,17 @@ export function flatMap(ast, fn) {
         for(var i = 0 ; i < node.children.length ; i++) {
             // 最初に見つかった取り消し線開始の場所を探す
             for (var j = startCnt ; j < node.children.length ; j++) {
-                if (node.children[j] && node.children[j].value.match((/.*\~\~.*$/))) {
+                if (node.children[j] && node.children[j].value.type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     startCnt = j;
-                    var tmpSText = node.children[j].value.substring(0,node.children[j].value.indexOf('\~\~')+1)
+                    var tmpSText = node.children[j].value.substring(0,node.children[j].value.indexOf('\~\~'))
                     if(tmpSText !== ""){
                         tmpNode.push({type: 'text', value:tmpSText})
-                        startCnt = startCnt + 1
+//                        startCnt = startCnt + 1
                     }
                     //tmpText = node.children[j].value.replace('\~\~','')
                     //tmpNode.push({type: 'text', value:tmpText})
-                    var tmpEText = node.children[j].value.replace(tmpNode,'').replace('\~\~','')
+                    var tmpEText = node.children[j].value.replace(tmpNode.value,'').replace('\~\~','')
                     if(tmpEText !== ""){
                         tmpNodeCh.push({type: 'text', value:tmpEText})
                     }
@@ -439,7 +439,7 @@ export function flatMap(ast, fn) {
 
             // 最初に見つかった終わりの場所を探す
             for (var j = startCnt+1 ; j < node.children.length ; j++) {
-                if (node.children[j] && node.children[j].value.match((/.*\~\~.*$/))) {
+                if (node.children[j] && node.children[j].value.type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     endCnt = j;
                     startCnt = startCnt + 1 ;
