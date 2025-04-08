@@ -423,12 +423,12 @@ export function flatMap(ast, fn) {
                     var tmpSText = node.children[j].value.substring(0,node.children[j].value.indexOf('\~\~'))
                     if(tmpSText !== ""){
                         tmpNode.push({type: 'text', value:tmpSText})
-                        node.children[j].value = node.children[j].value.replace(tmpSText.value,'')
+                        node.children[j].value = node.children[j].value.replace(tmpSText,'')
                         startCnt = startCnt + 1
                     }
                     //tmpText = node.children[j].value.replace('\~\~','')
                     //tmpNode.push({type: 'text', value:tmpText})
-                    var tmpEText = node.children[j].value.replace(tmpSText.value,'').replace('\~\~','')
+                    var tmpEText = node.children[j].value.replace(tmpSText,'').replace('\~\~','')
                     if(tmpEText !== ""){
                         tmpNodeCh.push({type: 'text', value:tmpEText})
                     }
@@ -443,7 +443,7 @@ export function flatMap(ast, fn) {
                 if (node.children[j] && node.children[j].type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     endCnt = j;
-                    startCnt = startCnt + 1 ;
+//                    startCnt = startCnt + 1 ;
                     tmpText = node.children[j].value.replace('\~\~','')
                     tmpNode.push({type: 'text', value:tmpText})
                     break;
