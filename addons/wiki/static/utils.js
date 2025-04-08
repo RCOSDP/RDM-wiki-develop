@@ -423,7 +423,7 @@ export function flatMap(ast, fn) {
                     var tmpSText = node.children[j].value.substring(0,node.children[j].value.indexOf('\~\~'))
                     if(tmpSText !== ""){
                         tmpNode.push({type: 'text', value:tmpSText})
-//                        startCnt = startCnt + 1
+                        startCnt = startCnt + 1
                     }
                     //tmpText = node.children[j].value.replace('\~\~','')
                     //tmpNode.push({type: 'text', value:tmpText})
@@ -438,7 +438,7 @@ export function flatMap(ast, fn) {
             }
 
             // 最初に見つかった終わりの場所を探す
-            for (var j = startCnt+1 ; j < node.children.length ; j++) {
+            for (var j = startCnt ; j < node.children.length ; j++) {
                 if (node.children[j] && node.children[j].value.type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     endCnt = j;
