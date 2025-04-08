@@ -420,8 +420,17 @@ export function flatMap(ast, fn) {
                 if (node.children[j] && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     startCnt = j;
-                    tmpText = node.children[j].value.replace('\~\~','')
-                    tmpNode.push({type: 'text', value:tmpText})
+                    var tmpSText = node.children[j].value.substring(0,node.children[j].value.indexOf('\~\~')+1)
+                    if(tmpSText !== ""){
+                        tmpNode.push({type: 'text', value:tmpSText})
+                        startCnt = startCnt + 1
+                    }
+                    //tmpText = node.children[j].value.replace('\~\~','')
+                    //tmpNode.push({type: 'text', value:tmpText})
+                    var tmpEText = node.children[j].value.replace(tmpNode,'').replace('\~\~','')
+                    if(tmpEText !== ""){
+                        tmpNodeCh.push({type: 'text', value:tmpEText})
+                    }
                     tmpNode.push({type: 'delete'})
                     break;
                 }
