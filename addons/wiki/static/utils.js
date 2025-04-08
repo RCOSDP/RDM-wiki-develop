@@ -15,17 +15,14 @@ export function flatMap(ast, fn) {
         if (isParent(node)) {
             const out = [];
 //nishi Add Start
-            var nodeTmp = [];
             for (var i = 0 ; i < node.children.length ; i++) {
                 if (node.children[i] && node.children[i].type === 'text'
                     && node.children[i].value.match(/.*\~\~.*$/)) {
                     // 取り消し線が設定済みの場合
-                    nodeTmp = deleteChange(node);
+                    node.children = deleteChange(node);
+                    //node.children = nodeTmp
                     break;
                 }
-            }
-            if(nodeTmp !== ''){
-                node.children = nodeTmp
             }
 //            node = nodeTmp
 //nishi Add End
