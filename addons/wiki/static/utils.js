@@ -14,18 +14,16 @@ export function flatMap(ast, fn) {
     function transform(node, index, parent) {
         if (isParent(node)) {
             const out = [];
-//nishi Add Start
+            //#51315 Add Start 訂正線とコードブロック対応
             for (var i = 0 ; i < node.children.length ; i++) {
                 if (node.children[i] && node.children[i].type === 'text'
                     && node.children[i].value.match(/.*\~\~.*$/)) {
                     // 取り消し線が設定済みの場合
                     node.children = deleteChange(node);
-                    //node.children = nodeTmp
                     break;
                 }
             }
-//            node = nodeTmp
-//nishi Add End
+            //#51315 Add End 訂正線とコードブロック対応
             for (var sCnt = 0 ; sCnt < node.children.length ; sCnt++) {
                 //#48569 Add Start 子アンカー対応
                 if (node.children[sCnt] && node.children[sCnt].type === 'link') {
@@ -163,23 +161,13 @@ export function flatMap(ast, fn) {
         var textChildren = []  // 戻りの配列
 
         var textStartChildren = []  // 最初の文字列の配列
-        // 以前のデータも詰め込む
-//        if(startCnt > 0){
-//            var tailNode =[]
-//            textStartChildren = node.children.slice(0,startCnt)
-//            const xs2 = transform(tailNode, 0, textStartChildren)
-//            textStartChildren = textStartChildren.concat(xs2[0].children)
-//        }
 
         // 文字列を分解する
         startCnt = splitTags(node,startCnt)
 
         // 以前のデータも詰め込む
         if(startCnt > 0){
-//            var tailNode =[]
             textStartChildren = node.children.slice(0,startCnt)
-//            const xs2 = transform(tailNode, 0, textStartChildren)
-//            textStartChildren = textStartChildren.concat(xs2[0].children)
         }
         var endCnt = startCnt
         var endTag = "<\/" + tagText + ">"
@@ -215,7 +203,6 @@ export function flatMap(ast, fn) {
                 }
                 retrunNode = { type: 'colortext' ,color : colorName}
                 openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\">", '')
-//                openTags = node.children[startCnt].value.replace("<span style=\"color: " + colorName + "\;\">", '')
             }
 
             // 終了タグがある文字列を分割する
@@ -261,14 +248,8 @@ export function flatMap(ast, fn) {
                     addTransformedChildren(nthChild, i, node, out);
                 }
             }
+            retrunNode.children = out
 
-            // 文字色や下線の前に文字があった場合
-//            if(textStartChildren!== ""){
-//                retrunNode.children = textStartChildren.concat(out)
-//            }else{
-                retrunNode.children = out
-//            }
-            // 分解した文字列の残りがあった場合は設定する（色設定の並びに、文字や装飾があった場合）
             if(textStartChildren !== ""){
                 textChildren = textStartChildren.concat(retrunNode)
             }else{
@@ -382,18 +363,13 @@ export function flatMap(ast, fn) {
 
         if(!(tmpNode[0].value.startsWith("<"))){
             //最初が文字の場合はそのまま設定
-//            node.children[spritCnt].value = node.children[spritCnt].value.replace(tmpNode[0].value,"")
             node.children[spritCnt].value = tmpNode[0].value
             // 詰め込んだ先頭ノードを削除
             tmpNode.shift();
             Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
             spritCnt = spritCnt + 1;
-            // 分解した配列を削除する
-            //node.children.splice(spritCnt,1);
-            //node.children.shift();
         }else if(tmpNode[0].value.startsWith("<span") || tmpNode[0].value.startsWith("<u")){
             // 開始タグの場合、ノードを付け替える
-            //node.children = tmpNode.concat(node.children.slice(1))
             Array.prototype.splice.apply(node.children,[spritCnt + 1,0].concat(tmpNode));
             node.children.splice(spritCnt,1);
         }else if(tmpNode[0].value.startsWith("<\/span") || tmpNode[0].value.startsWith("<\/u")){
@@ -406,7 +382,7 @@ export function flatMap(ast, fn) {
     }
     //#47039 Add End 下線文字色対応
 
-    // 取り消し線対応
+    //#51315 Add Start 訂正線とコードブロック対応
     function deleteChange(node){
         var startCnt = 0
         var endCnt = 0
@@ -428,8 +404,6 @@ export function flatMap(ast, fn) {
                             startCnt = startCnt + 1
                         }
                     }
-                    //tmpText = node.children[j].value.replace('\~\~','')
-                    //tmpNode.push({type: 'text', value:tmpText})
                     var tmpEText = node.children[j].value.replace(tmpSText,'').replace('\~\~','')
                     if(tmpEText !== ""){
                         tmpNodeCh.push({type: 'text', value:tmpEText})
@@ -445,7 +419,6 @@ export function flatMap(ast, fn) {
                 if (node.children[j] && node.children[j].type === 'text' && node.children[j].value.match((/.*\~\~.*$/))) {
                     // 取り消し線が設定済みの場合
                     endCnt = j;
-//                    startCnt = startCnt + 1 ;
                     tmpText = node.children[j].value.replace('\~\~','')
                     tmpNode.push({type: 'text', value:tmpText})
                     break;
@@ -460,6 +433,7 @@ export function flatMap(ast, fn) {
         }
         return tmpNode
     }
+    // #51315 Add End 訂正線とコードブロック対応
 }
 
 function createImageNode(altNode, linkNode, sizeNode) {
