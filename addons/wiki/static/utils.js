@@ -424,7 +424,9 @@ export function flatMap(ast, fn) {
                     if(tmpSText !== ""){
                         tmpNode.push({type: 'text', value:tmpSText})
                         node.children[j].value = node.children[j].value.replace(tmpSText+'\~\~','')
-                        startCnt = startCnt + 1
+                        if(!(node.children[j].value.match(/.*\~\~.*$/))){
+                            startCnt = startCnt + 1
+                        }
                     }
                     //tmpText = node.children[j].value.replace('\~\~','')
                     //tmpNode.push({type: 'text', value:tmpText})
@@ -451,7 +453,9 @@ export function flatMap(ast, fn) {
                 tmpNodeCh.push(node.children[j])
             }
             tmpNode[startCnt].children = tmpNodeCh
-            i = endCnt
+            if(i < endCnt){
+                i = endCnt
+            }
             startCnt = endCnt + 1
         }
         return tmpNode
