@@ -452,6 +452,7 @@ export function flatMap(ast, fn) {
             }
             tmpNode[startCnt].children = tmpNodeCh
             i = endCnt
+            startCnt = endCnt + 1
         }
         return tmpNode
     }
