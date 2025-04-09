@@ -40,7 +40,7 @@ export function flatMap(ast, fn) {
                 if (node.children[sCnt] && node.children[sCnt].type === 'text' ) {
                     if(/\*\</.test(node.children[sCnt].value)) {
                         // 太文字かイタリックが存在した場合（下線or文字色と同時の場合のみ）
-                        subTransFormStrong(node,i)
+                        subTransFormStrong(node,sCnt)
                     }
                     // 下線の場合
                     if(/<u>/.test(node.children[sCnt].value)) {
