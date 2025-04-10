@@ -233,11 +233,12 @@ export function flatMap(ast, fn) {
                 if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openCloseTag})}
             }else{
                 if (openTags.length > 0) {remainingChildren.push({ type: 'text', value: openTags})}
-                if(startCnt === 0){
-                    remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt))
-                }else{
-                    remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt -1))
-                }
+//                if(startCnt === 0){
+                    //remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt))
+                    remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1, endCnt + 1))
+//                }else{
+//                    remainingChildren = remainingChildren.concat(node.children.slice(startCnt + 1,startCnt + endCnt -1))
+//                }
                 if (closeTags.length > 0) {remainingChildren.push({ type: 'text', value: closeTags})}
             }
             //ノードを詰め込む
@@ -331,19 +332,9 @@ export function flatMap(ast, fn) {
 
         for(var j=0 ; j < itemData.length ; j++){
             if(itemData[j].startsWith("span style")){
-//                if(tmpText !== ""){
-//                    tmpNode.push({type: 'text' ,value : tmpText})
-//                    tmpText = ""
-//                }
                 tmpText = "<" + itemData[j]
-//                tmpNode.push({type: 'text' ,value : tmpText})
             }else if(itemData[j].startsWith("u>")){
-//                if(tmpText !== ""){
-//                    tmpNode.push({type: 'text' ,value : tmpText})
-//                    tmpText = ""
-//                }
                 tmpText = "<" + itemData[j]
-//                tmpNode.push({type: 'text' ,value : tmpText})
             }else if(itemData[j].startsWith("\/span>")){
                 tmpText = tmpText + "<\/span>"
                 tmpNode.push({type: 'text' ,value : tmpText})
