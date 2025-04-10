@@ -331,17 +331,17 @@ export function flatMap(ast, fn) {
 
         for(var j=0 ; j < itemData.length ; j++){
             if(itemData[j].startsWith("span style")){
-                if(tmpText !== ""){
-                    tmpNode.push({type: 'text' ,value : tmpText})
-                    tmpText = ""
-                }
+//                if(tmpText !== ""){
+//                    tmpNode.push({type: 'text' ,value : tmpText})
+//                    tmpText = ""
+//                }
                 tmpText = "<" + itemData[j]
 //                tmpNode.push({type: 'text' ,value : tmpText})
             }else if(itemData[j].startsWith("u>")){
-                if(tmpText !== ""){
-                    tmpNode.push({type: 'text' ,value : tmpText})
-                    tmpText = ""
-                }
+//                if(tmpText !== ""){
+//                    tmpNode.push({type: 'text' ,value : tmpText})
+//                    tmpText = ""
+//                }
                 tmpText = "<" + itemData[j]
 //                tmpNode.push({type: 'text' ,value : tmpText})
             }else if(itemData[j].startsWith("\/span>")){
