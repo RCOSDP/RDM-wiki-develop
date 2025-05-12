@@ -328,8 +328,12 @@ export function flatMap(ast, fn) {
         for(var j=0 ; j < itemData.length ; j++){
             if(itemData[j].startsWith("span style")){
                 tmpText = "<" + itemData[j]
+                tmpNode.push({type: 'text' ,value : tmpText})
+                tmpText = ""
             }else if(itemData[j].startsWith("u>")){
                 tmpText = "<" + itemData[j]
+                tmpNode.push({type: 'text' ,value : tmpText})
+                tmpText = ""
             }else if(itemData[j].startsWith("\/span>")){
                 tmpText = tmpText + "<\/span>"
                 tmpNode.push({type: 'text' ,value : tmpText})
