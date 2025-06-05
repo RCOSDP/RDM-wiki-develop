@@ -1,0 +1,9 @@
+!.eslintrc.js
+!.template-lintrc.js
+/coverage/**
+/dist/**
+/docs/**
+/tmp/**
+/vendor/**
+/blueprints/*/files/**
+/blueprints/*/engine-files/**

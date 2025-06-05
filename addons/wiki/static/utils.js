@@ -52,7 +52,6 @@ export function flatMap(ast, fn) {
                             subTransForm(node, "span",sCnt)
                         }
                     // 下線の場合
-                    //if(/<u>/.test(node.children[sCnt].value)) {
                     }else if(/<u>/.test(node.children[sCnt].value)) {
                         subTransForm(node,"u",sCnt)
                     // 文字色の場合
