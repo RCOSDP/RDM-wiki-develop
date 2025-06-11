@@ -93,7 +93,7 @@ const underlineFromMarkdownPlugin = function underlineFromMarkdownPlugin() {
               ]
             };
             if (node.postion){
-              underlineNode['position'] = {
+              underlineNode.position = {
                 start: {
                   line: node.position.start.line,
                   column: node.position.start.column + index,
@@ -105,7 +105,7 @@ const underlineFromMarkdownPlugin = function underlineFromMarkdownPlugin() {
                   offset: node.position.start.offset + index + match[0].length
                 }
               };
-              underlineNode.children['postion'] = {
+              underlineNode.children.postion = {
                 start: {
                   line: node.position.start.line,
                   column: node.position.start.column + index + 3,
