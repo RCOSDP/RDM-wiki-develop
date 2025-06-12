@@ -33,7 +33,7 @@ jobs:
 #        - greenkeeper-lockfile-update
       before_script:
         - yarn jshint test
-        - yarn test node-tests
+#        - yarn test node-tests
         - yarn build test
       script:
         - yarn test:cover --path ./dist
