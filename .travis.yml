@@ -31,10 +31,7 @@ jobs:
         - yarn --prefer-offline --frozen-lockfile --ignore-engines
         - greenkeeper-lockfile-update
       before_script:
-        - yarn lint:es
-        - yarn lint:ts
-        - yarn lint:style
-        - yarn lint:template
+        - yarn jshint:test
         - yarn test:node-tests
         - yarn build:test
       script:
