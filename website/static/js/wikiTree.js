@@ -1,4 +1,5 @@
 'use strict';
+var $ = require('jquery');
 var ko = require('knockout');
 require('knockout-sortable');
 var $osf = require('js/osfHelpers');
