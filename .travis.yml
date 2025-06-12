@@ -32,11 +32,14 @@ jobs:
         - yarn list --depth=0
 #        - greenkeeper-lockfile-update
       before_script:
-        - yarn jshint test
+        - yarn jshint --config ./.jshintrc ./addons/wiki/static/*.js
+        - yarn jshint --config ./.jshintrc ./website/static/js/pages/*.js
+        - yarn jshint --config ./.jshintrc ./website/static/js/*.js
+#        - yarn jshint test
 #        - yarn test node-tests
 #        - yarn build test
       script:
-        - yarn test:cover --path ./dist
+        - yarn test cover --path ./dist
 #      after_script:
 #        - greenkeeper-lockfile-upload
       after_success:
