@@ -29,6 +29,7 @@ jobs:
 #        - yarn global add greenkeeper-lockfile@1
       install:
         - yarn --prefer-offline --frozen-lockfile --ignore-engines
+        - yarn list --depth=0
 #        - greenkeeper-lockfile-update
       before_script:
         - yarn jshint:test
