@@ -34,7 +34,7 @@ jobs:
       before_script:
         - yarn jshint test
 #        - yarn test node-tests
-        - yarn build test
+#        - yarn build test
       script:
         - yarn test:cover --path ./dist
 #      after_script:
