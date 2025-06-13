@@ -34,12 +34,15 @@ jobs:
       before_script:
         - echo "==== PWD ===="
         - pwd
-        - ls -ltra
-        - cat .jshintrc
+        - ls -ltra /home/travis/build/RCOSDP/RDM-wiki-develop/
+        - cat /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc
         - echo "============="
-        - yarn jshint --config .jshintrc addons/wiki/static/
-        - yarn jshint --config .jshintrc website/static/js/pages/
-        - yarn jshint --config .jshintrc website/static/js/
+        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
+        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/pages/
+        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/
+#        - yarn jshint --config .jshintrc addons/wiki/static/
+#        - yarn jshint --config .jshintrc website/static/js/pages/
+#        - yarn jshint --config .jshintrc website/static/js/
 #        - yarn jshint --config ./code/.jshintrc ./code/addons/wiki/static/*.js
 #        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/pages/*.js
 #        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/*.js
