@@ -34,7 +34,7 @@ jobs:
       before_script:
         - echo "==== PWD ===="
         - pwd
-        - ls -ltr
+        - ls -ltra
         - echo "============="
         - yarn jshint --config .jshintrc addons/wiki/static/*.js
         - yarn jshint --config .jshintrc website/static/js/pages/*.js
