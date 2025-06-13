@@ -32,9 +32,13 @@ jobs:
         - yarn list --depth=0
 #        - greenkeeper-lockfile-update
       before_script:
-        - yarn jshint --config ./code/.jshintrc ./code/addons/wiki/static/*.js
-        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/pages/*.js
-        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/*.js
+        - pwd
+        - yarn jshint --config .jshintrc addons/wiki/static/*.js
+        - yarn jshint --config .jshintrc website/static/js/pages/*.js
+        - yarn jshint --config .jshintrc website/static/js/*.js
+#        - yarn jshint --config ./code/.jshintrc ./code/addons/wiki/static/*.js
+#        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/pages/*.js
+#        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/*.js
 #        - yarn jshint --config /code/.jshintrc /code/addons/wiki/static/*.js
 #        - yarn jshint --config /code/.jshintrc /code/website/static/js/pages/*.js
 #        - yarn jshint --config /code/.jshintrc /code/website/static/js/*.js
