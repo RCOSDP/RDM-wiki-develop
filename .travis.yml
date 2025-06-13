@@ -35,6 +35,7 @@ jobs:
         - echo "==== PWD ===="
         - pwd
         - ls -ltra
+        - cat .jshintrc
         - echo "============="
         - yarn jshint --config .jshintrc addons/wiki/static/*.js
         - yarn jshint --config .jshintrc website/static/js/pages/*.js
