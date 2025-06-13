@@ -132,6 +132,7 @@
     "test": "karma start --single-run --browsers ChromeHeadless",
     "test-travis": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
     "webpack-dev": "webpack --config webpack.dev.config.js",
+    "jshint": "jshint",
     "webpack-prod": "webpack --config webpack.prod.config.js"
   },
   "main": "webpack.common.config.js",
