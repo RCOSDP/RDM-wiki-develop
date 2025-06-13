@@ -37,9 +37,9 @@ jobs:
         - ls -ltra
         - cat .jshintrc
         - echo "============="
-        - yarn jshint --config .jshintrc addons/wiki/static/*.js
-        - yarn jshint --config .jshintrc website/static/js/pages/*.js
-        - yarn jshint --config .jshintrc website/static/js/*.js
+        - yarn jshint --config .jshintrc addons/wiki/static/
+        - yarn jshint --config .jshintrc website/static/js/pages/
+        - yarn jshint --config .jshintrc website/static/js/
 #        - yarn jshint --config ./code/.jshintrc ./code/addons/wiki/static/*.js
 #        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/pages/*.js
 #        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/*.js
