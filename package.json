@@ -133,6 +133,7 @@
     "test-travis": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
     "webpack-dev": "webpack --config webpack.dev.config.js",
     "jshint": "jshint",
+    "lint": "jshint /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/",
     "webpack-prod": "webpack --config webpack.prod.config.js"
   },
   "main": "webpack.common.config.js",
