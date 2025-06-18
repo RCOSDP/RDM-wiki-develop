@@ -38,7 +38,7 @@ jobs:
         - cat /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc
         - echo "============="
         - npm install -g jshint  # JSHintをグローバルにインストール
-#        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
+        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
 #        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/pages/
 #        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/
 #        - yarn jshint --config .jshintrc addons/wiki/static/
@@ -55,7 +55,7 @@ jobs:
 #        - yarn build test
       script:
         - yarn test cover --path ./dist
-        - jshint .
+#        - jshint .
 #      after_script:
 #        - greenkeeper-lockfile-upload
       after_success:
