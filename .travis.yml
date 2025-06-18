@@ -54,7 +54,8 @@ jobs:
 #        - yarn test node-tests
 #        - yarn build test
       script:
-        - yarn jshint -c .jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
+        - npm run lint
+        - yarn jshint -c .jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
         - yarn test cover --path ./dist
 #        - jshint .
 #      after_script:
