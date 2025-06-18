@@ -1522,6 +1522,7 @@ cli@0.4.3:
 cli@0.6.x:
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/cli/-/cli-0.6.6.tgz#02ad44a380abf27adac5e6f0cdd7b043d74c53e3"
+  integrity sha512-4H6IzYk78R+VBeJ3fH3VQejcQRkGPR+kMjA9n30srEN+YVMPJLHfoQDtLquIzcLnfrlUrVA8qSQRB9fdgWpUBw==
   dependencies:
     exit "0.1.2"
     glob "~ 3.2.1"
@@ -2933,6 +2934,7 @@ glob-to-regexp@^0.4.1:
 glob@3.2.11, "glob@~ 3.2.1":
   version "3.2.11"
   resolved "https://registry.yarnpkg.com/glob/-/glob-3.2.11.tgz#4a973f635b9190f715d10987d5c00fd2815ebe3d"
+  integrity sha512-hVb0zwEZwC1FXSKRPFTeOtN7AArJcJlI6ULGLtrstaswKNlrTJqAA+1lYlSUop4vjA423xlBzqfVS3iWGlqJ+g==
   dependencies:
     inherits "2"
     minimatch "0.3"
@@ -3801,6 +3803,7 @@ jshint@0.9.x:
 jshint@2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/jshint/-/jshint-2.8.0.tgz#1d09a3bd913c4cadfa81bf18d582bd85bffe0d44"
+  integrity sha512-IJJlrjPQU0fBkuV2Sgm4OKyHH5cFx2QToQgpkcyJcrF8gjG2AVpVnRqPQ3JrmlTQPiVlp9KAKfGezHk3mr7VJw==
   dependencies:
     cli "0.6.x"
     console-browserify "1.1.x"
@@ -4375,6 +4378,7 @@ lodash@3.5.0:
 lodash@3.7.x:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.7.0.tgz#3678bd8ab995057c07ade836ed2ef087da811d45"
+  integrity sha512-73GDDlioRJOCHV8N9gnBEpjdWI34+e9AvMnS4qdqdMfl8/yH/dJP1tfuqUFccZ/deZQlHuJiRSuKXjKIfDwBOg==
 
 lodash@^3.2.0, lodash@^3.8.0:
   version "3.10.1"
@@ -5096,6 +5100,7 @@ minimatch@0.3:
 minimatch@2.0.x, minimatch@^2.0.1:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-2.0.10.tgz#8d087c39c6b38c001b97fca7ce6d0e1e80afbac7"
+  integrity sha512-jQo6o1qSVLEWaw3l+bwYA2X0uLuK2KjNh2wjgO7Q/9UJnXr1Q3yQKR8BI0/Bt/rPg75e6SMW4hW/6cBHVTZUjA==
   dependencies:
     brace-expansion "^1.0.0"
 
@@ -6921,6 +6926,7 @@ shebang-regex@^3.0.0:
 shelljs@0.3.x:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.3.0.tgz#3596e6307a781544f591f37da618360f31db57b1"
+  integrity sha512-Ny0KN4dyT8ZSCE0frtcbAJGoM/HTArpyPkeli1/00aYfm0sbD/Gk/4x7N2DP9QKGpBsiQH7n6rpm1L79RtviEQ==
 
 sigmund@~1.0.0:
   version "1.0.1"
