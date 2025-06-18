@@ -38,7 +38,7 @@ jobs:
         - cat /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc
         - echo "============="
         - npm install -g jshint  # JSHintをグローバルにインストール
-        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
+#        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
 #        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/pages/
 #        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/
 #        - yarn jshint --config .jshintrc addons/wiki/static/
@@ -54,6 +54,7 @@ jobs:
 #        - yarn test node-tests
 #        - yarn build test
       script:
+        - yarn jshint -c .jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
         - yarn test cover --path ./dist
 #        - jshint .
 #      after_script:
