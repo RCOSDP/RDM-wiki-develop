@@ -47,9 +47,9 @@ jobs:
 #        - yarn build test
       script:
 #        - npm run lint
-        - yarn test cover --path ./addons/wiki/static/
-        - yarn test cover --path ./website/static/js/pages/
-        - yarn test cover --path ./website/static/js/
+        - yarn test:cover --path ./addons/wiki/static/
+        - yarn test:cover --path ./website/static/js/pages/
+        - yarn test:cover --path ./website/static/js/
 #        - jshint .
 #      after_script:
 #        - greenkeeper-lockfile-upload
