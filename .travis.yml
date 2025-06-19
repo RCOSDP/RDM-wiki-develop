@@ -39,25 +39,17 @@ jobs:
         - cat /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc
         - echo "============="
         - yarn add jshint@2.13.6  # JSHintをグローバルにインストール
-        - yarn jshint --config .jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
-#        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
-#        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/pages/
-#        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/
-#        - yarn jshint --config .jshintrc addons/wiki/static/
-#        - yarn jshint --config .jshintrc website/static/js/pages/
-#        - yarn jshint --config .jshintrc website/static/js/
-#        - yarn jshint --config ./code/.jshintrc ./code/addons/wiki/static/*.js
-#        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/pages/*.js
-#        - yarn jshint --config ./code/.jshintrc ./code/website/static/js/*.js
-#        - yarn jshint --config /code/.jshintrc /code/addons/wiki/static/*.js
-#        - yarn jshint --config /code/.jshintrc /code/website/static/js/pages/*.js
-#        - yarn jshint --config /code/.jshintrc /code/website/static/js/*.js
+        - yarn jshint --config .jshintrc ./addons/wiki/static/
+        - yarn jshint --config .jshintrc ./website/static/js/pages/
+        - yarn jshint --config .jshintrc ./website/static/js/
 #        - yarn jshint test
 #        - yarn test node-tests
 #        - yarn build test
       script:
 #        - npm run lint
-        - yarn test cover --path ./dist
+        - yarn test cover --path ./addons/wiki/static/
+        - yarn test cover --path ./website/static/js/pages/
+        - yarn test cover --path ./website/static/js/
 #        - jshint .
 #      after_script:
 #        - greenkeeper-lockfile-upload
