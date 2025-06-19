@@ -1,9 +1,9 @@
 language: node_js
-#node_js:
-#  - "21"
+node_js:
+  - "21"
 sudo: false
 
-dist: trusty
+dist: noble
 
 env:
   global:
