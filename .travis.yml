@@ -17,7 +17,7 @@ cache:
 
 jobs:
   include:
-#    - stage: "test"
+    - stage: "test"
       if: |
         branch ~= /^develop$|^master$|^release\/.+$/ OR \
         type = pull_request OR \

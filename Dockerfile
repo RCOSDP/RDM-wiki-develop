@@ -194,9 +194,7 @@ RUN \
     && yarn run webpack-prod \
     && cd ../ \
     # Cleanup
-    && yarn cache clean 
-    #\
-    #&& npm cache clean --force
+    && yarn cache clean
 
 # Copy the rest of the code over
 COPY ./ ./
