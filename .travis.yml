@@ -38,7 +38,7 @@ jobs:
         - ls -ltra /home/travis/build/RCOSDP/RDM-wiki-develop/
         - cat /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc
         - echo "============="
-        - yarn add jshint@2.8.0  # JSHintをグローバルにインストール
+        - yarn add jshint@2.13.6  # JSHintをグローバルにインストール
         - yarn jshint --config .jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
 #        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/
 #        - yarn jshint --config /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc /home/travis/build/RCOSDP/RDM-wiki-develop/website/static/js/pages/
