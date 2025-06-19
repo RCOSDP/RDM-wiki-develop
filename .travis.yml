@@ -45,7 +45,7 @@ jobs:
 #        - yarn jshint test
 #        - yarn test node-tests
 #        - yarn build test
-      script:
+#      script:
 #        - npm run lint
 #        - yarn test cover --path ./addons/wiki/static/
 #        - yarn test cover --path ./website/static/js/pages/
