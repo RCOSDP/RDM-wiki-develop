@@ -32,7 +32,7 @@ jobs:
         - yarn --prefer-offline --frozen-lockfile --ignore-engines
         - yarn list --depth=0
 #        - greenkeeper-lockfile-update
-      before_script:
+      script:
         - yarn add jshint@2.13.6  # JSHintをグローバルにインストール
         - yarn jshint --config .jshintrc ./addons/wiki/static/
         - yarn jshint --config .jshintrc ./website/static/js/pages/
