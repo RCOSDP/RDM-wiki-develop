@@ -17,7 +17,7 @@ cache:
 
 jobs:
   include:
-    - stage: "test"
+#    - stage: "test"
       if: |
         branch ~= /^develop$|^master$|^release\/.+$/ OR \
         type = pull_request OR \
@@ -33,11 +33,6 @@ jobs:
         - yarn list --depth=0
 #        - greenkeeper-lockfile-update
       before_script:
-        - echo "==== PWD ===="
-        - pwd
-        - ls -ltra /home/travis/build/RCOSDP/RDM-wiki-develop/
-        - cat /home/travis/build/RCOSDP/RDM-wiki-develop/.jshintrc
-        - echo "============="
         - yarn add jshint@2.13.6  # JSHintをグローバルにインストール
         - yarn jshint --config .jshintrc ./addons/wiki/static/
         - yarn jshint --config .jshintrc ./website/static/js/pages/
