@@ -207,7 +207,8 @@ export function flatMap(ast, fn) {
                 openTags = node.children[startCnt].value.replace(/<u>/, '');
             }else if(tagText === 'span'){
                 // 文字色の場合
-                var colorName = node.children[startCnt].value.replace(/<span style=\"color: /, '').replace(/\">.*/, '');
+                var colorName = node.children[startCnt].value.replace(/<span style=\"color:/, '').replace(/\">.*/, '');
+                colorName = colorName.trimStart();
                 if(/.*<\/span>/.test(colorName)){
                     colorName = colorName.replace(/\".*<\/span>/, '');
                 }
