@@ -207,13 +207,13 @@ export function flatMap(ast, fn) {
                 openTags = node.children[startCnt].value.replace(/<u>/, '');
             }else if(tagText === 'span'){
                 // 文字色の場合
-                var colorName = node.children[startCnt].value.replace(/<span style=\"color:/, '').replace(/\">.*/, '');
-                colorName = colorName.trimStart();
+                var colorNameOrg = node.children[startCnt].value.replace(/<span style=\"color:/, '').replace(/\">.*/, '');
+                var colorName = colorNameOrg.trimStart();
                 if(/.*<\/span>/.test(colorName)){
                     colorName = colorName.replace(/\".*<\/span>/, '');
                 }
                 retrunNode = { type: 'colortext' ,color : colorName};
-                openTags = node.children[startCnt].value.replace('<span style=\"color: ' + colorName + '\">', '');
+                openTags = node.children[startCnt].value.replace('<span style=\"color:' + colorNameOrg + '\">', '');
             }
 
             // 終了タグがある文字列を分割する
