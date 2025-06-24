@@ -190,6 +190,7 @@ async function createMEditor(editor, vm, template) {
         const fullname = window.contextVars.currentUser.fullname;
         wsProvider.awareness.setLocalStateField('user', { name: fullname, color: '#ffb61e'});
         collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
+        const ctx = mView.ctx;
         wsProvider.once('synced', async (isSynced) => {
             if (isSynced) {
                 collabService
@@ -938,7 +939,6 @@ function ViewModel(options){
     document.addEventListener('click', (event) => {
         if (event.target.closest('#mEditor')) {
             mEdit.action((ctx) => {
-                ctx.createEditor();
                 const view = ctx.get(mCore.editorViewCtx);
                 view.focus();
             });
