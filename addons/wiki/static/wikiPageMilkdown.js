@@ -135,7 +135,7 @@ async function createMEditor(editor, vm, template) {
                 const compareWidgetElement = document.getElementById('compareWidget'); 
                 if (compareWidgetElement && compareWidgetElement.style.display !== 'none') {
                     vm.viewVM.displaySource(markdown);
-                } 
+                }
                 const view = ctx.get(mCore.editorViewCtx);
                 const state = view.state;
                 const undoElement = document.getElementById('undoWiki');
@@ -938,6 +938,7 @@ function ViewModel(options){
     document.addEventListener('click', (event) => {
         if (event.target.closest('#mEditor')) {
             mEdit.action((ctx) => {
+                ctx.createEditor();
                 const view = ctx.get(mCore.editorViewCtx);
                 view.focus();
             });
