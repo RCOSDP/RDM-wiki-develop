@@ -135,7 +135,7 @@ async function createMEditor(editor, vm, template) {
                 const compareWidgetElement = document.getElementById('compareWidget'); 
                 if (compareWidgetElement && compareWidgetElement.style.display !== 'none') {
                     vm.viewVM.displaySource(markdown);
-                }
+                } 
                 const view = ctx.get(mCore.editorViewCtx);
                 const state = view.state;
                 const undoElement = document.getElementById('undoWiki');
@@ -173,7 +173,6 @@ async function createMEditor(editor, vm, template) {
         .use([extendedImageSchemaPlugin])
         .create();
 
-    const ctx = mView.ctx;
     mEdit.action((ctx) => {
         const collabService = ctx.get(mCollab.collabServiceCtx);
         wsProvider.on('status', event => {
