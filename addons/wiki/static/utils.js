@@ -443,7 +443,10 @@ export function flatMap(ast, fn) {
                     // 取り消し線が設定済みの場合
                     endCnt = sCnt;
                     tmpText = node.children[sCnt].value.replace('\~\~','');
-                    tmpNode.push({type: 'text', value:tmpText});
+                    if(!(node.children[sCnt].value.endsWith('\~\~'))){
+                        // 最後が終了タグで終わっていなかったら
+                        tmpNode.push({type: 'text', value:tmpText});
+                    }
                     break;
                 }
                 tmpNodeCh.push(node.children[sCnt]);
