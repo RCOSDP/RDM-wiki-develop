@@ -421,7 +421,7 @@ export function flatMap(ast, fn) {
                             startCnt = startCnt + 1;
                         }
                     }else if(node.children[j].value.match(/\~\~.*$/)){
-                        // 先頭から始まっていたら
+                        //先頭から始まっていたら
                         tmpNode.push({type: 'text', value:tmpSText});
                         node.children[j].value = node.children[j].value.replace('\~\~','');
                         if(!(node.children[j].value.match(/.*\~\~.*$/))){
