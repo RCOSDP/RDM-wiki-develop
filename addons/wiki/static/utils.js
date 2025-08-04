@@ -422,7 +422,6 @@ export function flatMap(ast, fn) {
                         }
                     }else if(node.children[j].value.match(/\~\~.*$/)){
                         //先頭から始まっていたら
-                        tmpNode.push({type: 'text', value:tmpSText});
                         node.children[j].value = node.children[j].value.replace('\~\~','');
                         if(!(node.children[j].value.match(/.*\~\~.*$/))){
                             startCnt = startCnt + 1;
