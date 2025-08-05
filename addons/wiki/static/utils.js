@@ -34,8 +34,11 @@ export function flatMap(ast, fn) {
                 }
                 //#48569 Add End 子アンカー対応
                 //nishitest
-                if (node.children[sCnt].type === 'link' && node.children[sCnt].url ) {
+                if (node.children[sCnt].type === 'link' && node.children[sCnt].url && node.children[sCnt].url.match(/.*\\.*$/)) {
                     node.children[sCnt].url = node.children[sCnt].url.replaceAll('\\','');
+                    if(node.children[sCnt].children[0] && node.children[sCnt].children[0].value){
+                        node.children[sCnt].children[0].value = node.children[sCnt].children[0].value.replaceAll('\\','');
+                    }
                 }
                 //nishitest
                 //#51297 Add Start 下線文字色対応
