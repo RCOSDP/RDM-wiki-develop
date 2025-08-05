@@ -34,7 +34,7 @@ export function flatMap(ast, fn) {
                 }
                 //#48569 Add End 子アンカー対応
                 //nishitest
-                if (nthChild.type === 'link' && nthChild.url ) {
+                if (node.children[sCnt].type === 'link' && node.children[sCnt].url ) {
                         nthChild.url = nthChild.url.replaceAll('\\','');
                         addTransformedChildren(nthChild, uLineCnt, node, out);
                 }
