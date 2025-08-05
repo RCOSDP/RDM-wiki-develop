@@ -33,6 +33,12 @@ export function flatMap(ast, fn) {
                     }
                 }
                 //#48569 Add End 子アンカー対応
+                //nishitest
+                if (nthChild.type === 'link' && nthChild.url ) {
+                        nthChild.url = nthChild.url.replaceAll('\\','');
+                        addTransformedChildren(nthChild, uLineCnt, node, out);
+                }
+                //nishitest
                 //#51297 Add Start 下線文字色対応
                 if (node.children[sCnt] && node.children[sCnt].type === 'text' ) {
                     if(/\*</.test(node.children[sCnt].value)) {
@@ -75,11 +81,6 @@ export function flatMap(ast, fn) {
                         out.push(...transformedChildren);
                         break;
                     //#49455 Add End リンク付き画像対応
-                    //nishitest
-                    }else if (nthChild.type === 'link' && /.*!\[.*$/.test(nthChild.value) ) {
-                        nthChild.value = nthChild.value.replaceAll('\\','');
-                        addTransformedChildren(nthChild, uLineCnt, node, out);
-                    //nishitest
                     } else {
                         addTransformedChildren(nthChild, uLineCnt, node, out);
                     }
