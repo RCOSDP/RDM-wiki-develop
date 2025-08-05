@@ -75,8 +75,13 @@ export function flatMap(ast, fn) {
                         out.push(...transformedChildren);
                         break;
                     //#49455 Add End リンク付き画像対応
+                    //nishitest
+                    }else if (nthChild.type === 'link' && /.*!\[.*$/.test(nthChild.value) ) {
+                        nthChild.value = nthChild.value.replaceAll('\\','');
+                        addTransformedChildren(nthChild, uLineCnt, node, out);
+                    //nishitest
                     } else {
-                           addTransformedChildren(nthChild, uLineCnt, node, out);
+                        addTransformedChildren(nthChild, uLineCnt, node, out);
                     }
                 }
             }
