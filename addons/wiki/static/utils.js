@@ -33,14 +33,13 @@ export function flatMap(ast, fn) {
                     }
                 }
                 //#48569 Add End 子アンカー対応
-                //nishitest
+                //#54471 バックスラッシュ付きのリンクについては、マークダウン内でエスケープされているため、表示する際に、エスケープ用のバックスラッシュを非表示にする
                 if (node.children[sCnt].type === 'link' && node.children[sCnt].url && node.children[sCnt].url.match(/.*\\.*$/)) {
                     node.children[sCnt].url = node.children[sCnt].url.replaceAll('\\','');
                     if(node.children[sCnt].children[0] && node.children[sCnt].children[0].value){
                         node.children[sCnt].children[0].value = node.children[sCnt].children[0].value.replaceAll('\\','');
                     }
                 }
-                //nishitest
                 //#51297 Add Start 下線文字色対応
                 if (node.children[sCnt] && node.children[sCnt].type === 'text' ) {
                     if(/\*</.test(node.children[sCnt].value)) {
