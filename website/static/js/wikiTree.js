@@ -1,4 +1,5 @@
 'use strict';
+var $ = require('jquery');
 var ko = require('knockout');
 require('knockout-sortable');
 var $osf = require('js/osfHelpers');
@@ -36,17 +37,17 @@ function wikiItem(item) {
     var self = this;
     self.name = ko.observable(item.name);
     self.id = ko.observable(item.id);
-    self.sortOrder = ko.observable(item.sortOrder)
+    self.sortOrder = ko.observable(item.sortOrder);
     self.children = item.children;
     self.fold = ko.observable(false);
 
     self.expandOrCollapse = function() {
         if (isSortCancelled) {
             isSortCancelled = false;
-            return
+            return;
         }
         var parentId = self.id();
-        var $display = $('.' + parentId)
+        var $display = $('.' + parentId);
         var $angle =　$('#' + parentId).find('.angle');
         if ($display.css('display') === 'list-item') {
             $display.css('display', 'none');
@@ -56,7 +57,7 @@ function wikiItem(item) {
             $angle.attr('class', 'fa fa-angle-down angle');
         }
         self.fold(!self.fold());
-    }
+    };
 
   }
 
@@ -100,7 +101,7 @@ function ViewModel(data, totalCtn){
             isSortCancelled = true;
             return;
         }
-    }
+    };
     self.afterMove = function(obj) {
         var $SaveBtn = $('#treeSave');
         if (!checkTotalCtn(self.data(), totalCtn)) {
@@ -118,7 +119,7 @@ function ViewModel(data, totalCtn){
             $display.css('display', 'none');
             $angle.attr('fa fa-angle-right');
         } 
-    }
+    };
     self.submit = function() {
         var jsonData = JSON.parse(ko.toJSON(self.data));
         var sortedJsonData = assignSortOrderNumber(jsonData);
@@ -126,10 +127,10 @@ function ViewModel(data, totalCtn){
             window.contextVars.wiki.urls.sort,
             {sortedData: sortedJsonData}
         ).done(function(response) {
-            const reloadUrl = (location.href).replace(location.search, '')
+            const reloadUrl = (location.href).replace(location.search, '');
             window.location.assign(reloadUrl);
         }).fail(function(xhr) {
-            alert('error')
+            alert('error');
         });
     };
 }
@@ -138,7 +139,7 @@ var WikiTree = function(selector, data) {
     var self = this;
     var arrays = fixData(data[0].children);
     var currentArray = arrays[0];
-    var totalCtn = arrays[1]
+    var totalCtn = arrays[1];
     this.viewModel = new ViewModel(currentArray, totalCtn);
     $osf.applyBindings(self.viewModel, selector);
 };

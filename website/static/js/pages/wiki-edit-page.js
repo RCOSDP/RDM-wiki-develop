@@ -19,7 +19,7 @@ require('../../vendor/ace-plugins/spellcheck_ace.js');
 import WikiPageMilkdown from 'WikiPageMilkdown';
 
 var WikiMenu = require('../wikiMenu');
-var WikiTree = require('../wikiTree')
+var WikiTree = require('../wikiTree');
 var Comment = require('js/comment'); //jshint ignore:line
 var $osf = require('js/osfHelpers');
 
@@ -105,7 +105,7 @@ $(document).ready(function () {
     })
     .done(function (data) {
         new WikiMenu(data, ctx.wikiID, ctx.canEdit);
-        new WikiTree('#sortWiki', data)
+        new WikiTree('#sortWiki', data);
     })
     .fail(function(xhr, status, error) {
         grid.addClass('hidden');

@@ -1,8 +1,11 @@
 {
-  "name": "OSF",
+  "name": "osf",
   "version": "20.14.0",
   "description": "Facilitating Open Science",
-  "repository": "https://github.com/CenterForOpenScience/osf.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CenterForOpenScience/osf.io.git"
+  },
   "author": "National Institute of Informatics",
   "license": "Apache-2.0",
   "dependencies": {
@@ -46,7 +49,7 @@
     "crypto-browserify": "^3.12.0",
     "css-loader": "2.1.1",
     "diff": "~2.2.2",
-    "dropzone": "https://github.com/CenterForOpenScience/dropzone.git#aba21eb6b82cc823ac7a7a53d6e035791c082bae",
+    "dropzone": "git+https://github.com/CenterForOpenScience/dropzone.git#aba21eb6b82cc823ac7a7a53d6e035791c082bae",
     "exports-loader": "0.6.3",
     "file-loader": "^6.2.0",
     "font-awesome": "^4.4.0",
@@ -94,7 +97,7 @@
     "stream-browserify": "^3.0.0",
     "style-loader": "^0.8.3",
     "terser-webpack-plugin": "^5.3.10",
-    "treebeard": "https://github.com/CenterForOpenScience/treebeard.git#d2bb8f6f8104fcac040402727f431c26722b269e",
+    "treebeard": "git+https://github.com/CenterForOpenScience/treebeard.git#d2bb8f6f8104fcac040402727f431c26722b269e",
     "typeahead.js": "^0.10.5",
     "url-loader": "^4.1.1",
     "uuid": "^2.0.1",
@@ -129,6 +132,14 @@
     "test": "karma start --single-run --browsers ChromeHeadless",
     "test-travis": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
     "webpack-dev": "webpack --config webpack.dev.config.js",
+    "jshint": "jshint",
+    "lint": "jshint /home/travis/build/RCOSDP/RDM-wiki-develop/addons/wiki/static/",
     "webpack-prod": "webpack --config webpack.prod.config.js"
-  }
+  },
+  "main": "webpack.common.config.js",
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/CenterForOpenScience/osf.io/issues"
+  },
+  "homepage": "https://github.com/CenterForOpenScience/osf.io#readme"
 }

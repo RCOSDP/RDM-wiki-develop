@@ -113,7 +113,7 @@ const colortextFromMarkdownPlugin = function colortextFromMarkdownPlugin() {
                       ]
                   };
                   if (node.postion){
-                      colortextNode['position'] = {
+                      colortextNode.position = {
                           start: {
                               line: node.position.start.line,
                               column: node.position.start.column + index,
@@ -125,7 +125,7 @@ const colortextFromMarkdownPlugin = function colortextFromMarkdownPlugin() {
                               offset: node.position.start.offset + index + match[0].length
                           }
                       };
-                      colortextNode.children['postion'] = {
+                      colortextNode.children.postion = {
                           start: {
                               line: node.position.start.line,
                               column: node.position.start.column + index + match[0].indexOf(colortext),

@@ -104,7 +104,7 @@ async function createMEditor(editor, vm, template) {
         }
         const data = [];
         for(let i = 0; i < renderInfo.length; i++){
-            data.push({alt: renderInfo[i]['name'], src: renderInfo[i]['url']});
+            data.push({alt: renderInfo[i].name, src: renderInfo[i].url});
         }
         const ret = data.map(({ alt, src }) => {
             var ext = getExtension(alt);
@@ -132,17 +132,17 @@ async function createMEditor(editor, vm, template) {
                 enableHtmlFileUploader,
             }));
             const debouncedMarkdownUpdated = $osf.debounce(async (ctx, markdown, prevMarkdown) => {
-                const compareWidgetElement = document.getElementById("compareWidget"); 
+                const compareWidgetElement = document.getElementById('compareWidget'); 
                 if (compareWidgetElement && compareWidgetElement.style.display !== 'none') {
                     vm.viewVM.displaySource(markdown);
                 } 
                 const view = ctx.get(mCore.editorViewCtx);
                 const state = view.state;
-                const undoElement = document.getElementById("undoWiki");
+                const undoElement = document.getElementById('undoWiki');
                 // set undo able
-                if(state["y-undo$"] !== undefined && (state["y-undo$"].undoManager.undoStack).length !== 0){
+                if(state['y-undo$'] !== undefined && (state['y-undo$'].undoManager.undoStack).length !== 0){
                     undoElement.disabled = false;
-                    document.getElementById("msoUndo").style.opacity = 1;
+                    document.getElementById('msoUndo').style.opacity = 1;
                 }
             }, 300);
             ctx.get(mListener.listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
@@ -246,21 +246,21 @@ function ViewWidget(visible, version, viewText, rendered, contentURL, allowMathj
                     });
                 }
                 self.displaySource(toMarkdown);
-                if (document.getElementById("editWysiwyg").style.display === "none"){
-                    document.getElementById("mMenuBar").style.display = "";
-                    document.getElementById("mEditorFooter").style.display = "";
+                if (document.getElementById('editWysiwyg').style.display === 'none'){
+                    document.getElementById('mMenuBar').style.display = '';
+                    document.getElementById('mEditorFooter').style.display = '';
                 }
-                document.getElementById("mEditor").style.display = "";
-                document.getElementById("wikiViewRender").style.display = "none";
+                document.getElementById('mEditor').style.display = '';
+                document.getElementById('wikiViewRender').style.display = 'none';
             } else {
-                document.getElementById("mMenuBar").style.display = "none";
-                document.getElementById("mEditor").style.display = "none";
-                const milkdownDivs = document.getElementById("mEditor").querySelectorAll('div.milkdown');
+                document.getElementById('mMenuBar').style.display = 'none';
+                document.getElementById('mEditor').style.display = 'none';
+                const milkdownDivs = document.getElementById('mEditor').querySelectorAll('div.milkdown');
                 if (milkdownDivs.length > 0) {
                     milkdownDivs[0].remove();
                 }
-                document.getElementById("mEditorFooter").style.display = "none";
-                document.getElementById("wikiViewRender").style.display = "";
+                document.getElementById('mEditorFooter').style.display = 'none';
+                document.getElementById('wikiViewRender').style.display = '';
                 if (self.version() === 'current') {
                     requestURL = contentURL;
                 } else {
@@ -272,12 +272,13 @@ function ViewWidget(visible, version, viewText, rendered, contentURL, allowMathj
 
                 request.done(function (resp) {
                     if(self.visible()) {
+                        var rawContent;
                         if (resp.wiki_content){
-                            var rawContent = resp.wiki_content;
+                            rawContent = resp.wiki_content;
                         } else if(window.contextVars.currentUser.canEdit) {
-                            var rawContent = _('*Add important information, links, or images here to describe your project.*');
+                            rawContent = _('*Add important information, links, or images here to describe your project.*');
                         } else {
-                            var rawContent = _('*No wiki content.*');
+                            rawContent = _('*No wiki content.*');
                         }
                         // Render raw markdown
                         self.rendered(self.renderMarkdown(rawContent));
@@ -399,9 +400,9 @@ function ViewModel(options){
 
     self.collaborativeStatus = ko.computed(function() {
         if (self.viewVersion() === 'preview') {
-            document.getElementById("collaborativeStatus").style.display = "";
+            document.getElementById('collaborativeStatus').style.display = '';
         } else {
-            document.getElementById("collaborativeStatus").style.display = "none";
+            document.getElementById('collaborativeStatus').style.display = 'none';
         }
     });
     // Save initial query params (except for the "mode" query params, which are handled
@@ -472,6 +473,15 @@ function ViewModel(options){
 
         var paramPrefix = '?';
         var url = self.pageURL;
+        //#46532 対応 Add Start
+        // URLのアンカー（#以降の部分）を取得
+        var urlHash = location.hash;
+
+        // URLにアンカーが存在する場合
+        if(urlHash){
+            url = url.slice(0, -1) + urlHash;
+        }
+        //#46532 対応 Add End
         // Preserve initial query params
         if (self.initialQueryParams) {
             url += paramPrefix + self.initialQueryParams;
@@ -515,11 +525,11 @@ function ViewModel(options){
     self.compareVM = new CompareWidget(self.compareVis, self.compareVersion, self.viewVM.displaySource, self.renderedCompare, self.contentURL);
 
     if(self.canEdit) {
-        var request = $.ajax({
+        var request2 = $.ajax({
             url: self.contentURL
         });
         var rawContent = '';
-        request.done(function (resp) {
+        request2.done(function (resp) {
             if (resp.wiki_content){
                 rawContent = resp.wiki_content;
             }
@@ -565,12 +575,12 @@ function ViewModel(options){
             var state = view.state;
             view.focus();
             yProseMirror.undo(state);
-            if((state["y-undo$"].undoManager.undoStack).length === 0){
-                document.getElementById("undoWiki").disabled = true;
-                document.getElementById("msoUndo").style.opacity = 0.3;
+            if((state['y-undo$'].undoManager.undoStack).length === 0){
+                document.getElementById('undoWiki').disabled = true;
+                document.getElementById('msoUndo').style.opacity = 0.3;
             }
-            document.getElementById("redoWiki").disabled = false;
-            document.getElementById("msoRedo").style.opacity = 1;
+            document.getElementById('redoWiki').disabled = false;
+            document.getElementById('msoRedo').style.opacity = 1;
         });
     };
     self.redoWiki = function() {
@@ -579,12 +589,12 @@ function ViewModel(options){
             const state = view.state;
             view.focus();
             yProseMirror.redo(state);
-            if((state["y-undo$"].undoManager.redoStack).length === 0){
-                document.getElementById("redoWiki").disabled = true;
-                document.getElementById("msoRedo").style.opacity = 0.3;
+            if((state['y-undo$'].undoManager.redoStack).length === 0){
+                document.getElementById('redoWiki').disabled = true;
+                document.getElementById('msoRedo').style.opacity = 0.3;
             }
-            document.getElementById("undoWiki").disabled = false;
-            document.getElementById("msoUndo").style.opacity = 1;
+            document.getElementById('undoWiki').disabled = false;
+            document.getElementById('msoUndo').style.opacity = 1;
         });
     };
     self.strong = function() {
@@ -601,8 +611,8 @@ function ViewModel(options){
             const { from, to } = state.selection;
             const markType = ctx.get(mCore.schemaCtx).marks.link;
 
-            var linkHref = document.getElementById("linkSrc");
-            var linkTitle = document.getElementById("linkTitle");
+            var linkHref = document.getElementById('linkSrc');
+            var linkTitle = document.getElementById('linkTitle');
 
             linkHref.value = '';
             linkTitle.value = '';
@@ -620,8 +630,8 @@ function ViewModel(options){
         });
     };
     self.link = function() {
-        var linkHref = document.getElementById("linkSrc");
-        var linkTitle = document.getElementById("linkTitle");
+        var linkHref = document.getElementById('linkSrc');
+        var linkTitle = document.getElementById('linkTitle');
         mEdit.action((ctx) => {
             const view = ctx.get(mCore.editorViewCtx);
             const state = view.state;
@@ -661,10 +671,10 @@ function ViewModel(options){
             const { from, to } = state.selection;
             const imageType = ctx.get(mCore.schemaCtx).nodes.image;
 
-            const imageSrc = document.getElementById("imageSrc");
-            const imageAlt = document.getElementById("imageAlt");
-            const imageTitle = document.getElementById("imageTitle");
-            const imageWidth = document.getElementById("imageWidth");
+            const imageSrc = document.getElementById('imageSrc');
+            const imageAlt = document.getElementById('imageAlt');
+            const imageTitle = document.getElementById('imageTitle');
+            const imageWidth = document.getElementById('imageWidth');
 
             imageSrc.value = '';
             imageTitle.value = '';
@@ -683,17 +693,17 @@ function ViewModel(options){
                     imageTitle.value = title;
                     imageWidth.value = width;
                     if (imageSrc.value !== '') {
-                        document.getElementById("addImage").disabled = false;
+                        document.getElementById('addImage').disabled = false;
                     }
                 }
             });
         });
     };
     self.image = function() {
-        var imageSrc = document.getElementById("imageSrc");
-        var imageTitle = document.getElementById("imageTitle");
-        var imageAlt = document.getElementById("imageAlt");
-        var imageWidth = document.getElementById("imageWidth");
+        var imageSrc = document.getElementById('imageSrc');
+        var imageTitle = document.getElementById('imageTitle');
+        var imageAlt = document.getElementById('imageAlt');
+        var imageWidth = document.getElementById('imageWidth');
         mEdit.action((ctx) => {
             const view = ctx.get(mCore.editorViewCtx);
             const state = view.state;
@@ -722,8 +732,8 @@ function ViewModel(options){
         });
     };
     self.changeImage = function() {
-        var imageWidth = document.getElementById("imageWidth");
-        var imageLink = document.getElementById("imageLink");
+        var imageWidth = document.getElementById('imageWidth');
+        var imageLink = document.getElementById('imageLink');
         mEdit.action((ctx) => {
             mUtils.callCommand(extendedUpdateImageCommand.key, {width: imageWidth.value, link: imageLink.value})(ctx);
         });
@@ -849,9 +859,9 @@ function ViewModel(options){
     };
 
     self.table = function() {
-        var cssArrow = document.getElementById("arrowDropDown").style.display;
+        var cssArrow = document.getElementById('arrowDropDown').style.display;
         if(cssArrow === ''){
-            document.getElementById("tableMenu").style.display = "";
+            document.getElementById('tableMenu').style.display = '';
 
         } else {
             mEdit.action((ctx) => {
@@ -918,10 +928,10 @@ function ViewModel(options){
 
     document.addEventListener('mousedown', (event) => {
         if (!(event.target.closest('.tableWrapper')) && !(event.target.closest('#tableBtn'))) {
-            document.getElementById("arrowDropDown").style.display = "none";
+            document.getElementById('arrowDropDown').style.display = 'none';
         }
         if (!(event.target.closest('.table-dropdown-item')) && !(event.target.closest('#tableBtn'))) {
-            document.getElementById("tableMenu").style.display = "none";
+            document.getElementById('tableMenu').style.display = 'none';
         }
     });
 
@@ -933,17 +943,17 @@ function ViewModel(options){
             });
         }
         if (event.target.closest('.tableWrapper')) {
-            document.getElementById("arrowDropDown").style.display = "";
+            document.getElementById('arrowDropDown').style.display = '';
         }
     });
 
     self.editMode = function() {
       if(self.canEdit) {
         readonly = false;
-        document.getElementById("mMenuBar").style.display = "";
-        document.getElementById("editWysiwyg").style.display = "none";
-        document.getElementById("mEditorFooter").style.display = "";
-        const milkdownDivs = document.getElementById("mEditor").querySelectorAll('div.milkdown');
+        document.getElementById('mMenuBar').style.display = '';
+        document.getElementById('editWysiwyg').style.display = 'none';
+        document.getElementById('mEditorFooter').style.display = '';
+        const milkdownDivs = document.getElementById('mEditor').querySelectorAll('div.milkdown');
         if (milkdownDivs.length === 0) {
             var request = $.ajax({
                 url: self.contentURL
@@ -962,9 +972,9 @@ function ViewModel(options){
 
     self.editModeOff = function() {
         readonly = true;
-        document.getElementById("mMenuBar").style.display = "none";
-        document.getElementById("mEditorFooter").style.display = "none";
-        document.getElementById("editWysiwyg").style.display = "";
+        document.getElementById('mMenuBar').style.display = 'none';
+        document.getElementById('mEditorFooter').style.display = 'none';
+        document.getElementById('editWysiwyg').style.display = '';
     };
 
     self.submitMText = function() {
@@ -999,11 +1009,11 @@ function ViewModel(options){
     
         const sizePattern = /^(\d+|\d+%)$/;
 
-        const isValidSrc = document.getElementById("imageSrc").value !== '';
+        const isValidSrc = document.getElementById('imageSrc').value !== '';
         const isValidSize = width === '' || sizePattern.test(width);
 
         self.showSizeError(!isValidSize && width !== '');
-        document.getElementById("addImage").disabled = !(isValidSrc && isValidSize);
+        document.getElementById('addImage').disabled = !(isValidSrc && isValidSize);
     };
 
     self.imageSrcInput.subscribe(self.validateInputs);
@@ -1214,5 +1224,31 @@ var WikiPageMilkdown = function(selector, options) {
     });
 };
 
-export default WikiPageMilkdown;
+//#46532 対応 Add Start
+const sleep = (time) => new Promise((r) => setTimeout(r, time));
 
+async function pFiveSleep(){
+	await sleep(1000);
+}
+window.onload = () => {
+    async function useJump(){
+        // 現在のURLにハッシュが含まれているか確認
+        if (window.location.hash) {
+            await pFiveSleep();
+            var target = '';
+            try{
+                const decodedURI = decodeURI(window.location.hash);
+                target = document.querySelector(decodedURI);
+            } catch (error) {
+                target = document.querySelector(window.location.hash);
+            }
+            if (target) {
+                // 目的の要素へスクロール
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    }
+    useJump();
+};
+//#46532 対応 Add End
+export default WikiPageMilkdown;

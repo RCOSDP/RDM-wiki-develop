@@ -15,9 +15,9 @@ export const linkInputRuleCosutom = $inputRule((ctx) => {
 
         if (!markType) return null;
 
-        if (text === "\ufffc") {
+        if (text === '\ufffc') {
             const node = state.doc.nodeAt(start + 1);
-            if (node.type.name === "image") {
+            if (node.type.name === 'image') {
                 const imageAttrs = {
                     src: node.attrs.src,
                     alt: node.attrs.alt,
